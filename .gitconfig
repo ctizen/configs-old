@@ -1,0 +1,79 @@
+[color]
+     interactive = auto
+     ui = auto
+     branch = auto
+     diff = auto
+     status = auto
+[color "branch"]
+     current = yellow reverse
+     local = yellow
+     remote = green
+[color "diff"]
+     meta = yellow bold
+     frag = magenta bold
+     old = red bold
+     new = green bold
+[color "status"]
+     added = yellow
+     changed = green
+     untracked = cyan
+[color "sh"]
+     branch = yellow reverse
+     workdir = blue bold
+     dirty = red
+[user]
+     email = o.klimenko@2gis.ru
+     name = Oleg Klimenko
+[alias]
+     f = tag -d testing && fetch
+     tomaster = fetch && rebase -f remotes/origin/master
+     upload = !bash -c 'BRNCH=`git rev-parse --abbrev-ref HEAD` && git push origin $BRNCH'
+     reupload = !bash -c 'BRNCH=`git rev-parse --abbrev-ref HEAD` && read -p \"Recreating branch $BRNCH. Continue? (y/n) \" && [[ "$REPLY" == "y" ]] && git push origin :$BRNCH && sleep 3 && git push origin $BRNCH'
+     b=branch
+ c=checkout
+ k=cherry-pick
+ l=log --pretty=oneline --abbrev-commit
+ r=remote
+ s=commit --dry-run --short
+ pu=push
+ fr=!sh -c 'git forest --all --sha | less -R'
+ e=edit
+
+# add and the staging area
+ a=add
+ aa=add --update          # mnemonic: "add all"
+ stage=add
+ ap=add --patch
+ p=diff --cached          # mnemonic: "patch"
+ unstage=reset HEAD
+
+# commits and history
+ ci=commit
+ ca=commit --all
+ amend=commit --amend
+ n=commit --amend
+ k=cherry-pick
+ re=rebase --interactive
+ rc=rebase --continue
+ ra=rebase --abort
+ mt=mergetool
+ pop=reset --soft HEAD^
+ peek=log -p --max-count=1
+
+# fetch
+ f=fetch --prune
+ pm=pull          # mnemonic: pull merge
+ pr=pull --rebase # mnemonic: pull rebase
+ po=push origin push_origin
+
+# diff
+ d=diff
+ ds=diff --stat    # mnemonic: "diff stat"
+
+# reset
+ hard=reset --hard
+ soft=reset --soft
+ scrap=checkout HEAD
+ rm=rm
+ mv=mv
+

@@ -1,0 +1,272 @@
+# Этот файл viminfo автоматически создан Vim 7.4.
+# Его можно (осторожно!) редактировать.
+
+# Значение опции 'encoding' в момент записи файла
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# Последний Шаблон поиска:
+~MSle0~/tray
+
+# Командная строка, история (начиная от свежего к старому):
+:wq
+:w
+:q
+:584
+
+# Строка поиска, история (начиная от свежего к старому):
+?/tray
+?/Tab
+?/tab
+?/layout
+?/weat
+?/media
+?/term
+?/compto
+??q
+
+# Выражение, история (начиная от свежего к старому):
+
+# Строка ввода, история (начиная от свежего к старому):
+
+# Строка ввода, история (начиная от свежего к старому):
+
+# Регистры:
+""1	LINE	0
+	right_layout:add(kbdcfg.widget)
+"2	LINE	0
+	-- Add widget to your layout
+"3	LINE	0
+	
+"4	LINE	0
+	    awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
+"5	LINE	0
+	    awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
+"6	LINE	0
+	    awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
+"7	LINE	0
+	    awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
+"8	LINE	0
+	    -- User programs
+"-	CHAR	0
+	m
+
+# Глобальные отметки:
+'0  362  6  ~/.config/awesome/rc.lua
+'1  520  18  ~/.config/awesome/rc.lua
+'2  439  7  ~/.config/awesome/rc.lua
+'3  1  0  /etc/passwd
+'4  591  27  ~/.config/awesome/rc.lua
+'5  62  2  ~/.config/awesome/rc.lua
+'6  79  5  ~/.config/awesome/rc.lua
+'7  78  18  ~/.config/awesome/rc.lua
+'8  76  35  ~/.config/awesome/rc.lua
+'9  1  0  ~/.xinitrc
+
+# Список прыжков (сначала более свежие):
+-'  362  6  ~/.config/awesome/rc.lua
+-'  183  0  ~/.config/awesome/rc.lua
+-'  1  0  ~/.config/awesome/rc.lua
+-'  520  18  ~/.config/awesome/rc.lua
+-'  59  12  ~/.config/awesome/rc.lua
+-'  730  35  ~/.config/awesome/rc.lua
+-'  667  27  ~/.config/awesome/rc.lua
+-'  633  28  ~/.config/awesome/rc.lua
+-'  609  24  ~/.config/awesome/rc.lua
+-'  425  24  ~/.config/awesome/rc.lua
+-'  417  24  ~/.config/awesome/rc.lua
+-'  337  38  ~/.config/awesome/rc.lua
+-'  295  32  ~/.config/awesome/rc.lua
+-'  286  31  ~/.config/awesome/rc.lua
+-'  168  28  ~/.config/awesome/rc.lua
+-'  122  31  ~/.config/awesome/rc.lua
+-'  439  7  ~/.config/awesome/rc.lua
+-'  1  0  /etc/passwd
+-'  591  27  ~/.config/awesome/rc.lua
+-'  62  2  ~/.config/awesome/rc.lua
+-'  284  2  ~/.config/awesome/rc.lua
+-'  123  43  ~/.config/awesome/rc.lua
+-'  119  62  ~/.config/awesome/rc.lua
+-'  112  10  ~/.config/awesome/rc.lua
+-'  111  10  ~/.config/awesome/rc.lua
+-'  110  10  ~/.config/awesome/rc.lua
+-'  109  10  ~/.config/awesome/rc.lua
+-'  108  10  ~/.config/awesome/rc.lua
+-'  107  10  ~/.config/awesome/rc.lua
+-'  106  10  ~/.config/awesome/rc.lua
+-'  95  0  ~/.config/awesome/rc.lua
+-'  79  5  ~/.config/awesome/rc.lua
+-'  78  18  ~/.config/awesome/rc.lua
+-'  76  35  ~/.config/awesome/rc.lua
+-'  1  0  ~/.xinitrc
+-'  14  23  ~/.xinitrc
+-'  596  98  ~/.config/awesome/rc.lua
+-'  636  35  ~/.config/awesome/rc.lua
+-'  655  52  ~/.config/awesome/rc.lua
+-'  124  2  ~/.config/awesome/rc.lua
+-'  31  7  ~/.config/awesome/rc.lua
+-'  91  19  ~/.config/awesome/rc.lua
+-'  99  5  ~/.config/awesome/rc.lua
+-'  45  19  ~/.config/compton.conf
+-'  1  0  ~/.config/compton.conf
+-'  101  10  ~/.config/awesome/rc.lua
+-'  93  19  ~/.config/awesome/rc.lua
+-'  2  0  ~/.config/awesome/rc.lua
+-'  92  19  ~/.config/awesome/rc.lua
+-'  19  0  ~/.config/compton.conf
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  1  0  ~/.gtkrc.mine
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  8  18  ~/.zshrc
+-'  1  0  ~/.zshrc
+
+# История местных отметок (от более свежих к старым):
+
+> ~/.config/awesome/rc.lua
+	"	362	6
+	^	362	7
+	.	362	6
+	+	92	19
+	+	93	19
+	+	91	19
+	+	119	58
+	+	118	23
+	+	96	21
+	+	97	20
+	+	98	20
+	+	118	64
+	+	119	61
+	+	636	53
+	+	641	5
+	+	637	27
+	+	638	26
+	+	639	29
+	+	640	27
+	+	639	31
+	+	637	61
+	+	636	35
+	+	598	0
+	+	596	4
+	+	596	104
+	+	596	18
+	+	76	35
+	+	78	10
+	+	78	18
+	+	41	23
+	+	61	5
+	+	61	0
+	+	41	23
+	+	61	0
+	+	46	36
+	+	384	34
+	+	61	0
+	+	590	57
+	+	591	0
+	+	590	3
+	+	591	27
+	+	431	67
+	+	436	72
+	+	432	27
+	+	435	7
+	+	433	6
+	+	433	34
+	+	434	7
+	+	432	7
+	+	433	10
+	+	434	10
+	+	438	35
+	+	440	7
+	+	499	1
+	+	517	1
+	+	518	1
+	+	519	1
+	+	520	1
+	+	521	1
+	+	522	1
+	+	499	39
+	+	515	0
+	+	499	3
+	+	500	7
+	+	501	11
+	+	502	10
+	+	503	11
+	+	502	11
+	+	503	11
+	+	504	14
+	+	505	10
+	+	506	7
+	+	508	3
+	+	509	7
+	+	510	11
+	+	511	11
+	+	512	11
+	+	513	14
+	+	514	11
+	+	515	7
+	+	77	89
+	+	78	2
+	+	383	4
+	+	362	6
+
+> /etc/passwd
+	"	1	0
+
+> ~/.xinitrc
+	"	1	0
+	^	14	24
+	.	14	0
+	+	14	0
+
+> ~/.config/compton.conf
+	"	45	19
+	^	45	20
+	.	45	19
+	+	92	2
+	+	44	18
+	+	45	19
+
+> ~/.gtkrc.mine
+	"	1	0
+
+> ~/.zshrc
+	"	8	18
+	^	8	19
+	.	8	18
+	+	8	18
