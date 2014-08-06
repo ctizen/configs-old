@@ -15,6 +15,10 @@ local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
 local lain      = require("lain")
+
+awesome.font = "terminus-16"
+
+
 -- }}}
 
 -- {{{ Error handling
@@ -42,16 +46,16 @@ end
 
 -- Keyboard map indicator and changer
 kbdcfg = {}
-kbdcfg.cmd = "setxkbmap"
-kbdcfg.layout = { { "us", "" }, { "ru", "" } }
+kbdcfg.cmd = "xkb-switch -s"
+kbdcfg.layout = { "us", "ru" }
 kbdcfg.current = 1  -- us is our default layout
 kbdcfg.widget = wibox.widget.textbox()
-kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][1] .. " ")
+kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current] .. " ")
 kbdcfg.switch = function ()
   kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
-  local t = kbdcfg.layout[kbdcfg.current]
-  kbdcfg.widget:set_text(" " .. t[1] .. " ")
-  os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
+  local layout = kbdcfg.layout[kbdcfg.current]
+  kbdcfg.widget:set_text(" " .. layout .. " ")
+  os.execute( kbdcfg.cmd .. " " .. layout )
 end
 
  -- Mouse bindings
@@ -71,6 +75,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+awful.util.spawn_with_shell("if [ -z `pgrep 'wicd-client'` ]; then wicd-gtk -t; fi")
 run_once("urxvtd")
 run_once("unclutter")
 run_once("xscreensaver -nosplash &")
@@ -116,9 +121,9 @@ local layouts = {
 -- {{{ Tags
 tags = {
    names = { "communication", "online4", "extension", "plusone", "other" },
-   layout1 = { layouts[6], layouts[6], layouts[6], layouts[6], layouts[6] },
+   layout1 = { layouts[1], layouts[6], layouts[6], layouts[6], layouts[6] },
    layout2 = { layouts[6], layouts[6], layouts[6], layouts[6], layouts[6] },
-   layout3 = { layouts[1], layouts[6], layouts[6], layouts[6], layouts[6] }
+   layout3 = { layouts[6], layouts[6], layouts[6], layouts[6], layouts[6] }
 }
 --for s = 1, screen.count() do
 -- Each screen has its own tag table.
@@ -155,7 +160,7 @@ lain.widgets.calendar:attach(mytextclock, { font_size = 10 })
 
 -- Weather
 weathericon = wibox.widget.imagebox(beautiful.widget_weather)
-yawn = lain.widgets.yawn(123456, {
+yawn = lain.widgets.yawn(2122541, {
     settings = function()
         widget:set_markup(markup("#eca4c4", forecast:lower() .. " @ " .. units .. "°C "))
     end
@@ -387,10 +392,11 @@ for s = 1, screen.count() do
     right_layout:add(tempwidget)
     right_layout:add(baticon)
     right_layout:add(batwidget)
-    if s == 2 then right_layout:add(wibox.widget.systray()) end
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(kbdcfg.widget)
     right_layout:add(clockicon)
     right_layout:add(mytextclock)
+    right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
@@ -398,8 +404,6 @@ for s = 1, screen.count() do
     --layout:set_middle(mytasklist[s])
     layout:set_right(right_layout)
     
-    mywibox[s]:set_widget(layout)
-
     -- Create the bottom wibox
     mybottomwibox[s] = awful.wibox({ position = "bottom", screen = s, border_width = 0, height = 20 })
     --mybottomwibox[s].visible = false
@@ -409,14 +413,17 @@ for s = 1, screen.count() do
                         
     -- Widgets that are aligned to the bottom right
     bottom_right_layout = wibox.layout.fixed.horizontal()
-    bottom_right_layout:add(mylayoutbox[s])
+    -- bottom_right_layout:add(mylayoutbox[s])
                                             
     -- Now bring it all together (with the tasklist in the middle)
     bottom_layout = wibox.layout.align.horizontal()
     bottom_layout:set_left(bottom_left_layout)
     bottom_layout:set_middle(mytasklist[s])
     bottom_layout:set_right(bottom_right_layout)
-    mybottomwibox[s]:set_widget(bottom_layout)
+
+    -- change up and bottom winoxes
+    mybottomwibox[s]:set_widget(layout)
+    mywibox[s]:set_widget(bottom_layout)
 end
 -- }}}
 
@@ -603,7 +610,11 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
 
     -- Prompt
-    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey }, "r", function () 
+        if kbdcfg.layout[kbdcfg.current] == "us" then 
+            mypromptbox[mouse.screen]:run()
+        end
+    end),
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run({ prompt = "Run Lua code: " },
