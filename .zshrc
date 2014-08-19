@@ -77,9 +77,10 @@ alias add="git add"
 alias grm="git rm"
 alias grma="git commit --dry-run --short | grep '^ D '| awk '{print $2}' | xargs git rm"
 alias reset="git reset"
-alias dff="git diff -w"
+alias dff="git diff -w -b -M"
 alias crm="git checkout remotes/origin/master"
 alias stash="git stash"
 alias co="git checkout"
 alias gpro="git pull --rebase origin"
+
 
