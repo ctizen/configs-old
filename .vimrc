@@ -18,6 +18,9 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'marijnh/tern_for_vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'yegappan/grep'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -76,4 +79,49 @@ set completeopt-=preview
 set expandtab
 set shiftwidth=4
 set softtabstop=4
+
+map <C-UP> <C-W><UP>
+map <C-DOWN> <C-W><DOWN>
+map <C-LEFT> <C-W><LEFT>
+map <C-RIGHT> <C-W><RIGHT>
+
+nmap <C-F5> <Esc>:BufExplorer<cr>
+vmap <C-F5> <esc>:BufExplorer<cr>
+imap <C-F5> <esc>:BufExplorer<cr>
+
+" F6 - предыдущий буфер
+nmap <C-F6> :bp<cr>
+vmap <C-F6> <esc>:bp<cr>i
+imap <C-F6> <esc>:bp<cr>i
+
+" F7 - следующий буфер
+nmap <C-F7> :bn<cr>
+vmap <C-F7> <esc>:bn<cr>i
+imap <C-F7> <esc>:bn<cr>i
+
+imap <F3> <ESC>:BufExplorer<CR>
+map <F3> :BufExplorer<CR>
+
+imap <F2> <ESC>:NERDTreeToggle<CR>
+map <F2> :NERDTreeToggle<CR>
+
+imap <F4> <ESC><C-W>q 
+map <F4> <C-W>q
+
+function! s:ExecuteInShell(command)
+  let command = join(map(split(a:command), 'expand(v:val)'))
+  let winnr = bufwinnr('^' . command . '$')
+  silent! execute  winnr < 0 ? 'botright new ' . fnameescape(command) : winnr . 'wincmd w'
+  setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+  echo 'Execute ' . command . '...'
+  silent! execute 'silent %!'. command
+  silent! execute 'resize ' . line('$')
+  silent! redraw
+  silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+  silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
+  echo 'Shell command ' . command . ' executed.'
+endfunction
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+
+
 
