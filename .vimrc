@@ -21,6 +21,9 @@ Plugin 'marijnh/tern_for_vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'yegappan/grep'
+Plugin 'wookiehangover/jshint.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -66,6 +69,7 @@ set tags+=./tags;
 set backupdir=/tmp//
 set directory=/tmp//
 
+set number
 syntax on
 set background=dark
 colorscheme distinguished

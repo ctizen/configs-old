@@ -69,6 +69,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+awful.util.spawn_with_shell("if [ -z `pgrep 'wicd-client'` ]; then wicd-gtk -t; fi")
 run_once("urxvtd")
 run_once("unclutter")
 run_once("xscreensaver -nosplash &")
@@ -664,6 +665,10 @@ globalkeys = awful.util.table.join(
 
     -- Alt + Right Shift switches the current keyboard layout
     awful.key({ altkey }, "space", function () kbdcfg.switch() end),
+
+    awful.key({ modkey }, "F1", function () awful.screen.focus(2) end),
+    awful.key({ modkey }, "F2", function () awful.screen.focus(1) end),
+    awful.key({ modkey }, "F3", function () awful.screen.focus(3) end),
 
     -- Screensaver
     awful.key({ altkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
