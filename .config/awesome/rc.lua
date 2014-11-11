@@ -73,7 +73,9 @@ awful.util.spawn_with_shell("if [ -z `pgrep 'wicd-client'` ]; then wicd-gtk -t; 
 run_once("urxvtd")
 run_once("unclutter")
 run_once("xscreensaver -nosplash &")
-run_once("xrandr --output LVDS-0 --pos 0x637 --output VGA-0 --pos 1368x0 --output HDMI-0 --pos 2972x0")
+run_once("xrandr --output VGA-0 --pos 0x0 --output HDMI-0 --pos 1600x0 --output LVDS-0 --pos 3520x536")
+run_once("xdg-mime default google-chrome.desktop x-scheme-handler/http")
+run_once("xdg-mime default google-chrome.desktop x-scheme-handler/https")
 run_once("compton")
 
 -- }}}
