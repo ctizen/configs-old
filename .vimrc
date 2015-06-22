@@ -16,7 +16,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Raimondi/delimitMate'
 Plugin 'scrooloose/syntastic'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jlanzarotta/bufexplorer'
@@ -24,6 +24,7 @@ Plugin 'yegappan/grep'
 Plugin 'wookiehangover/jshint.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/vim-powerline'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -59,12 +60,9 @@ filetype plugin indent on    " required
 set t_Co=256
 
 set laststatus=2
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
 
-let g:Powerline_symbols = 'fancy'
-set autochdir
+"let g:Powerline_symbols = 'fancy'
+"set autochdir
 set tags+=./tags;
 set backupdir=/tmp//
 set directory=/tmp//
