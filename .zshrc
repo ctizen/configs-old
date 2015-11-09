@@ -45,7 +45,8 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin
+export _JAVA_OPTIONS="-Dswing.aatext=true -Dawt.useSystemAAFontSettings=on"
 
 export LANG=ru_RU.UTF-8
 export LC_CTYPE=ru_RU.UTF-8
@@ -82,5 +83,31 @@ alias crm="git checkout remotes/origin/master"
 alias stash="git stash"
 alias co="git checkout"
 alias gpro="git pull --rebase origin"
+alias prodnodes="tmux-cssh -u ansible online4{1,2,3}.{m,d,n}1.nato"
+alias prodnodes-m="tmux-cssh -u ansible online4{1,2,3}.m1.nato"
+alias prodnodes-n="tmux-cssh -u ansible online4{1,2,3}.d1.nato"
+alias prodnodes-d="tmux-cssh -u ansible online4{1,2,3}.n1.nato"
+alias prodnodesall="tmux-cssh -u ansible online4{1,2,3}.{m,d,n}1.nato online4{1,2}.s1.nato"
 
+alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor' | grep -v '/cookie' | grep -v '/fonts' | grep -v '/apple' | grep -v '/static'"
+
+eval "$(thefuck --alias)"
+
+
+if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
+        case $(tmux showenv TERM 2>/dev/null) in
+                *256color) ;&
+                TERM=fbterm)
+                        TERM=screen-256color ;;
+                *)
+                        TERM=screen
+        esac
+fi
+
+export TERM=xterm-256color
+# TMUX
+if which tmux >/dev/null 2>&1; then
+#if not inside a tmux session, and if no session is started, start a new session
+     test -z "$TMUX" && tmux new-session
+fi
 
