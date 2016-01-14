@@ -71,10 +71,12 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
-run_once("urxvtd")
 run_once("unclutter -root")
 run_once("xscreensaver -nosplash &")
+-- for desktop:
 run_once("xrandr --output VGA1 --pos 0x0 --output HDMI1 --pos 1600x0 --output eDP1 --pos 3520x536")
+-- for projector:
+-- run_once("xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1280x720 --pos 1600x0 --rate 50 --output VGA1 --off")
 run_once("setxkbmap -layout \"us,ru\"")
 run_once("setxkbmap -option \"grp:caps_toggle,grp_led:scroll,compose:ralt\"")
 run_once("xdg-mime default google-chrome.desktop x-scheme-handler/http")
@@ -93,7 +95,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/holo/theme.lua")
 -- common
 modkey     = "Mod4"
 altkey     = "Mod1"
-terminal   = "sakura"
+terminal   = "terminology"
 editor     = os.getenv("EDITOR") or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 

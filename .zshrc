@@ -94,17 +94,7 @@ alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor
 eval "$(thefuck --alias)"
 
 
-if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
-        case $(tmux showenv TERM 2>/dev/null) in
-                *256color) ;&
-                TERM=fbterm)
-                        TERM=screen-256color ;;
-                *)
-                        TERM=screen
-        esac
-fi
-
-export TERM=xterm-256color
+export TERM=screen-256color
 # TMUX
 if which tmux >/dev/null 2>&1; then
 #if not inside a tmux session, and if no session is started, start a new session
