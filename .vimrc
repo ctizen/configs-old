@@ -228,8 +228,8 @@ nnoremap <leader>j :BuffergatorMruCycleNext<CR>
 
 :set timeout timeoutlen=1000 ttimeoutlen=100
 
-nmap <F9> <C-W><LEFT>
-nmap <F10> <C-W><RIGHT>
+nmap <C-LEFT> <C-W><LEFT>
+nmap <C-RIGHT> <C-W><RIGHT>
 
 " F6 - предыдущий буфер
 nmap <F6> :bp<cr>
