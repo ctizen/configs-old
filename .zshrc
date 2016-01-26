@@ -88,16 +88,18 @@ alias prodnodes-m="tmux-cssh -u ansible online4{1,2,3}.m1.nato"
 alias prodnodes-n="tmux-cssh -u ansible online4{1,2,3}.d1.nato"
 alias prodnodes-d="tmux-cssh -u ansible online4{1,2,3}.n1.nato"
 alias prodnodesall="tmux-cssh -u ansible online4{1,2,3}.{m,d,n}1.nato online4{1,2}.s1.nato"
+alias mc="mc -S modarin256"
+alias mcedit="mcedit -S modarin256"
 
 alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor' | grep -v '/cookie' | grep -v '/fonts' | grep -v '/apple' | grep -v '/static'"
 
-eval "$(thefuck --alias)"
+#eval "$(thefuck --alias)"
 
 
-export TERM=screen-256color
+export TERM=xterm-256color
 # TMUX
-if which tmux >/dev/null 2>&1; then
+#if which tmux >/dev/null 2>&1; then
 #if not inside a tmux session, and if no session is started, start a new session
-     test -z "$TMUX" && tmux new-session
-fi
+#     test -z "$TMUX" && tmux new-session
+#fi
 

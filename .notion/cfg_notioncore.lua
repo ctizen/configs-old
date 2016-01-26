@@ -84,8 +84,9 @@ defbindings("WScreen", {
     -- the managing group of that window. The right/left directions are
     -- used instead of next/prev, because they work better in conjunction
     -- with tilings.
-    kpress(META.."Tab", "ioncore.goto_next(_chld, 'right')",
-           "_chld:non-nil"),
+    -- kpress(META.."Tab", "ioncore.goto_next(_chld, 'right')",
+    --       "_chld:non-nil"),
+    
     submap(META.."K", {
         bdoc("Backward-circulate focus."),
         kpress("AnyModifier+Tab", "ioncore.goto_next(_chld, 'left')",
@@ -228,6 +229,8 @@ defbindings("WFrame", {
     bdoc("Switch to next/previous object within the frame."),
     mclick(META.."Button4", "WFrame.switch_next(_)"),
     mclick(META.."Button5", "WFrame.switch_prev(_)"),
+
+    kpress(META.."Tab", "WFrame.switch_next(_)"),
 })
 
 -- Frames for transient windows ignore this bindmap

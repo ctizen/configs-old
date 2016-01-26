@@ -134,7 +134,7 @@ end
 defbindings("WScreen", {
 --    kpress(ALTMETA.."F12", "mod_menu.menu(_, _sub, 'mainmenu', {big=true})"),
     kpress("Mod1+space", "kbdcfg.switch()"),
-    kpress(META.."Return", "ioncore.exec('terminology')")
+    kpress(META.."Return", "ioncore.exec('sakura')")
 })
 --
 --defbindings("WMPlex.toplevel", {
@@ -143,15 +143,16 @@ defbindings("WScreen", {
 --
 -- Autostart apps
 
-ioncore.exec("xscreensaver -nosplash &")
+-- ioncore.exec("xscreensaver -nosplash &")
 -- for desktop:
 ioncore.exec("xrandr --output VGA1 --pos 0x0 --output HDMI1 --pos 1600x0 --output eDP1 --pos 3520x536")
 -- for projector:
 -- ioncore.exec("xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1280x720 --pos 1600x0 --rate 50 --output VGA1 --off")
 ioncore.exec("setxkbmap -layout \"us,ru\"")
 ioncore.exec("setxkbmap -option \"grp:caps_toggle,grp_led:scroll,compose:ralt\"")
-ioncore.exec("xdg-mime default google-chrome.desktop x-scheme-handler/http")
-ioncore.exec("xdg-mime default google-chrome.desktop x-scheme-handler/https")
+ioncore.exec("xdg-mime default google-chrome-unstable.desktop x-scheme-handler/http")
+ioncore.exec("xdg-mime default google-chrome-unstable.desktop x-scheme-handler/https")
 ioncore.exec("xkbcomp $DISPLAY - | egrep -v \"group . = AltGr;\" | xkbcomp - $DISPLAY")
 ioncore.exec("xmodmap ~/.xmodmap")
+ioncore.exec("trayion")
 
