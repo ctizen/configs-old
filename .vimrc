@@ -109,6 +109,9 @@ set wildignore+=.git,.hg,.bzr,.svn
 
 " Bindings
 
+" Make :W work!
+cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
+
 " Greping with silver searcher word under cursor
 nnoremap <leader>k :silent grep! "\b\s?<C-R><C-W>\b"<CR>:cw<CR>:redr!<CR>
 
