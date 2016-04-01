@@ -1,0 +1,181 @@
+
+# For the time being, this file follows the lisp bracing
+# convention. i.e.:
+#  if(frob this) {
+#    frob that
+#    if(frob theother) {
+#      unfrob this
+#      unfrob that}}
+
+wmiiscript=$1
+wmiikeys=()
+
+wi_newline='
+'
+
+echo Start $wmiiscript | wmiir write /event >[2]/dev/null \
+	|| exit write
+
+if(~ $scriptname '')
+	scriptname=$wmiiscript
+
+# Blech.
+if(! test -x $PLAN9/bin/read)
+	fn read { sh -c 'read -r x || exit 1; echo $x' }
+
+fn wi_atexit {}
+fn sigexit {
+	wi_atexit
+}
+
+fn wi_fatal {
+	echo $scriptname: Fatal: $*
+	exit fatal
+}
+
+fn wi_notice {
+	xmessage $scriptname: Notice: $*
+}
+
+fn wi_readctl { wmiir read /ctl | sed -n 's/^'$1' (.*)/\1/p' }
+
+wmiifont=`{wi_readctl font}
+wmiinormcol=`{wi_readctl normcolors}
+wmiifocuscol=`{wi_readctl focuscolors}
+
+fn wi_fnmenu {
+	group=$1^Menu-$2 last=$group^_last fns=`{wi_getfuns $group} {
+	shift 2
+	if(! ~ $#fns 0) {
+		res = `{wmii9menu -i $"($last) $fns} \
+		if(! ~ $res '') {
+			($last) = $res
+			$group-$res $*}}}
+}
+
+fn wi_fn-p {
+	rc -c 'whatis '$1 >[2]/dev/null | grep -s '^fn '
+}
+
+fn wi_proglist {
+	# XXX: maxdepth is not POSIX compliant.
+	ifs=: { find -L `{echo -n $*} -type f -a -maxdepth 1 \
+	        '(' -perm -0100 -o -perm -0010 -o -perm -0001 ')' >[2]/dev/null \
+		| sed 's,.*/,,' | sort | uniq}
+}
+
+fn wi_actions {
+	{	wi_proglist $WMII_CONFPATH
+	 	wi_getfuns Action
+	} | sort | uniq
+}
+
+fn wi_script {
+	noprog=true prog=() {
+		if(~ $1 -f) {
+			shift
+			noprog=/dev/null
+		}
+		prog = `{rc -c 'path=$confpath whatis '$1 >[2]/dev/null \
+			| grep -v '^fn |=' || echo $noprog}
+		shift; echo $prog $*}
+}
+
+
+fn wi_initkeys {
+	ifs=() {
+		wmiikeys = `{wmiir read /keys} {
+			mykeys = `{comm -23 \
+				<{wi_getfuns Key | sort | uniq} \
+				<{echo $wmiikeys | sort | uniq}}
+			{echo $wmiikeys; wi_getfuns Key} \
+				| sort | uniq \
+				| wmiir write /keys }}
+	fn wi_atexit {
+		wi_cleankeys
+	}
+}
+
+fn wi_cleankeys {
+	ifs=() {
+		wmiikeys = `{wmiir read /keys} {
+			comm -23 <{echo $wmiikeys | sort | uniq} \
+				 <{echo $mykeys} \
+				 | wmiir write /keys }}
+}
+
+fn wi_runcmd { @{
+		rfork ns
+		path=$oldpath
+		if(~ $1 -t) {
+			shift
+			* = (wihack -tags `{wmiir read /tag/sel/ctl | sed 1q} $*) }
+		fn `{env | 9 sed -n 's/^fn#([^=]+).*/\1/p'}
+		mykeys=()
+		if(! ~ $* '')
+			eval exec $* & }
+}
+
+fn wi_getfuns {
+	env | sed -n 's/^fn#'^$1^'-([^=]+).*/\1/p' | sort | uniq
+}
+
+for(i in Key Event Action '*Menu')
+	fns=`{wi_getfuns $i} {
+		if(! ~ $fns '')
+			fn $i-^$fns}
+
+fn wi_tags {
+	wmiir ls /tag | sed 's,/,,; /^sel$/d'
+}
+
+fn wi_seltag {
+	wmiir read /tag/sel/ctl | sed 1q
+}
+
+fn wi_selclient {
+	wmiir read /client/sel/ctl | sed 1q
+}
+
+fn wi_readevent {
+	wmiir read /event
+}
+
+fn wi_eventloop {
+	wi_initkeys
+
+	wi_readevent |
+	while(ifs=$wi_ewlinel{wi_event=`{read}}) {
+		ifs=$wi_newline{
+			wi_arg=`{echo $wi_event | sed 's/^[^ ]+ //'}}
+		* = `{echo $wi_event}
+		event = $1; shift
+		Event-$"event $*
+	} >[2]/dev/null </dev/null
+	true
+}
+
+fn Event-Key {
+	Key-$1 $1
+}
+
+fn Event-Quit {
+	exit
+}
+
+fn Event-Start {
+       if(~ $1 $wmiiscript)
+               exit
+}
+
+fn Action {
+	cmd=$1 action=Action-$"cmd { shift
+		if(! ~ $cmd '') {
+			if(wi_fn-p $action)
+				$action $*
+			if not
+				wi_runcmd `{wi_script $cmd} $*
+		}
+	}
+}
+

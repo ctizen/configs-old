@@ -1,0 +1,575 @@
+.TH "WMII" 1 "Oct, 2009" "wmii-@VERSION@"
+
+.SH NAME
+.P
+wmii \- Window Manager Improved²
+
+.SH SYNOPSIS
+.P
+wmii \fI[\-a \fI<address>\fR]\fR \fI[\-r \fI<wmiirc>\fR]\fR 
+.P
+wmii \-v
+
+.SH DESCRIPTION
+.SS Overview
+.P
+\fBwmii\fR is a dynamic window manager for X11. In contrast to
+static window management the user rarely has to think about how
+to organize windows, no matter what he is doing or how many
+applications are used at the same time.  The window manager
+adapts to the current environment and fits to the needs of the
+user, rather than forcing him to use a preset, fixed layout and
+trying to shoehorn all windows and applications into it.
+
+.P
+\fBwmii\fR supports classic and tiled window management with
+extended keyboard and mouse control. The classic window
+management arranges windows in a floating layer in which windows
+can be moved and resized freely. The tiled window management is
+based on columns which split up the screen horizontally. Each
+column handles arbitrary windows and arranges them vertically in
+a non\-overlapping way. They can then be moved and resized
+between and within columns at will.
+
+.P
+\fBwmii\fR provides a virtual filesystem which represents the
+internal state similar to the procfs of Unix operating systems.
+Modifying this virtual filesystem results in changing the state
+of the window manager. The virtual filesystem service can be
+accessed through 9P\-capable client programs, like
+wmiir(1).  This allows simple and powerful remote control
+of the core window manager.
+
+.P
+\fBwmii\fR basically consists of clients, columns, views, and
+the bar, which are described in detail in the
+\fBTerminology\fR section.
+
+.SS Command Line Arguments
+.TP
+\-a \fI<address>\fR
+Specifies the address on which \fBwmii\fR should listen for
+connections. The address takes the form
+\fB\fI<protocol>\fR!\fI<address>\fR\fR. The default is of the form:
+
+unix!/tmp/ns.\fB$USER\fR.\fB${DISPLAY\fR%.0\fB}\fR/wmii
+
+which opens a unix socket per Plan 9 Port conventions. To
+open a TCP socket, listening at port 4332 on the loopback
+interface, use:
+
+tcp!localhost!4332
+
+\fB$WMII_NAMESPACE\fR is automatically set to this value.
+
+.TP
+\-r \fI<wmiirc>\fR
+Specifies which rc script to run. If \fI<wmiirc>\fR consists of a
+single argument, \fB$WMII_CONFPATH\fR is searched before \fB$PATH\fR.
+Otherwise, it is passed to the shell for evaluation. The
+environment variables \fB$WMII_ADDRESS\fR and \fB$WMII_CONFPATH\fR are
+preset for the script.
+
+== Terminology ==
+
+.TP
+Display
+A running X server instance consisting of input
+devices and screens.
+.TP
+Screen
+A physical or virtual (Xinerama or Xnest(1))
+screen of an X display. A screen displays a bar window
+and a view at a time.
+.TP
+Window
+A (rectangular) drawable X object which is
+displayed on a screen, usually an application window.
+.TP
+Client
+An application window surrounded by a frame window
+containing a border and a titlebar.
+
+.TP
+Floating layer
+A screen layer of \fBwmii\fR on top of
+all other layers, where clients are arranged in a
+classic (floating) way.  They can be resized or moved
+freely.
+.TP
+Managed layer
+A screen layer of \fBwmii\fR behind the
+floating layer, where clients are arranged in a
+non\-overlapping (managed) way.  Here, the window
+manager dynamically assigns each client a size and
+position.  The managed layer consists of columns.
+.TP
+Tag
+Alphanumeric strings which can be assigned to a
+client. This provides a mechanism to group clients with
+similar properties. Clients can have one tag, e.g.
+\fIwork\fR, or several tags, e.g.  \fIwork+mail\fR.
+Tags are separated with the \fI+\fR character.
+.TP
+View
+A set of clients containing a specific tag, quite
+similar to a workspace in other window managers.  It
+consists of the floating and managed layers.
+.TP
+Column
+A column is a screen area which arranges clients
+vertically in a non\-overlapping way. Columns provide
+three different modes, which arrange clients with equal
+size, stacked, or maximized respectively.  Clients can
+be moved and resized between and within columns freely.
+.TP
+Bar
+The bar at the bottom of the screen displays a label
+for each view and allows the creation of arbitrary
+user\-defined labels.
+.TP
+Event
+An event is a message which can be read from a
+special file in the filesystem of \fBwmii\fR, such as a
+mouse button press, a key press, or a message written by
+a different 9P\-client.
+
+
+.SS Basic window management
+.P
+Running a raw \fBwmii\fR process without a wmiirc(1)
+script provides basic window management capabilities already.
+However, to use it effectively, remote control through its
+filesystem interface is necessary.  By default it is only usable
+with the mouse in conjunction with the \fIMod1 (Alt)\fR
+modifier key. Other interactions, such as customizing the style,
+killing or retagging clients, and grabbing keys, cannot be
+achieved without accessing the filesystem.
+
+.P
+The filesystem can be accessed by connecting to the
+\fIaddress\fR of \fBwmii\fR with any 9P\-capable client, such
+as wmiir(1)
+
+.SS Actions
+.P
+An action is a shell script in the default setup, but it can
+actually be any executable file.  It is executed usually by
+selecting it from the actions menu.  You can customize an action
+by copying it from the global action directory
+\&'@CONFPREFIX@/wmii@CONFVERSION@' to '\fB$HOME\fR/.wmii@CONFVERSION@' and then
+editing the copy to fit your needs.  Of course you can also
+create your own actions there; make sure that they are
+executable.
+
+.P
+Here is a list of the default actions:
+
+.TS
+tab(^); ll.
+ quit^leave the window manager nicely
+ status^periodically print date and load average to the bar
+ welcome^display a welcome message that contains the wmii tutorial
+ wmiirc^configure wmii
+.TE
+
+.SS Default Key Bindings
+.P
+All of the provided \fBwmiirc\fR scripts accept at least the following key
+bindings. They should also provide a \fBshowkeys\fR action to open a
+key binding quick\-reference.
+
+.SS Moving Around
+.TS
+tab(^); ll.
+ \fBKey\fR^\fBAction\fR
+ Mod\-h^Move to a window to the \fIleft\fR of the one currently focused
+ Mod\-l^Move to a window to the \fIright\fR of the one currently focused
+ Mod\-j^Move to the window \fIbelow\fR the one currently focused
+ Mod\-k^Move to a window \fIabove\fR the one currently focused
+ Mod\-space^Toggle between the managed and floating layers
+ Mod\-t \fI<tag>\fR^Move to the view of the given \fI<tag>\fR
+ Mod\-\fI\fI[0\-9]\fR\fR^Move to the view with the given number
+.TE
+
+.SS Moving Things Around
+.TS
+tab(^); ll.
+ \fBKey\fR^\fBAction\fR
+ Mod\-Shift\-h^Move the current window \fIwindow\fR to a column on the \fIleft\fR
+ Mod\-Shift\-l^Move the current window to a column on the \fIright\fR
+ Mod\-Shift\-j^Move the current window below the window beneath it.
+ Mod\-Shift\-k^Move the current window above the window above it.
+ Mod\-Shift\-space^Toggle the current window between the managed and floating layer
+ Mod\-Shift\-t \fI<tag>\fR^Move the current window to the view of the given \fI<tag>\fR
+ Mod\-Shift\-\fI\fI[0\-9]\fR\fR^Move the current window to the view with the given number
+.TE
+
+.SS Miscellaneous
+.TS
+tab(^); ll.
+ \fBKey\fR^\fBAction\fR
+ Mod\-m^Switch the current column to \fImax mode\fR
+ Mod\-s^Switch the current column to \fIstack mode\fR
+ Mod\-d^Switch the current column to \fIdefault mode\fR
+ Mod\-Shift\-c^\fBKill\fR the selected client
+ Mod\-p \fI<program>\fR^\fBExecute\fR \fI<program>\fR
+ Mod\-a \fI<action>\fR^\fBExecute\fR the named <action
+ Mod\-Enter^\fBExecute\fR an \fB@TERMINAL@\fR
+.TE
+
+.SH Configuration
+.P
+If you feel the need to change the default configuration, then
+customize (as described above) the \fBwmiirc\fR action.  This
+action is executed at the end of the \fBwmii\fR script and does
+all the work of setting up the window manager, the key bindings,
+the bar labels, etc.
+
+.SS Filesystem
+.P
+Most aspects of \fBwmii\fR are controlled via the filesystem.
+It is usually accessed via the wmiir(1) command, but it
+can be accessed by any 9P, including plan9port's
+9P\fI[1]\fR, and can be mounted natively on Linux via v9fs\fI[1]\fR,
+and on Inferno (which man run on top of Linux).
+
+.P
+The filesystem is, as are many other 9P filesystems, entirely
+synthetic. The files exist only in memory, and are not written
+to disk. They are generally initiated on wmii startup via a
+script such as rc.wmii or wmiirc. Several files read commands,
+others simply act as if they were ordinary files (their contents
+are updated and returned exactly as written), though writing
+them has side\-effects (such as changing key bindings). A
+description of the filesystem layout and control commands
+follows.
+
+.SS Hierarchy
+.TP
+/
+Global control files
+.TP
+/client/\fI*\fR/
+Client control files
+.TP
+/tag/\fI*\fR/
+View control files
+.TP
+/lbar/, /rbar/
+Files representing the contents of the bottom bar
+
+
+.SS The / Hierarchy
+.TP
+colrules
+The \fIcolrules\fR file contains a list of
+rules which affect the width of newly created columns.
+Rules have the form:
+
+.nf
+      /\fI<regex>\fR/ -> \fI<width>\fR\fI[+\fI<width>\fR]\fR*
+.fi
+
+
+When a new column, \fIn\fR, is created on a view whose
+name matches \fI<regex>\fR, the \fIn\fRth given
+\fI<width>\fR percentage of the screen is given to it. If
+there is no \fIn\fRth width, 1/\fIncol\fRth of the
+screen is given to it.
+
+.TP
+tagrules
+The \fItagrules\fR file contains a list of
+rules similar to the colrules. These rules specify
+the tags a client is to be given when it is created.
+Rules are specified:
+
+.nf
+      /\fI<regex>\fR/ -> \fI<tag>\fR\fI[+\fI<tag>\fR]\fR*
+.fi
+
+
+When a client's \fI<name>\fR:\fI<class>\fR:\fI<title>\fR matches
+\fI<regex>\fR, it is given the tagstring \fI<tag>\fR. There are
+two special tags. \fB!\fR, which is deprecated, and identical
+to \fIsel\fR, represents the current tag. \fB~\fR
+represents the floating layer.
+
+.TP
+keys
+The \fIkeys\fR file contains a list of keys which
+\fBwmii\fR will grab. Whenever these key combinations
+are pressed, the string which represents them are
+written to '/event' as: Key \fI<string>\fR
+.TP
+event
+The \fIevent\fR file never returns EOF while
+\fBwmii\fR is running. It stays open and reports events
+as they occur. Included among them are:
+.RS 8
+.TP
+\fI[Not]\fRUrgent \fI<client>\fR \fI[Manager|Client]\fR
+\fI<client>\fR's urgent hint has been set or
+unset. The second arg is \fI[Client]\fR if it's
+been set by the client, and \fI[Manager]\fR if
+it's been set by \fBwmii\fR via a control
+message.
+.TP
+\fI[Not]\fRUrgentTag \fI<tag>\fR \fI[Manager|Client]\fR
+A client on \fI<tag>\fR has had its urgent hint
+set, or the last urgent client has had its
+urgent hint unset.
+.TP
+Client\fI<Click|MouseDown>\fR \fI<client>\fR \fI<button>\fR
+A client's titlebar has either been clicked or
+has a button pressed over it.
+.TP
+\fI[Left|Right]\fRBar\fI[Click|MouseDown]\fR \fI<button>\fR \fI<bar>\fR
+A left or right bar has been clicked or has a
+button pressed over it.
+.TP
+ 
+.RS -8
+For a more comprehensive list of available events, see
+\fIwmii.pdf\fR\fI[2]\fR
+
+.TP
+ctl
+The \fIctl\fR file takes a number of messages to
+change global settings such as color and font, which can
+be viewed by reading it. It also takes the following
+commands:
+.RS 8
+.TP
+quit
+Quit \fBwmii\fR
+.TP
+exec \fI<prog>\fR
+Replace \fBwmii\fR with \fI<prog>\fR
+.TP
+spawn \fI<prog>\fR
+Spawn a new program, as if by the \fI\-r\fR flag.
+.RS -8
+
+
+.SS The /client/ Hierarchy
+.P
+Each directory under '/client/' represents an X11 client.
+Each directory is named for the X window id of the window the
+client represents, in the form that most X utilities recognize.
+The one exception is the special 'sel' directory, which
+represents the currently selected client.
+
+.TP
+ctl
+When read, the 'ctl' file returns the X window id
+of the client. The following commands may be written to
+it:
+.RS 8
+.TP
+kill
+Close the client's window. This command will
+likely kill the X client in the future
+(including its other windows), while the close
+command will replace it.
+.TP
+Urgent \fI<on | off | toggle>\fR
+Set or unset the client's urgent hint.
+.TP
+Fullscreen \fI<on | off | toggle>\fR
+.RS -8
+
+.TP
+label
+Set or read a client's label (title).
+.TP
+props
+Returns a clients class and label as:
+\fI<name>\fR:\fI<class>\fR:\fI<label>\fR
+.TP
+tags
+Set or read a client's tags. Tags are separated by
+\fB+\fR or \fB\-\fR. Tags beginning with \fB+\fR are
+added, while those beginning with \fB\-\fR are removed.
+If the tag string written begins with \fB+\fR or
+\fB\-\fR, the written tags are added to or removed from
+the client's set, otherwise, the set is overwritten.
+
+
+.SS The /tag/ Hierarchy
+.P
+Each directory under '/tag/' represents a view, containing
+all of the clients with the given tag applied. The special
+\&'sel' directory represents the currently selected tag.
+
+.TP
+ctl
+The 'ctl' file can be read to retrieve the name
+of the tag the directory represents, or written with the
+following commands:
+.RS 8
+.TP
+select
+Select a client:
+select \fI[left|right|up|down]\fR 
+.P
+select \fI[\fI<row number>\fR|sel]\fR \fI[\fI<frame number>\fR]\fR 
+.P
+select client \fI<client>\fR
+.TP
+send
+Send a client somewhere:
+.RS 8
+.TP
+send \fI[\fI<client>\fR|sel]\fR \fI[up|down|left|right]\fR
+.TP
+send \fI[\fI<client>\fR|sel]\fR \fI<area>\fR
+Send \fI<client>\fR to the \fIn\fRth \fI<area>\fR
+.TP
+send \fI[\fI<client>\fR|sel]\fR toggle
+Toggle \fI<client>\fR between the floating and managed layer.
+.RS -8
+.TP
+swap
+Swap a client with another. Same syntax as send.
+
+.TP
+grow
+Grow or shrink a client.
+
+.nf
+     grow \fI<frame>\fR \fI<direction>\fR \fI[\fI<amount>\fR]\fR
+.fi
+
+.TP
+nudge
+Nudge a client in a given direction.
+
+.nf
+     grow \fI<frame>\fR \fI<direction>\fR \fI[\fI<amount>\fR]\fR
+.fi
+
+.RS -8
+Where the arguments are defined as follows:
+.RS 8
+.TP
+area
+Selects a column or the floating area.
+
+.nf
+     area        ::= \fI<area_spec>\fR | \fI<screen_spec>\fR:\fI<area_spec>\fR
+.fi
+
+
+When \fI<screen_spec>\fR is omitted and \fI<area_spec>\fR is not "sel",
+0 is assumed. "sel" by itself represents the selected client no
+matter which screen it is on.
+
+.nf
+     area_spec   ::= "~" | \fI<number>\fR | "sel"
+.fi
+
+
+Where "~" represents the floating area and \fI<number>\fR represents a column
+index, starting at one.
+
+.nf
+     screen_spec ::= \fI<number>\fR
+.fi
+
+
+Where \fI<number>\fR representes the 0\-based Xinerama screen number.
+
+.TP
+frame
+Selects a client window.
+
+.nf
+     frame ::= \fI<area>\fR \fI<index>\fR | \fI<area>\fR sel | client \fI<window-id>\fR
+.fi
+
+
+Where \fI<index>\fR represents the nth frame of \fI<area>\fR or \fI<window\-id>\fR is
+the X11 window id of the given client.
+
+.TP
+amount
+The amount to grow or nudge something.
+
+.nf
+     amount ::= \fI<number>\fR | \fI<number>\fRpx
+.fi
+
+
+If "px" is given, \fI<number>\fR is interperated as an exact pixel count.
+Otherwise, it's interperated as a "reasonable" amount, which is
+usually either the height of a window's title bar, or its sizing
+increment (as defined by X11) in a given direction.
+.RS -8
+.TP
+index
+Read for a description of the contents of a tag.
+
+
+.SS The /rbar/, /lbar/ Hierarchy
+.P
+The files under '/rbar/' and '/lbar/' represent the
+items of the bar at the bottom of the screen. Files under
+\&'/lbar/' appear on the left side of the bar, while those
+under '/rbar/' appear on the right, with the leftmost item
+occupying all extra available space. The items are sorted
+lexicographically.
+
+.P
+The files may be read to obtain the colors and text of the bars.
+The colors are at the beginning of the string, represented as a
+tuple of 3 hex color codes for the foreground, background, and
+border, respectively. When writing the bar files, the colors may
+be omitted if the text would not otherwise appear to contain
+them.
+
+.SH FILES
+.TP
+/tmp/ns.\fB$USER\fR.\fB${DISPLAY\fR%.0\fB}\fR/wmii
+The wmii socket file which provides a 9P service.
+.TP
+@CONFPREFIX@/wmii@CONFVERSION@
+Global action directory.
+.TP
+\fB$HOME\fR/.wmii@CONFVERSION@
+User\-specific action directory. Actions are first searched here.
+
+
+.SH ENVIRONMENT
+.TP
+\fB$HOME\fR, \fB$DISPLAY\fR
+See the section \fBFILES\fR above.
+
+.P
+The following variables are set and exported within \fBwmii\fR and
+thus can be used in actions:
+
+.TP
+\fB$WMII_ADDRESS\fR
+The address on which \fBwmii\fR is listening.
+.TP
+\fB$NAMESPACE\fR
+The namespace directory to use if no address is provided.
+
+.SH SEE ALSO
+.P
+dmenu(1), wmiir(1)
+
+.P
+@DOCDIR@/wmii.pdf
+
+.P
+\fI[1]\fR http://www.suckless.org/wiki/wmii/tips/9p_tips 
+.P
+\fI[2]\fR @DOCDIR@/wmii.pdf
+
+
+.\" man code generated by txt2tags 2.5 (http://txt2tags.sf.net)
+.\" cmdline: txt2tags -o- wmii.man1
+

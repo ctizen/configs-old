@@ -1,0 +1,41 @@
+MKSHELL=rc
+path=$PLAN9/bin $path
+
+eps = wmii.eps
+calc = rc -c 'hoc -e $"*'
+
+epsbox = `{sed -n '/^%%BoundingBox:/{s/.*://p; q;}' $eps}
+iconwidth = 154
+iconscale = `{*=$epsbox; $calc $iconwidth / '('$3 - $1')'}
+iconheight = `{*=$epsbox; $calc '('$4 - $2') *' $iconscale}
+
+%.png: %.eps
+	* = `{hoc -e'-('$epsbox')'}
+	x = $1
+	y = $2
+	gs -q -dBATCH -dNOPAUSE -s'DEVICE=pngalpha' -s'OutputFile='$target -g$iconwidth'x'$iconheight - <<!
+		$iconscale $iconscale scale
+		$x $y translate
+		($eps) run
+		showpage
+		quit
+	!
+
+%.pdf: %.eps
+	sh epstopdf $stem.eps
+
+%-small.png: %.eps
+	iconwidth = 16
+	iconscale = `{*=$epsbox; hoc -e $iconwidth/'('$3-' '$1')'}
+	iconheight = `{*=$epsbox; hoc -e '('$4-' '$2')*'$iconscale}
+	* = `{hoc -e'-('$epsbox')'}
+	x = $1
+	y = $2
+	gs -q -dBATCH -dNOPAUSE -s'DEVICE=pngalpha' -s'OutputFile='$target -g$iconwidth'x'$iconheight - <<!
+		$iconscale $iconscale scale
+		$x $y translate
+		($eps) run
+		showpage
+		quit
+	!
+
