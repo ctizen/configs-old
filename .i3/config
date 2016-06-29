@@ -9,14 +9,21 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec xrandr --output VGA1 --pos 0x0 --output HDMI1 --pos 1600x0 --output eDP1 --pos 3520x536
+# for laptop on right side 
+#exec xrandr --output VGA1 --pos 0x0 --output HDMI1 --pos 1600x0 --output eDP1 --pos 3520x536
+
+# for laptop on left side
+exec xrandr --output eDP1 --pos 0x900 --output HDMI1 --pos 1600x0 --output VGA1 --pos 3520x0
+
+# for projector
 # exec xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1280x720 --pos 1600x0 --rate 50 --output VGA1 --off
 
 exec compton
 exec hsetroot -solid "#43271E"
+exec feh --bg-scale ~/wp/wp.jpg
 
-exec xdg-mime default google-chrome-unstable.desktop x-scheme-handler/http
-exec xdg-mime default google-chrome-unstable.desktop x-scheme-handler/https
+exec xdg-mime default google-chrome.desktop x-scheme-handler/http
+exec xdg-mime default google-chrome.desktop x-scheme-handler/https
 exec setxkbmap "us,ru"
 exec setxkbmap -option "grp:caps_toggle,grp_led:scroll,compose:ralt"
 
@@ -29,6 +36,9 @@ font pango:Terminus 8
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
+
+for_window [class="^.*"] border pixel 1
+new_window 1pixel
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -159,5 +169,9 @@ bindsym $mod+Alt+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        separator_symbol ".|."
+        position top
+        status_command py3status -c ~/.i3/i3status.conf
+        font pango:Terminus 11
+        tray_output HDMI1
 }
