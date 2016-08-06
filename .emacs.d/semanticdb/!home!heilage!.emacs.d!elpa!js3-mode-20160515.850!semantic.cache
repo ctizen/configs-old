@@ -1,0 +1,16 @@
+;; Object js3-mode-20160515.850/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "js3-mode-20160515.850/"
+  :tables
+  (list
+    (semanticdb-table "js3-mode-autoloads.el"
+      :major-mode 'emacs-lisp-mode
+      :tags nil
+      :file "js3-mode-autoloads.el"
+      :pointmax 289
+      :fsize 945
+      :lastmodtime '(22438 1608 307524 575000)
+      :unmatched-syntax nil))
+  :file "!home!heilage!.emacs.d!elpa!js3-mode-20160515.850!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

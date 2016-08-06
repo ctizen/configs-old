@@ -1,0 +1,16 @@
+;; Object pkg-info-20150517.443/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "pkg-info-20150517.443/"
+  :tables
+  (list
+    (semanticdb-table "pkg-info-autoloads.el"
+      :major-mode 'emacs-lisp-mode
+      :tags nil
+      :file "pkg-info-autoloads.el"
+      :pointmax 289
+      :fsize 3893
+      :lastmodtime '(22438 1686 281794 158000)
+      :unmatched-syntax nil))
+  :file "!home!heilage!.emacs.d!elpa!pkg-info-20150517.443!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

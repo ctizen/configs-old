@@ -1,0 +1,16 @@
+;; Object epl-20150517.433/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "epl-20150517.433/"
+  :tables
+  (list
+    (semanticdb-table "epl-autoloads.el"
+      :major-mode 'emacs-lisp-mode
+      :tags nil
+      :file "epl-autoloads.el"
+      :pointmax 279
+      :fsize 352
+      :lastmodtime '(22438 1685 85164 280000)
+      :unmatched-syntax nil))
+  :file "!home!heilage!.emacs.d!elpa!epl-20150517.433!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

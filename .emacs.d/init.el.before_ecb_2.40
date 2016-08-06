@@ -1,0 +1,7 @@
+(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
+(semantic-load-enable-code-helpers)
+
+(add-to-list 'load-path
+             "/usr/share/emacs/site-lisp/ecb/")
+(require 'ecb)
+

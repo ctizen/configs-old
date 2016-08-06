@@ -1,0 +1,16 @@
+;; Object flymake-php-20121104.1102/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "flymake-php-20121104.1102/"
+  :tables
+  (list
+    (semanticdb-table "flymake-php-autoloads.el"
+      :major-mode 'emacs-lisp-mode
+      :tags nil
+      :file "flymake-php-autoloads.el"
+      :pointmax 295
+      :fsize 563
+      :lastmodtime '(22437 62607 372125 578000)
+      :unmatched-syntax nil))
+  :file "!home!heilage!.emacs.d!elpa!flymake-php-20121104.1102!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

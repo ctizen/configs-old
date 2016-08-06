@@ -1,0 +1,16 @@
+;; Object flymake-easy-20140818.55/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "flymake-easy-20140818.55/"
+  :tables
+  (list
+    (semanticdb-table "flymake-easy-autoloads.el"
+      :major-mode 'emacs-lisp-mode
+      :tags nil
+      :file "flymake-easy-autoloads.el"
+      :pointmax 297
+      :fsize 389
+      :lastmodtime '(22437 62606 475487 230000)
+      :unmatched-syntax nil))
+  :file "!home!heilage!.emacs.d!elpa!flymake-easy-20140818.55!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")
