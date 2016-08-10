@@ -11,3 +11,20 @@ LS
 ls
 ls
 ls -al
+cd ..
+cd ..
+cd ..
+fr
+git fr
+ls
+cd
+cd projects/
+git clone git@gitlab.2gis.ru:perf/perfhub-api.git
+cd perfhub-api/
+ls
+grep -R 'error.path.missing' .
+grep -R 'error.path.missing' .
+unset GREP_OPTIONS
+grep -R 'error.path.missing' .
+grep -R 'error.path.missing' .
+grep -R 'error.path.missing' .
