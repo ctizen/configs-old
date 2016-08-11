@@ -12,6 +12,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
+(require 'flycheck)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
@@ -21,26 +22,31 @@
                (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
                (define-key js2-mode-map "@" 'js-doc-insert-tag)))
 
+;; make eslint to be run from node_modules
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
 ;; Manually set params
+(global-auto-complete-mode t)
 (global-auto-revert-mode t)
 (setq-default indent-tabs-mode nil)
 (setq tab-width 2)
 (setq js-indent-level 2)
 (electric-indent-mode nil)
 (global-git-gutter-mode +1)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 (global-linum-mode 1)
 (git-gutter:linum-setup)
 (global-unset-key (kbd "C-z"))
-
-(require 'git)
-(require 'git-blame)
-
-(require 'auto-indent-mode)
-
-(add-to-list 'load-path
-             "/usr/share/emacs/site-lisp/ecb/")
-(require 'ecb)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -51,19 +57,31 @@
    (quote
     ("deb7ae3a735635a85c984ece4ce70317268df6027286998b0ea3d10f00764c9b" default)))
  '(ecb-options-version "2.40")
- '(ecb-source-path (quote ("/home/heilage/projects/")))
+ '(ecb-source-path (quote ("~/projects/online-mobile/" "~/projects/slot/")))
+ '(fringe-mode 14 nil (fringe))
+ '(git-gutter:update-interval 2)
  '(js2-basic-offset 2)
  '(js2-include-node-externs t)
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(typescript-expr-indent-offset 0)
  '(typescript-indent-level 2))
+
+(require 'git)
+(require 'git-blame)
+
+(require 'auto-indent-mode)
+
+(add-to-list 'load-path
+             "/usr/share/emacs/site-lisp/ecb/")
+(require 'ecb)
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "black" :foreground "wheat"))))
  '(ecb-analyse-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
  '(ecb-default-highlight-face ((t (:background "dark violet"))))
  '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
@@ -71,7 +89,10 @@
  '(ecb-method-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
  '(ecb-source-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
  '(ecb-tag-header-face ((t (:background "dark green"))))
- '(js2-error ((t (:background "red" :foreground "black")))))
+ '(flycheck-fringe-error ((t (:inherit error :background "red" :foreground "black" :weight bold :width extra-expanded))))
+ '(fringe ((t (:background "grey10" :weight bold :width extra-expanded))))
+ '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
+ '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold)))))
 
 (load-file ".emacs.d/elpa/color-theme-modern-20160411.1846/taylor-theme.el")
 
@@ -119,4 +140,7 @@
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
               (setup-tide-mode))))
 
-
+(add-hook 'after-init-hook
+          (lambda ()
+            (flycheck-add-mode 'javascript-eslint 'js2-mode)))
+            
