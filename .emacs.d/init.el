@@ -1,7 +1,10 @@
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+(setq package-archives '(
+;;                     ("gnu" . "http://elpa.gnu.org/packages/")
+                     ("melpa" . "http://melpa.org/packages/")
+                     ))
 (package-initialize)
+
 
 (load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
 (semantic-load-enable-code-helpers)
@@ -13,6 +16,11 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
 (require 'flycheck)
+
+;;(require 'moe-theme)
+;;(moe-dark)
+;;(moe-theme-set-color 'purple)
+(load-theme 'darktooth t)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
@@ -34,6 +42,7 @@
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+(global-set-key "\C-x\C-b" 'electric-buffer-list)
 
 ;; Manually set params
 (global-auto-complete-mode t)
@@ -52,14 +61,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (taylor)))
+ '(custom-enabled-themes (quote (darktooth)))
  '(custom-safe-themes
    (quote
-    ("deb7ae3a735635a85c984ece4ce70317268df6027286998b0ea3d10f00764c9b" default)))
+    ("e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
+ '(ecb-layout-name "top1")
+ '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
  '(ecb-source-path (quote ("~/projects/online-mobile/" "~/projects/slot/")))
+ '(ecb-windows-height 0.15)
  '(fringe-mode 14 nil (fringe))
  '(git-gutter:update-interval 2)
+ '(global-git-gutter-mode t)
  '(js2-basic-offset 2)
  '(js2-include-node-externs t)
  '(show-paren-mode t)
@@ -91,10 +104,11 @@
  '(ecb-tag-header-face ((t (:background "dark green"))))
  '(flycheck-fringe-error ((t (:inherit error :background "red" :foreground "black" :weight bold :width extra-expanded))))
  '(fringe ((t (:background "grey10" :weight bold :width extra-expanded))))
+ '(git-gutter:added ((t (:background "lawn green" :foreground "#008700" :weight bold))))
+ '(highlight ((t (:background "#4e4e4e" :foreground "plum"))))
  '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
- '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold)))))
-
-(load-file ".emacs.d/elpa/color-theme-modern-20160411.1846/taylor-theme.el")
+ '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold))))
+ '(minibuffer-prompt ((t (:background "dark slate blue" :foreground "plum")))))
 
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
@@ -134,13 +148,20 @@
 (setq tide-format-options '(:indentSize 2 :tabSize 2 :insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
 (require 'web-mode)
+
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
               (setup-tide-mode))))
 
+(require 'yafolding)
+(add-hook 'prog-mode-hook
+          (lambda () (yafolding-mode)))
+
 (add-hook 'after-init-hook
           (lambda ()
-            (flycheck-add-mode 'javascript-eslint 'js2-mode)))
+            (flycheck-add-mode 'javascript-eslint 'js2-mode)
+            (yafolding-mode)            
+            ))
             
