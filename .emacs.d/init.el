@@ -131,6 +131,7 @@
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (set-face-attribute 'flycheck-error nil :foreground "black" :background "red")
   (eldoc-mode +1)
+  (auto-complete-mode t)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
