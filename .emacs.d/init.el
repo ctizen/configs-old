@@ -41,6 +41,10 @@
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 (global-set-key "\C-x\C-b" 'electric-buffer-list)
 
+(defvar *my-ecb-layout-name* "top1")
+(when (eq system-type 'darwin)
+    (setq *my-ecb-layout-name* "left2"))
+
 ;; Manually set params
 (global-auto-complete-mode t)
 (global-auto-revert-mode t)
@@ -62,11 +66,12 @@
  '(custom-safe-themes
    (quote
     ("e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
- '(ecb-layout-name "top1")
+ '(ecb-layout-name *my-ecb-layout-name*)
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
  '(ecb-source-path (quote ("~/projects/")))
  '(ecb-windows-height 0.15)
+ '(ecb-windows-width 0.2)
  '(fringe-mode 14 nil (fringe))
  '(git-gutter:update-interval 2)
  '(global-git-gutter-mode t)
