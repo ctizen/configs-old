@@ -1,0 +1,4 @@
+Circle	input.rs	/^impl Circle {$/;"	i
+Circle	input.rs	/^struct Circle {$/;"	s
+area	input.rs	/^    fn area(&self) -> f64 {$/;"	f
+main	input.rs	/^fn main() {$/;"	f
