@@ -6,16 +6,13 @@
 (package-initialize)
 
 
-(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
-(semantic-load-enable-code-helpers)
-
-(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+;;(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
+;;(semantic-load-enable-code-helpers)
 
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
 (require 'flycheck)
+(setq ecb-tip-of-the-day nil)
 
 ;;(require 'moe-theme)
 ;;(moe-dark)
@@ -68,13 +65,19 @@
  '(ecb-layout-name "top1")
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
- '(ecb-source-path (quote ("~/projects/online-mobile/" "~/projects/slot/")))
+ '(ecb-source-path (quote ("~/projects/")))
  '(ecb-windows-height 0.15)
  '(fringe-mode 14 nil (fringe))
  '(git-gutter:update-interval 2)
  '(global-git-gutter-mode t)
  '(js2-basic-offset 2)
  '(js2-include-node-externs t)
+ '(projectile-global-mode t)
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
+ '(projectile-globally-ignored-file-suffixes nil)
+ '(projectile-globally-ignored-files (quote ("TAGS")))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(typescript-expr-indent-offset 0)
@@ -84,11 +87,6 @@
 (require 'git-blame)
 
 (require 'auto-indent-mode)
-
-(add-to-list 'load-path
-             "/usr/share/emacs/site-lisp/ecb/")
-(require 'ecb)
-
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -122,6 +120,32 @@
 (set-default-font "Terminus-13")
 (set-face-attribute 'default t :font "Terminus-13" )
 (set-frame-font "Terminus-13" nil t)
+;; osx specific
+(when (eq system-type 'darwin)
+  (set-default-font "Roboto Mono Light for Powerline-13")
+  (set-face-attribute 'default t :font "Roboto Mono Light for Powerline-13" )
+  (set-frame-font "Roboto Mono Light for Powerline-13" nil t)
+)
+
+;; Projectile project manager
+(projectile-global-mode)
+
+;; PHP
+(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+(add-hook 'php-mode-hook '(lambda ()
+                            (turn-on-ctags-auto-update-mode)
+                            (auto-complete-mode t)
+                            (require 'ac-php)
+                            (setq ac-sources  '(ac-source-php ) )
+                            (yas-global-mode 1)
+                            (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
+                            (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+                            ))
+;;(require 'flycheck-php)
+;;(add-hook 'php-mode-hook 'flycheck-php-load)
+
 
 ;; TIDE setup
 (defun setup-tide-mode ()
