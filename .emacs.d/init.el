@@ -13,6 +13,8 @@
 (require 'powerline)
 (require 'flycheck)
 (setq ecb-tip-of-the-day nil)
+(setq ring-bell-function 'ignore)
+(setq tramp-default-method "scp")
 
 (require 'ido)
 (ido-mode 'buffers) ;; only use this line to turn off ido for file names!
@@ -202,3 +204,7 @@
             (yafolding-mode)            
             ))
             
+(defun open-notepad (filename)
+  (interactive "sFile name:> ")
+  (find-file (concat "/notepad@furiten.ru#2022:~/notes/" filename))
+  )
