@@ -14,6 +14,11 @@
 (require 'flycheck)
 (setq ecb-tip-of-the-day nil)
 
+(require 'ido)
+(ido-mode 'buffers) ;; only use this line to turn off ido for file names!
+(setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*"
+                           "*Messages*" "Async Shell Command"))
+
 ;;(require 'moe-theme)
 ;;(moe-dark)
 ;;(moe-theme-set-color 'purple)
@@ -92,6 +97,8 @@
 (require 'git-blame)
 
 (require 'auto-indent-mode)
+
+(setq ecb-tip-of-the-day nil)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
