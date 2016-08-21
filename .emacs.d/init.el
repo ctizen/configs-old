@@ -14,7 +14,9 @@
 (require 'flycheck)
 (setq ecb-tip-of-the-day nil)
 (setq ring-bell-function 'ignore)
-(setq tramp-default-method "scp")
+(setq tramp-default-method "ssh")
+(defadvice projectile-project-root (around ignore-remote first activate)
+    (unless (file-remote-p default-directory) ad-do-it))
 
 (require 'ido)
 (ido-mode 'buffers) ;; only use this line to turn off ido for file names!
