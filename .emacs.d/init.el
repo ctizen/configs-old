@@ -18,6 +18,7 @@
 (defadvice projectile-project-root (around ignore-remote first activate)
     (unless (file-remote-p default-directory) ad-do-it))
 
+
 (require 'ido)
 (ido-mode 'buffers) ;; only use this line to turn off ido for file names!
 (setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*"
@@ -31,7 +32,7 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (require 'js-doc)
- (add-hook 'js2-mode-hook
+(add-hook 'js2-mode-hook
            #'(lambda ()
                (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
                (define-key js2-mode-map "@" 'js-doc-insert-tag)))
@@ -66,6 +67,8 @@
 (global-linum-mode 1)
 (git-gutter:linum-setup)
 (global-unset-key (kbd "C-z"))
+(global-set-key "\C-x\C-z" nil)
+(global-set-key (kbd "C-x C-z") nil)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -122,11 +125,13 @@
  '(highlight ((t (:background "#4e4e4e" :foreground "plum"))))
  '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
  '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold))))
- '(minibuffer-prompt ((t (:background "dark slate blue" :foreground "plum")))))
+ '(minibuffer-prompt ((t (:background "dark slate blue" :foreground "plum"))))
+ )
 
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
 (define-key global-map [select] 'end-of-line)
+(global-set-key (kbd "C-x f") 'find-file-in-repository)
 
 (show-paren-mode 1)
 (transient-mark-mode 1)
@@ -169,6 +174,9 @@
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (define-key tide-mode-map "\C-ci" 'js-doc-insert-function-doc)
+  (define-key tide-mode-map "@" 'js-doc-insert-tag)
+
   (set-face-attribute 'flycheck-error nil :foreground "black" :background "red")
   (eldoc-mode +1)
   (auto-complete-mode t)
@@ -210,3 +218,71 @@
   (interactive "sFile name:> ")
   (find-file (concat "/notepad@furiten.ru#2022:~/notes/" filename))
   )
+
+;; Tabbar
+(require 'tabbar)
+; turn on the tabbar
+(tabbar-mode t)
+; define all tabs to be one of 3 possible groups: “Emacs Buffer”, “Dired”,
+;“User Buffer”.
+;; Tabbar settings
+(set-face-attribute
+ 'tabbar-default nil
+ :family "Terminus"
+ :background "gray20"
+ :foreground "gray20"
+ :box '(:line-width 1 :color "gray20" :style nil))
+(set-face-attribute
+ 'tabbar-unselected nil
+ :family "Terminus"
+ :background "gray30"
+ :foreground "white"
+ :box '(:line-width 5 :color "gray30" :style nil))
+(set-face-attribute
+ 'tabbar-selected nil
+ :family "Terminus"
+ :background "gray50"
+ :foreground "white"
+ :box '(:line-width 5 :color "gray50" :style nil))
+(set-face-attribute
+ 'tabbar-highlight nil
+ :family "Terminus"
+ :background "purple"
+ :foreground "white"
+ :underline nil
+ :box '(:line-width 5 :color "purple" :style nil))
+(set-face-attribute
+ 'tabbar-button nil
+ :family "Terminus"
+ :box '(:line-width 1 :color "gray20" :style nil))
+(set-face-attribute
+ 'tabbar-separator nil
+ :family "Terminus"
+ :background "gray20"
+ :height 0.6)
+
+;; Change padding of the tabs
+;; we also need to set separator to avoid overlapping tabs by highlighted tabs
+(custom-set-variables
+ '(tabbar-separator (quote (0.5))))
+;; adding spaces
+(defun tabbar-buffer-tab-label (tab)
+  "Return a label for TAB.
+That is, a string used to represent it on the tab bar."
+  (let ((label  (if tabbar--buffer-show-groups
+                    (format "[%s]  " (tabbar-tab-tabset tab))
+                  (format "%s  " (tabbar-tab-value tab)))))
+    ;; Unless the tab bar auto scrolls to keep the selected tab
+    ;; visible, shorten the tab label to keep as many tabs as possible
+    ;; in the visible area of the tab bar.
+    (if tabbar-auto-scroll-flag
+        label
+      (tabbar-shorten
+       label (max 1 (/ (window-width)
+                       (length (tabbar-view
+                                (tabbar-current-tabset)))))))))
+
+(tabbar-mode 1)
+
+(global-set-key [M-s-left] 'tabbar-backward)
+(global-set-key [M-s-right] 'tabbar-forward)
