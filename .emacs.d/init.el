@@ -9,8 +9,10 @@
 ;;(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
 ;;(semantic-load-enable-code-helpers)
 
+(setq ns-use-srgb-colorspace nil) ;; for nice powerline arrows
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
+
 (require 'flycheck)
 (setq ecb-tip-of-the-day nil)
 (setq ring-bell-function 'ignore)

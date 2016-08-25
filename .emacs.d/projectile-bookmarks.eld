@@ -1,1 +1,0 @@
-("~/projects/riichi-statboard/" "~/projects/riichi-api/")
