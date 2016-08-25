@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sakura -t "Weechat" -f "Terminess Powerline 14" -x weechat
+

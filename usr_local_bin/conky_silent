@@ -1,0 +1,4 @@
+#!/bin/bash
+
+conky 2>/dev/null
+

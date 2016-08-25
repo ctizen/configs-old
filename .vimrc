@@ -42,9 +42,9 @@ endif
 set autoindent
 set smartindent
 set smarttab
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 set expandtab
 
 " Enable loading the plugin/indent files for specific file types
@@ -293,7 +293,8 @@ set path+=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/D
 
 let javaScript_fold=1
 autocmd BufEnter *.js :normal zR\<Enter\>   "fix initial fold closing
-
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
 
 " Integrations
 
