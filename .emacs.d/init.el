@@ -53,6 +53,20 @@
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 (global-set-key "\C-x\C-b" 'electric-buffer-list)
 
+;; make tslint to be run from node_modules
+(defun my/use-tslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (tslint (and root
+                      (expand-file-name "node_modules/.bin/tslint"
+                                        root))))
+    (when (and tslint (file-executable-p tslint))
+      (setq-local flycheck-typescript-tslint-executable tslint))))
+
+;(eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
+;(eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'my/use-tslint-from-node-modules))
+
 (defvar *my-ecb-layout-name* "top1")
 (when (eq system-type 'darwin)
     (setq *my-ecb-layout-name* "left2"))
@@ -98,6 +112,9 @@
  '(projectile-globally-ignored-file-suffixes nil)
  '(projectile-globally-ignored-files (quote ("TAGS")))
  '(show-paren-mode t)
+ '(tabbar-mode t nil (tabbar))
+ '(tabbar-mwheel-mode t nil (tabbar))
+ '(tabbar-separator (quote (0.5)))
  '(tool-bar-mode nil)
  '(typescript-expr-indent-offset 0)
  '(typescript-indent-level 2))
@@ -122,13 +139,15 @@
  '(ecb-source-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
  '(ecb-tag-header-face ((t (:background "dark green"))))
  '(flycheck-fringe-error ((t (:inherit error :background "red" :foreground "black" :weight bold :width extra-expanded))))
+ '(flycheck-fringe-info ((t (:background "medium sea green" :foreground "black"))))
  '(fringe ((t (:background "grey10" :weight bold :width extra-expanded))))
  '(git-gutter:added ((t (:background "lawn green" :foreground "#008700" :weight bold))))
  '(highlight ((t (:background "#4e4e4e" :foreground "plum"))))
  '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
  '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold))))
  '(minibuffer-prompt ((t (:background "dark slate blue" :foreground "plum"))))
- )
+ '(tabbar-modified ((t (:inherit tabbar-unselected :foreground "aquamarine"))))
+ '(tabbar-selected-modified ((t (:inherit tabbar-selected :foreground "aquamarine")))))
 
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
@@ -265,8 +284,7 @@
 
 ;; Change padding of the tabs
 ;; we also need to set separator to avoid overlapping tabs by highlighted tabs
-(custom-set-variables
- '(tabbar-separator (quote (0.5))))
+
 ;; adding spaces
 (defun tabbar-buffer-tab-label (tab)
   "Return a label for TAB.
