@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: tsdoc
+# key: doc
+# --
+/**
+* $0
+`(save-excursion 
+;; \\(\\[a-zA-Z0-9_\\]+\\)\\(: *\\(\\[a-zA-Z0-9_\\]+\\)\\)?
+(let* ((pos-fun (re-search-forward "\\<\\(function\\|public\\|private\\|protected\\)\\s-*\.*(\\([^)]*\\))"))
+        (argstr (and pos-fun (match-string 2)))
+        (args (and pos-fun (split-string argstr ",\\s-*"))))
+    (loop with params = nil
+        for arg in args
+        for nump = (string-match "s$" arg)
+        for param = (if nump (format " * @param {} %s " arg)
+                        (format " * @param {} %s " arg))
+        do
+        (if (< 0 (length arg))
+            (push param params))
+        finally return
+        (mapconcat 'identity (reverse (cons " * @return " params)) "\n"))))`
+*/

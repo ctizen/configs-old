@@ -33,11 +33,17 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+(load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)
 (add-hook 'js2-mode-hook
            #'(lambda ()
                (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
                (define-key js2-mode-map "@" 'js-doc-insert-tag)))
+
+(require 'yasnippet)
+(yas-global-mode t)
+(add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+(yas-reload-all)
 
 ;; make eslint to be run from node_modules
 (defun my/use-eslint-from-node-modules ()
@@ -195,12 +201,11 @@
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (define-key tide-mode-map "\C-ci" 'js-doc-insert-function-doc)
-  (define-key tide-mode-map "@" 'js-doc-insert-tag)
 
   (set-face-attribute 'flycheck-error nil :foreground "black" :background "red")
   (eldoc-mode +1)
   (auto-complete-mode t)
+  (turn-on-auto-fill)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
