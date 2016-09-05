@@ -4,19 +4,29 @@
 # --
 /**
 * $0
-`(save-excursion 
-;; \\(\\[a-zA-Z0-9_\\]+\\)\\(: *\\(\\[a-zA-Z0-9_\\]+\\)\\)?
-(let* ((pos-fun (re-search-forward "\\<\\(function\\|public\\|private\\|protected\\)\\s-*\.*(\\([^)]*\\))"))
-        (argstr (and pos-fun (match-string 2)))
-        (args (and pos-fun (split-string argstr ",\\s-*"))))
+`
+(save-excursion 
+  (let* (
+         (fPos
+          (re-search-forward "\\<\\(function\\|public\\|private\\|protected\\)\\s-*\.*(\\([^)]*\\))")
+          )
+         (argStr (and fPos (match-string 2)))
+         (argList (and fPos (split-string argStr ",\\s-*")))
+         )
     (loop with params = nil
-        for arg in args
-        for nump = (string-match "s$" arg)
-        for param = (if nump (format " * @param {} %s " arg)
-                        (format " * @param {} %s " arg))
-        do
-        (if (< 0 (length arg))
-            (push param params))
-        finally return
-        (mapconcat 'identity (reverse (cons " * @return " params)) "\n"))))`
+          for arg in argList
+          do
+            (set 'argMatched (string-match "\\([^:]+\\)\\(: *\\(.+\\)\\)?$" arg))
+            (set 'pName (match-string 1 arg))
+            (set 'pType (match-string 3 arg))
+            (set 'param (format " * @param {%s} %s " (if pType pType "") pName))
+            (if (< 0 (length arg))
+              (push param params)
+            )
+          finally return
+          (mapconcat 'identity (reverse (cons " * @return " params)) "\n")
+          )
+    )
+    )
+`
 */
