@@ -26,6 +26,9 @@
 (setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*"
                            "*Messages*" "Async Shell Command"))
 
+(require 'fic-mode)
+(add-hook 'prog-mode-hook 'fic-mode)
+
 ;;(require 'moe-theme)
 ;;(moe-dark)
 ;;(moe-theme-set-color 'purple)
@@ -144,8 +147,10 @@
  '(ecb-method-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
  '(ecb-source-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
  '(ecb-tag-header-face ((t (:background "dark green"))))
+ '(fic-face ((t (:background "DarkGoldenrod2" :foreground "black" :box (:line-width 2 :color "DarkGoldenrod2" :style pressed-button) :weight bold))))
  '(flycheck-fringe-error ((t (:inherit error :background "red" :foreground "black" :weight bold :width extra-expanded))))
  '(flycheck-fringe-info ((t (:background "medium sea green" :foreground "black"))))
+ '(flycheck-warning ((t (:background "dark orange" :foreground "black"))))
  '(fringe ((t (:background "grey10" :weight bold :width extra-expanded))))
  '(git-gutter:added ((t (:background "lawn green" :foreground "#008700" :weight bold))))
  '(highlight ((t (:background "#4e4e4e" :foreground "plum"))))

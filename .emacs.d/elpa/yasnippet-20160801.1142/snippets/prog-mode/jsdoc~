@@ -5,15 +5,14 @@
 /**
 * $0
 `(save-excursion 
-;; \\(\\[a-zA-Z0-9_\\]+\\)\\(: *\\(\\[a-zA-Z0-9_\\]+\\)\\)?
 (let* ((pos-fun (re-search-forward "\\<\\(function\\|public\\|private\\|protected\\)\\s-*\.*(\\([^)]*\\))"))
         (argstr (and pos-fun (match-string 2)))
         (args (and pos-fun (split-string argstr ",\\s-*"))))
     (loop with params = nil
         for arg in args
-        for nump = (string-match "s$" arg)
-        for param = (if nump (format " * @param {} %s " arg)
-                        (format " * @param {} %s " arg))
+        for nump = (string-match "\\([a-zA-Z0-9_]+\\)\\(: *\\([a-zA-Z0-9_]+\\)\\)?" arg)
+        for param = (if nump (format " * @param {%s} %s " (match-string 3) (match-string 1))
+                        (format " * @param {} %s " (match-string 1)))
         do
         (if (< 0 (length arg))
             (push param params))
