@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: avatest
+# key: ava
+# --
+import test from 'ava';
+// import ...
+
+test('', (t) => {
+  const actual = '';
+  const expected = '';
+  t.deepEqual(actual, expected);
+});
