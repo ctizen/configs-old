@@ -110,6 +110,7 @@
  '(ecb-windows-height 0.15)
  '(ecb-windows-width 0.2)
  '(fringe-mode 14 nil (fringe))
+ '(git-gutter:modified-sign "%")
  '(git-gutter:update-interval 2)
  '(global-git-gutter-mode t)
  '(js2-basic-offset 2)
@@ -152,7 +153,8 @@
  '(flycheck-fringe-info ((t (:background "medium sea green" :foreground "black"))))
  '(flycheck-warning ((t (:background "dark orange" :foreground "black"))))
  '(fringe ((t (:background "grey10" :weight bold :width extra-expanded))))
- '(git-gutter:added ((t (:background "lawn green" :foreground "#008700" :weight bold))))
+ '(git-gutter:added ((t (:background "forest green" :foreground "black" :weight bold))))
+ '(git-gutter:modified ((t (:inherit default :background "tan3" :foreground "black" :weight bold))))
  '(highlight ((t (:background "#4e4e4e" :foreground "plum"))))
  '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
  '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold))))
@@ -210,7 +212,7 @@
   (set-face-attribute 'flycheck-error nil :foreground "black" :background "red")
   (eldoc-mode +1)
   (auto-complete-mode t)
-  (turn-on-auto-fill)
+;  (turn-on-auto-fill) ;; buggy!
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
