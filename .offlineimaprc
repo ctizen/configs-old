@@ -1,0 +1,20 @@
+[general]
+accounts = Zoho
+maxsyncaccounts = 3
+
+[Account Zoho]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/Mail
+
+[Repository Remote]
+type = IMAP
+remotehost = imappro.zoho.com
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+ssl = yes
+maxconnections = 1
+realdelete = no
+
