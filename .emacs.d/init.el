@@ -356,7 +356,17 @@ That is, a string used to represent it on the tab bar."
 (require 'mu4e-contrib)
 (setq mu4e-html2text-command 'mu4e-shr2text)
 
-;; something about ourselves
+;; Defaults for new messages
+(setq user-mail-address "me@ctizen.net"
+      user-full-name  "Oleg Klimenko"
+      mu4e-compose-signature
+      (concat
+        "Oleg Klimenko\n"
+        "Email: " user-mail-address "\n"
+        "Mobile: +7 913 725 6906\n"
+        "\n"))
+
+;; For replies we set corresponding "from:"
 (add-hook 'mu4e-compose-pre-hook
   (defun my-set-from-address ()
     "Set the From address based on the To address of the original."
@@ -385,6 +395,7 @@ That is, a string used to represent it on the tab bar."
 (require 'smtpmail)
 (setq message-send-mail-function 'smtpmail-send-it
     smtpmail-stream-type 'ssl
+    mail-host-address "ctizen.net"
     smtpmail-default-smtp-server "smtp.zoho.com"
     smtpmail-smtp-server "smtp.zoho.com"
     smtpmail-smtp-service 465)
