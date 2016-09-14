@@ -88,6 +88,17 @@
 (setq js-indent-level 2)
 (electric-indent-mode nil)
 (global-git-gutter-mode +1)
+
+(defun my-enable-smerge-maybe ()
+  (when (and buffer-file-name (vc-backend buffer-file-name))
+    (save-excursion
+      (goto-char (point-min))
+        (when (re-search-forward "^<<<<<<< " nil t)
+          (smerge-mode +1)
+          (flycheck-mode nil)
+          ))))
+(add-hook 'buffer-list-update-hook #'my-enable-smerge-maybe)
+
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-linum-mode 1)
 (git-gutter:linum-setup)
@@ -159,6 +170,8 @@
  '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
  '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold))))
  '(minibuffer-prompt ((t (:background "dark slate blue" :foreground "plum"))))
+ '(mode-line ((t (:background "saddle brown" :foreground "#EBDBB2" :box nil))))
+ '(smerge-base ((t (:background "#404000"))))
  '(tabbar-modified ((t (:inherit tabbar-unselected :foreground "aquamarine"))))
  '(tabbar-selected-modified ((t (:inherit tabbar-selected :foreground "aquamarine")))))
 
@@ -351,10 +364,15 @@ That is, a string used to represent it on the tab bar."
          ("/Trash" . ?t)))
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap")
+(setq mu4e-get-mail-command "offlineimap"
+      mu4e-update-interval 900
+      )
 
 (require 'mu4e-contrib)
 (setq mu4e-html2text-command 'mu4e-shr2text)
+
+(add-to-list 'mu4e-bookmarks
+  '("flag:flagged"       "Important (flagged)"     ?f))
 
 ;; Defaults for new messages
 (setq user-mail-address "me@ctizen.net"
