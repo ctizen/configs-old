@@ -126,6 +126,22 @@
  '(global-git-gutter-mode t)
  '(js2-basic-offset 2)
  '(js2-include-node-externs t)
+ '(mu4e-drafts-folder "/Drafts")
+ '(mu4e-headers-fields
+   (quote
+    ((:human-date . 12)
+     (:flags . 6)
+     (:mailing-list . 10)
+     (:maildir . 10)
+     (:from . 22)
+     (:subject))))
+ '(mu4e-html2text-command (quote mu4e-shr2text))
+ '(mu4e-mu-binary "~/.emacs.d/mu4e/mu-binary-mac")
+ '(mu4e-sent-folder "/Sent")
+ '(mu4e-sent-messages-behavior (quote delete))
+ '(mu4e-trash-folder "/Trash")
+ '(mu4e-update-interval 900)
+ '(mu4e-view-show-images t)
  '(projectile-global-mode t)
  '(projectile-globally-ignored-directories
    (quote
@@ -364,7 +380,7 @@ That is, a string used to represent it on the tab bar."
          ("/Trash" . ?t)))
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "ssh notepad@furiten.ru -p2022 offlineimap"
+(setq mu4e-get-mail-command "unison -auto -batch ~/Mail ssh://notepad@furiten.ru:2022//home/notepad/Mail"
       mu4e-update-interval 900
       )
 
