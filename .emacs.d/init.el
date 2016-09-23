@@ -364,7 +364,7 @@ That is, a string used to represent it on the tab bar."
          ("/Trash" . ?t)))
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap"
+(setq mu4e-get-mail-command "ssh notepad@furiten.ru -p2022 offlineimap"
       mu4e-update-interval 900
       )
 
