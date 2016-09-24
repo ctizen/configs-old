@@ -1,0 +1,15 @@
+#!/bin/bash
+
+offlineimap
+
+cd /home/notepad/Mail
+git add --all .
+git commit -m 'System update'
+if [ -z $? ]; then
+    git fetch
+    git rebase remotes/origin/master
+    git push origin master
+else
+    git pull -r origin master
+fi
+
