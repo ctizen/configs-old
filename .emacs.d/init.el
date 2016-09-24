@@ -206,9 +206,9 @@
 (set-frame-font "Terminus-13" nil t)
 ;; osx specific
 (when (eq system-type 'darwin)
-  (set-default-font "Roboto Mono Light for Powerline-13")
-  (set-face-attribute 'default t :font "Roboto Mono Light for Powerline-13" )
-  (set-frame-font "Roboto Mono Light for Powerline-13" nil t)
+  (set-default-font "Terminus (TTF) for Powerline-16")
+  (set-face-attribute 'default t :font "Terminus (TTF) for Powerline-16" )
+  (set-frame-font "Terminus (TTF) for Powerline-16" nil t)
 )
 
 ;; Projectile project manager
