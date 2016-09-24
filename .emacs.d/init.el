@@ -380,7 +380,7 @@ That is, a string used to represent it on the tab bar."
          ("/Trash" . ?t)))
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "unison -auto -batch ~/Mail ssh://notepad@furiten.ru:2022//home/notepad/Mail"
+(setq mu4e-get-mail-command "~/.emacs.d/fetch.sh"
       mu4e-update-interval 900
       )
 
