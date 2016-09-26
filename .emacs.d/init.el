@@ -107,6 +107,8 @@
 (setq js-indent-level 2)
 (electric-indent-mode nil)
 (global-git-gutter-mode +1)
+(set-face-background 'mode-line "saddle brown")
+(set-face-foreground 'mode-line "#EBDBB2")
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-linum-mode 1)
 (git-gutter:linum-setup)
@@ -118,6 +120,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(browse-url-browser-function (quote browse-url-chromium))
  '(custom-enabled-themes (quote (darktooth)))
  '(custom-safe-themes
    (quote
