@@ -76,6 +76,25 @@
 ;(eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup))
 ;(eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'my/use-tslint-from-node-modules))
 
+;; Smerge mode shortcut
+(setq my-toggle-smerge-state nil)
+(defun my-toggle-smerge ()
+  (interactive)
+  (if my-toggle-smerge-state
+    (progn
+      (smerge-mode -1)
+      (flycheck-mode +1)
+      (setq my-toggle-smerge-state nil)
+      )
+    (progn
+      (smerge-mode +1)
+      (flycheck-mode -1)
+      (setq my-toggle-smerge-state t)
+      )
+    )
+  )
+(global-set-key (kbd "C-c m") #'my-toggle-smerge)
+
 (defvar *my-ecb-layout-name* "top1")
 (when (eq system-type 'darwin)
     (setq *my-ecb-layout-name* "left2"))
@@ -88,17 +107,6 @@
 (setq js-indent-level 2)
 (electric-indent-mode nil)
 (global-git-gutter-mode +1)
-
-(defun my-enable-smerge-maybe ()
-  (when (and buffer-file-name (vc-backend buffer-file-name))
-    (save-excursion
-      (goto-char (point-min))
-        (when (re-search-forward "^<<<<<<< " nil t)
-          (smerge-mode +1)
-          (flycheck-mode nil)
-          ))))
-(add-hook 'buffer-list-update-hook #'my-enable-smerge-maybe)
-
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-linum-mode 1)
 (git-gutter:linum-setup)
