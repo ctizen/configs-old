@@ -36,6 +36,14 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
+;; Helm
+;; If async is installed
+(add-to-list 'load-path "~/.emacs.d/vendor/helm")
+(add-to-list 'load-path "~/.emacs.d/vendor/emacs-async")
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
 (load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)
 (add-hook 'js2-mode-hook
@@ -124,7 +132,6 @@
  '(ecb-layout-name "left14")
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
- '(ecb-source-path (quote ("~/projects/")))
  '(ecb-windows-height 0.15)
  '(ecb-windows-width 0.2)
  '(fringe-mode 14 nil (fringe))
@@ -150,7 +157,6 @@
  '(mu4e-trash-folder "/Trash")
  '(mu4e-update-interval 900)
  '(mu4e-view-show-images t)
- '(projectile-global-mode t)
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
@@ -172,6 +178,21 @@
 (require 'auto-indent-mode)
 
 (setq ecb-tip-of-the-day nil)
+
+; Ecb auto root path depending on projectile
+
+(defvar default-ecb-source-path (list '("~/projects" "Workspace")))
+(customize-set-variable 'ecb-source-path default-ecb-source-path)
+;(defvar project-ecb-source-path '())
+;(add-hook 'ecb-basic-buffer-sync-hook
+;          (lambda ()
+;            (when (functionp 'projectile-get-project-directories)
+;              (when (projectile-project-p)
+;                (dolist (path-dir (projectile-get-project-directories))
+;                  (unless (member (list path-dir path-dir) project-ecb-source-path)
+;                    (push (list path-dir path-dir) project-ecb-source-path)
+;                    (customize-set-variable 'ecb-source-path project-ecb-source-path)
+;                    ))))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
