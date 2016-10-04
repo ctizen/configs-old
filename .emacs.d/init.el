@@ -95,10 +95,6 @@
   )
 (global-set-key (kbd "C-c m") #'my-toggle-smerge)
 
-(defvar *my-ecb-layout-name* "top1")
-(when (eq system-type 'darwin)
-    (setq *my-ecb-layout-name* "left2"))
-
 ;; Manually set params
 (global-auto-complete-mode t)
 (global-auto-revert-mode t)
@@ -125,7 +121,7 @@
  '(custom-safe-themes
    (quote
     ("e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
- '(ecb-layout-name *my-ecb-layout-name*)
+ '(ecb-layout-name "left14")
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
  '(ecb-source-path (quote ("~/projects/")))
@@ -137,6 +133,7 @@
  '(global-git-gutter-mode t)
  '(js2-basic-offset 2)
  '(js2-include-node-externs t)
+ '(line-spacing 0.2)
  '(mu4e-drafts-folder "/Drafts")
  '(mu4e-headers-fields
    (quote
@@ -159,6 +156,8 @@
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
  '(projectile-globally-ignored-file-suffixes nil)
  '(projectile-globally-ignored-files (quote ("TAGS")))
+ '(ps-line-spacing 0)
+ '(ps-paragraph-spacing 0)
  '(show-paren-mode t)
  '(tabbar-mode t nil (tabbar))
  '(tabbar-mwheel-mode t nil (tabbar))
