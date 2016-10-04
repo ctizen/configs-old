@@ -36,13 +36,13 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-;; Helm
+;; Helm & ag
 ;; If async is installed
 (add-to-list 'load-path "~/.emacs.d/vendor/helm")
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-async")
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x a") 'ag-project)
 
 (load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)

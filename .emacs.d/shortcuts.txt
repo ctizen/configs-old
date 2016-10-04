@@ -1,0 +1,19 @@
+doc<tab>   -> [jt]sdoc auto insert (by yasnippet)
+ava<tab>   -> ava test header auto insert (by yasnippet)
+C-;        -> batch rename (may be necessary to run M-x iedit-mode before that)
+M-x tide-references   -> find all typescript symbol refs
+M-x artist-mode       -> draw some ascii
+C-x C-a C-o           -> select shape in artist mode
+C-x a                 -> ag search in project
+
+mu4e:
++  flag message as important
+!  flag message as read
+?  flag message as unread
+
+dired:
++  add folder
+R  move file/folder
+d  mark for deletion
+u  unmark all
+x  execute marks
