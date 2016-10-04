@@ -42,7 +42,8 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-async")
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x a") 'ag-project)
+(global-set-key (kbd "C-c C-a") 'helm-projectile-ag)
+(global-set-key (kbd "C-c a") 'helm-projectile-find-file)
 
 (load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)
