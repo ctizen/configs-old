@@ -10,6 +10,7 @@ C-c C-a               -> ag search in project
 C-c a                 -> ag find files in project
 
 C-x C-p               -> select all text in buffer
+C-x C-r               -> show recent files dialog
 
 mu4e:
 +  flag message as important
