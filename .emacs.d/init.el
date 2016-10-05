@@ -15,6 +15,9 @@
 ;;(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
 ;;(semantic-load-enable-code-helpers)
 
+;; Fix brew issues on osx
+(exec-path-from-shell-initialize)
+
 (setq ns-use-srgb-colorspace nil) ;; for nice powerline arrows
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
