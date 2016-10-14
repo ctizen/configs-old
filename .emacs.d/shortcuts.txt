@@ -8,9 +8,11 @@ C-x C-a C-o           -> select shape in artist mode
 
 C-c C-a               -> ag search in project
 C-c a                 -> ag find files in project
+C-c m                 -> git merge mode
 
 C-x C-p               -> select all text in buffer
 C-x C-r               -> show recent files dialog
+C-x v g               -> git blame
 
 mu4e:
 +  flag message as important

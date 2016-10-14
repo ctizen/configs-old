@@ -12,6 +12,73 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (run-at-time nil (* 5 60) 'recentf-save-list)
 
+(defvar *my-browser* 'browse-url-chromium)
+(when (eq system-type 'darwin)
+    (setq *my-browser* 'browse-url-default-macosx-browser))
+
+(require 'popwin)
+(popwin-mode 1)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(browse-url-browser-function *my-browser*)
+ '(custom-enabled-themes (quote (darktooth)))
+ '(custom-safe-themes
+   (quote
+    ("5a0930a84612f861bb5e98999a50ec6ef7995676c7330aac9b8deda1aaa45f83" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
+ '(ecb-layout-name "left14")
+ '(ecb-layout-window-sizes nil)
+ '(ecb-options-version "2.40")
+ '(ecb-windows-height 0.15)
+ '(ecb-windows-width 0.2)
+ '(fringe-mode 14 nil (fringe))
+ '(git-gutter:modified-sign "%")
+ '(git-gutter:update-interval 2)
+ '(global-git-gutter-mode t)
+ '(helm-always-two-windows t)
+ '(helm-autoresize-mode t)
+ '(js2-basic-offset 2)
+ '(js2-include-node-externs t)
+ '(line-spacing 0.2)
+ '(mu4e-drafts-folder "/Drafts")
+ '(mu4e-headers-fields
+   (quote
+    ((:human-date . 12)
+     (:flags . 6)
+     (:mailing-list . 10)
+     (:maildir . 10)
+     (:from . 22)
+     (:subject))))
+ '(mu4e-html2text-command (quote mu4e-shr2text))
+ '(mu4e-mu-binary "~/.emacs.d/mu4e/mu-binary-mac")
+ '(mu4e-sent-folder "/Sent")
+ '(mu4e-sent-messages-behavior (quote delete))
+ '(mu4e-trash-folder "/Trash")
+ '(mu4e-update-interval 900)
+ '(mu4e-view-show-images t)
+ '(package-selected-packages
+   (quote
+    (popwin yafolding web-mode tide tabbar rich-minority restclient moe-theme markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb dracula-theme darktooth-theme ctags-update company color-theme-solarized color-theme-sanityinc-tomorrow color-theme-modern calfw auto-indent-mode ag ac-php ac-etags)))
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
+ '(projectile-globally-ignored-file-suffixes nil)
+ '(projectile-globally-ignored-files (quote ("TAGS")))
+ '(ps-line-spacing 0)
+ '(ps-paragraph-spacing 0)
+ '(show-paren-mode t)
+ '(tabbar-mode t nil (tabbar))
+ '(tabbar-mwheel-mode t nil (tabbar))
+ '(tabbar-separator (quote (0.5)))
+ '(tool-bar-mode nil)
+ '(typescript-expr-indent-offset 0)
+ '(typescript-indent-level 2))
+
+(desktop-save-mode 1)
+
 ;;(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
 ;;(semantic-load-enable-code-helpers)
 
@@ -41,7 +108,15 @@
 ;;(require 'moe-theme)
 ;;(moe-dark)
 ;;(moe-theme-set-color 'purple)
-(load-theme 'darktooth t)
+(defun load-my-theme (frame)
+  (select-frame frame)
+  (setq sml/no-confirm-load-theme t)
+  (load-theme 'darktooth t))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions #'load-my-theme)
+  (load-theme 'darktooth t))
+
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
@@ -52,7 +127,8 @@
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-c C-a") 'helm-projectile-ag)
-(global-set-key (kbd "C-c a") 'helm-projectile-find-file)
+(global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
+(global-set-key (kbd "C-c a") 'helm-find-file)
 
 (load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)
@@ -113,9 +189,6 @@
   )
 (global-set-key (kbd "C-c m") #'my-toggle-smerge)
 
-(defvar *my-browser* 'browse-url-chromium)
-(when (eq system-type 'darwin)
-    (setq *my-browser* 'browse-url-default-macosx-browser))
 
 ;; Manually set params
 (global-auto-complete-mode t)
@@ -133,58 +206,6 @@
 (global-unset-key (kbd "C-z"))
 (global-set-key "\C-x\C-z" nil)
 (global-set-key (kbd "C-x C-z") nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(browse-url-browser-function *my-browser*)
- '(custom-enabled-themes (quote (darktooth)))
- '(custom-safe-themes
-   (quote
-    ("e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
- '(ecb-layout-name "left14")
- '(ecb-layout-window-sizes nil)
- '(ecb-options-version "2.40")
- '(ecb-windows-height 0.15)
- '(ecb-windows-width 0.2)
- '(fringe-mode 14 nil (fringe))
- '(git-gutter:modified-sign "%")
- '(git-gutter:update-interval 2)
- '(global-git-gutter-mode t)
- '(js2-basic-offset 2)
- '(js2-include-node-externs t)
- '(line-spacing 0.2)
- '(mu4e-drafts-folder "/Drafts")
- '(mu4e-headers-fields
-   (quote
-    ((:human-date . 12)
-     (:flags . 6)
-     (:mailing-list . 10)
-     (:maildir . 10)
-     (:from . 22)
-     (:subject))))
- '(mu4e-html2text-command (quote mu4e-shr2text))
- '(mu4e-mu-binary "~/.emacs.d/mu4e/mu-binary-mac")
- '(mu4e-sent-folder "/Sent")
- '(mu4e-sent-messages-behavior (quote delete))
- '(mu4e-trash-folder "/Trash")
- '(mu4e-update-interval 900)
- '(mu4e-view-show-images t)
- '(projectile-globally-ignored-directories
-   (quote
-    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
- '(projectile-globally-ignored-file-suffixes nil)
- '(projectile-globally-ignored-files (quote ("TAGS")))
- '(ps-line-spacing 0)
- '(ps-paragraph-spacing 0)
- '(show-paren-mode t)
- '(tabbar-mode t nil (tabbar))
- '(tabbar-mwheel-mode t nil (tabbar))
- '(tabbar-separator (quote (0.5)))
- '(tool-bar-mode nil)
- '(typescript-expr-indent-offset 0)
- '(typescript-indent-level 2))
 
 (require 'git)
 (require 'git-blame)
@@ -247,6 +268,7 @@
 (tool-bar-mode -1)
 
 (set-default-font "Terminus-13")
+(add-to-list 'default-frame-alist '(font . "Terminus-13"))
 (set-face-attribute 'default t :font "Terminus-13" )
 (set-frame-font "Terminus-13" nil t)
 ;; osx specific
