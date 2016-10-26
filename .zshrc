@@ -62,7 +62,7 @@ export LC_TELEPHONE="ru_RU.UTF-8"
 export LC_MEASUREMENT="ru_RU.UTF-8"
 export LC_IDENTIFICATION="ru_RU.UTF-8"
 
-alias fr="git fr"
+alias fr="git forest --all --style=10 --topo-order --pretty=format:' %s %C(blue)%an %C(red)%h%C(reset)' | less -R"
 alias s="git s"
 alias reupload="git reupload"
 alias f="git f"

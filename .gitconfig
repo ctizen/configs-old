@@ -36,7 +36,6 @@
  r=remote
  s=commit --dry-run --short
  pu=push
- fr=!sh -c 'git forest --all --sha | less -R'
  e=edit
 
 # add and the staging area
