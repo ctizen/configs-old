@@ -19,6 +19,8 @@
 (require 'popwin)
 (popwin-mode 1)
 
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -86,8 +88,12 @@
 (exec-path-from-shell-initialize)
 
 (setq ns-use-srgb-colorspace nil) ;; for nice powerline arrows
+
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
 (require 'powerline)
+
+(add-to-list 'load-path "~/.emacs.d/vendor/minibuffer-fix")
+(require 'minibuffer-fix)
 
 (require 'flycheck)
 (setq ecb-tip-of-the-day nil)

@@ -485,6 +485,9 @@ globalkeys = awful.util.table.join(
     end),
 
     -- Layout manipulation
+    awful.key({modkey,            }, "F1",     function () awful.screen.focus(2) end),
+    awful.key({modkey,            }, "F2",     function () awful.screen.focus(3) end),
+    awful.key({modkey,            }, "F3",     function () awful.screen.focus(1) end),
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
@@ -751,7 +754,7 @@ client.connect_signal("manage", function (c, startup)
         layout:set_right(right_layout)
         layout:set_middle(middle_layout)
 
-        awful.titlebar(c,{size=16}):set_widget(layout)
+        awful.titlebar(c,{size=12}):set_widget(layout)
     end
 end)
 

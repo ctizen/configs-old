@@ -30,3 +30,7 @@ xdg-mime default google-chrome.desktop x-scheme-handler/https
 
 /usr/local/bin/set_ru_map
 
+# remap right alt to normal alt
+xmodmap -e "clear mod5"
+xmodmap -e "keycode 108 = Alt_L"
+
