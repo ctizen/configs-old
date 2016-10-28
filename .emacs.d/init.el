@@ -133,8 +133,8 @@
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-c C-a") 'helm-projectile-ag)
-(global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
-(global-set-key (kbd "C-c a") 'helm-find-file)
+(global-set-key (kbd "C-c a") (lambda () (interactive) (helm-projectile-find-file-dwim)))
+(global-set-key (kbd "C-c C-f") 'helm-find-files)
 
 (load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)
@@ -337,7 +337,11 @@
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
+              (setup-tide-mode))
+            (define-key web-mode-map (kbd "C-c C-f") nil)
+            (define-key web-mode-map (kbd "C-c C-a") nil)
+            (define-key web-mode-map (kbd "C-c a") nil)
+            ))
 
 (require 'yafolding)
 (add-hook 'prog-mode-hook
