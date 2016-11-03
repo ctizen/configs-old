@@ -30,10 +30,10 @@
  '(custom-enabled-themes (quote (darktooth)))
  '(custom-safe-themes
    (quote
-    ("5a0930a84612f861bb5e98999a50ec6ef7995676c7330aac9b8deda1aaa45f83" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
+    ("0eea76fe89061a7f6da195f4a976c0b91150de987b942fac2dd10992aea33833" "5a0930a84612f861bb5e98999a50ec6ef7995676c7330aac9b8deda1aaa45f83" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
  '(ecb-layout-name "left14")
  '(ecb-layout-window-sizes nil)
- '(ecb-options-version "2.40")
+ '(ecb-options-version "2.50")
  '(ecb-windows-height 0.15)
  '(ecb-windows-width 0.2)
  '(fringe-mode 14 nil (fringe))
@@ -63,7 +63,7 @@
  '(mu4e-view-show-images t)
  '(package-selected-packages
    (quote
-    (popwin yafolding web-mode tide tabbar rich-minority restclient moe-theme markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb dracula-theme darktooth-theme ctags-update company color-theme-solarized color-theme-sanityinc-tomorrow color-theme-modern calfw auto-indent-mode ag ac-php ac-etags)))
+    (mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
@@ -329,11 +329,26 @@
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; format options
-(setq tide-format-options '(:indentSize 2 :tabSize 2 :insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+(setq tide-format-options '(
+        :indentSize 2
+        :tabSize 2
+        :insertSpaceAfterCommaDelimiter t
+        :insertSpaceAfterSemicolonInForStatements t
+        :insertSpaceBeforeAndAfterBinaryOperators t
+        :insertSpaceAfterKeywordsInControlFlowStatements t
+        :insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+        :insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis nil
+        :insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets nil
+        :insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces nil
+        :insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces nil
+        :placeOpenBraceOnNewLineForFunctions nil
+        :placeOpenBraceOnNewLineForControlBlocks nil
+))
 
 (require 'web-mode)
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
@@ -341,6 +356,9 @@
             (define-key web-mode-map (kbd "C-c C-f") nil)
             (define-key web-mode-map (kbd "C-c C-a") nil)
             (define-key web-mode-map (kbd "C-c a") nil)
+            (setq web-mode-markup-indent-offset 2)
+            (setq web-mode-css-indent-offset 2)
+            (setq web-mode-code-indent-offset 2)
             ))
 
 (require 'yafolding)
