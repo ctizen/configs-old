@@ -706,6 +706,9 @@ awful.rules.rules = {
 -- signal function to execute when a new client appears.
 local sloppyfocus_last = {c=nil}
 client.connect_signal("manage", function (c, startup)
+  --  awful.client.movetoscreen(c, client.focus.screen)
+    awful.client.movetoscreen(c, mouse.screen)
+
     -- Enable sloppy focus
     client.connect_signal("mouse::enter", function(c)
          if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
