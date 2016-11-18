@@ -19,23 +19,52 @@
 (require 'popwin)
 (popwin-mode 1)
 
+;; Color themes
+(defvar *selected-theme-name* 'alect-dark)
 
+(defun load-my-theme (frame)
+  (select-frame frame)
+  (setq sml/no-confirm-load-theme t)
+  (load-theme *selected-theme-name* t))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions #'load-my-theme)
+  (load-theme *selected-theme-name* t))
+
+;; Fonts
+(set-frame-font "Terminus-11")
+(add-to-list 'default-frame-alist '(font . "Terminus-11"))
+(set-face-attribute 'default t :font "Terminus-11" )
+(set-frame-font "Terminus-11" nil t)
+;; osx specific
+(when (eq system-type 'darwin)
+  (set-frame-font "Terminus (TTF) for Powerline-16")
+  (set-face-attribute 'default t :font "Terminus (TTF) for Powerline-16" )
+  (set-frame-font "Terminus (TTF) for Powerline-16" nil t)
+)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
  '(browse-url-browser-function *my-browser*)
- '(custom-enabled-themes (quote (darktooth)))
  '(custom-safe-themes
    (quote
-    ("0eea76fe89061a7f6da195f4a976c0b91150de987b942fac2dd10992aea33833" "5a0930a84612f861bb5e98999a50ec6ef7995676c7330aac9b8deda1aaa45f83" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
+    ("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "0eea76fe89061a7f6da195f4a976c0b91150de987b942fac2dd10992aea33833" "5a0930a84612f861bb5e98999a50ec6ef7995676c7330aac9b8deda1aaa45f83" "e8a976fbc7710b60b069f27f5b2f1e216ec8d228fe5091f677717d6375d2669f" "345f8f92edc3508574c61850b98a2e0a7a3f5ba3bb9ed03a50f6e41546fe2de0" default)))
  '(ecb-layout-name "left14")
  '(ecb-layout-window-sizes nil)
+ '(ecb-minor-mode-text "")
  '(ecb-options-version "2.50")
+ '(ecb-source-path (quote (("~/projects" "Workspace"))))
+ '(ecb-tip-of-the-day nil)
  '(ecb-windows-height 0.15)
  '(ecb-windows-width 0.2)
+ '(fci-rule-color "#d6d6d6")
  '(fringe-mode 14 nil (fringe))
  '(git-gutter:modified-sign "%")
  '(git-gutter:update-interval 2)
@@ -63,7 +92,9 @@
  '(mu4e-view-show-images t)
  '(package-selected-packages
    (quote
-    (mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag)))
+    (alect-themes afternoon-theme color-theme-sanityinc-solarized mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag)))
+ '(pos-tip-background-color "color-23")
+ '(pos-tip-foreground-color "color-230")
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules" "vendor" "bin" "assets")))
@@ -72,12 +103,35 @@
  '(ps-line-spacing 0)
  '(ps-paragraph-spacing 0)
  '(show-paren-mode t)
+ '(solarized-termcolors 256)
  '(tabbar-mode t nil (tabbar))
  '(tabbar-mwheel-mode t nil (tabbar))
  '(tabbar-separator (quote (0.5)))
  '(tool-bar-mode nil)
  '(typescript-expr-indent-offset 0)
- '(typescript-indent-level 2))
+ '(typescript-indent-level 2)
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#c82829")
+     (40 . "#f5871f")
+     (60 . "#eab700")
+     (80 . "#718c00")
+     (100 . "#3e999f")
+     (120 . "#4271ae")
+     (140 . "#8959a8")
+     (160 . "#c82829")
+     (180 . "#f5871f")
+     (200 . "#eab700")
+     (220 . "#718c00")
+     (240 . "#3e999f")
+     (260 . "#4271ae")
+     (280 . "#8959a8")
+     (300 . "#c82829")
+     (320 . "#f5871f")
+     (340 . "#eab700")
+     (360 . "#718c00"))))
+ '(vc-annotate-very-old-color nil))
 
 (desktop-save-mode 1)
 
@@ -88,9 +142,6 @@
 (exec-path-from-shell-initialize)
 
 (setq ns-use-srgb-colorspace nil) ;; for nice powerline arrows
-
-(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
-(require 'powerline)
 
 (add-to-list 'load-path "~/.emacs.d/vendor/minibuffer-fix")
 (require 'minibuffer-fix)
@@ -111,19 +162,6 @@
 (require 'fic-mode)
 (add-hook 'prog-mode-hook 'fic-mode)
 
-;;(require 'moe-theme)
-;;(moe-dark)
-;;(moe-theme-set-color 'purple)
-(defun load-my-theme (frame)
-  (select-frame frame)
-  (setq sml/no-confirm-load-theme t)
-  (load-theme 'darktooth t))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions #'load-my-theme)
-  (load-theme 'darktooth t))
-
-
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; Helm & ag
@@ -135,6 +173,10 @@
 (global-set-key (kbd "C-c C-a") 'helm-projectile-ag)
 (global-set-key (kbd "C-c a") (lambda () (interactive) (helm-projectile-find-file-dwim)))
 (global-set-key (kbd "C-c C-f") 'helm-find-files)
+
+;; Split window resizing
+(global-set-key (kbd "<f5>") 'enlarge-window)
+(global-set-key (kbd "<f6>") 'enlarge-window-horizontally)
 
 (load-file "~/.emacs.d/js-doc.el")
 (require 'js-doc)
@@ -204,8 +246,8 @@
 (setq js-indent-level 2)
 (electric-indent-mode nil)
 (global-git-gutter-mode +1)
-(set-face-background 'mode-line "saddle brown")
-(set-face-foreground 'mode-line "#EBDBB2")
+;(set-face-background 'mode-line "saddle brown")
+;(set-face-foreground 'mode-line "#EBDBB2")
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (global-linum-mode 1)
 (git-gutter:linum-setup)
@@ -240,14 +282,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ecb-analyse-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
- '(ecb-default-highlight-face ((t (:background "dark violet"))))
- '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
- '(ecb-history-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
- '(ecb-method-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
- '(ecb-source-face ((t (:inherit ecb-default-highlight-face :background "dark violet"))))
- '(ecb-tag-header-face ((t (:background "dark green"))))
+ '(ecb-analyse-face ((t (:inherit ecb-default-highlight-face :background "dark magenta"))))
+ '(ecb-default-highlight-face ((t (:background "dark magenta"))))
  '(fic-face ((t (:background "DarkGoldenrod2" :foreground "black" :box (:line-width 2 :color "DarkGoldenrod2" :style pressed-button) :weight bold))))
+ '(flycheck-error ((t (:background "red" :foreground "black"))))
  '(flycheck-fringe-error ((t (:inherit error :background "red" :foreground "black" :weight bold :width extra-expanded))))
  '(flycheck-fringe-info ((t (:background "medium sea green" :foreground "black"))))
  '(flycheck-warning ((t (:background "dark orange" :foreground "black"))))
@@ -258,7 +296,6 @@
  '(js2-error ((t (:background "red" :foreground "black" :weight bold))))
  '(js2-external-variable ((t (:background "orange" :foreground "black" :weight bold))))
  '(minibuffer-prompt ((t (:background "dark slate blue" :foreground "plum"))))
- '(mode-line ((t (:background "saddle brown" :foreground "#EBDBB2" :box nil))))
  '(smerge-base ((t (:background "#404000"))))
  '(tabbar-modified ((t (:inherit tabbar-unselected :foreground "aquamarine"))))
  '(tabbar-selected-modified ((t (:inherit tabbar-selected :foreground "aquamarine")))))
@@ -272,17 +309,6 @@
 (transient-mark-mode 1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-
-(set-default-font "Terminus-13")
-(add-to-list 'default-frame-alist '(font . "Terminus-13"))
-(set-face-attribute 'default t :font "Terminus-13" )
-(set-frame-font "Terminus-13" nil t)
-;; osx specific
-(when (eq system-type 'darwin)
-  (set-default-font "Terminus (TTF) for Powerline-16")
-  (set-face-attribute 'default t :font "Terminus (TTF) for Powerline-16" )
-  (set-frame-font "Terminus (TTF) for Powerline-16" nil t)
-)
 
 ;; Projectile project manager
 (projectile-global-mode)

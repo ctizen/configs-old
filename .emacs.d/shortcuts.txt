@@ -10,6 +10,8 @@ C-c C-a               -> ag search in project
 C-c a                 -> ag find files in project
 C-c m                 -> git merge mode
 
+C-c C-f               -> find files with helm
+
 C-x C-p               -> select all text in buffer
 C-x C-r               -> show recent files dialog
 C-x v g               -> git blame
