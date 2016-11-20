@@ -8,6 +8,13 @@
 (define-key global-map [select] 'end-of-line)
 (exec-path-from-shell-initialize) ;; Fix brew issues on osx
 
+;; Tmp files settings
+(setq temporary-file-directory "~/.emacs.d/tmp")
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 (setq ns-use-srgb-colorspace nil) ;; for nice powerline arrows
 (setq ring-bell-function 'ignore) ;; dont beep
 (setq-default indent-tabs-mode nil)
