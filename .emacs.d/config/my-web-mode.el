@@ -1,6 +1,9 @@
 (require 'web-mode)
+
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(setf (cdr (rassoc 'html-mode auto-mode-alist)) 'web-mode)
+(setf (cdr (rassoc 'css-mode auto-mode-alist)) 'web-mode)
+
 (add-hook 'web-mode-hook
           (lambda ()
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
