@@ -4,7 +4,7 @@
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/config/")
-(load-library "my-recent")
+;; (load-library "my-recent") ;; Uncomment if recent files list is required
 (load-library "my-colorthemes")
 (load-library "my-fonts")
 (load-library "my-helm-and-ag")
