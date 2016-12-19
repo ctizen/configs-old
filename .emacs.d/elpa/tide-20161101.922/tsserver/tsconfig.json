@@ -5,7 +5,7 @@
     "lib.d.ts",
     "lib.dom.d.ts",
     "lib.es6.d.ts",
-    "lib.scriptHost.d.ts",
+    "lib.scripthost.d.ts",
     "lib.webworker.d.ts"
   ]
 }
