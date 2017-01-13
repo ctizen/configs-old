@@ -9,11 +9,15 @@
 (exec-path-from-shell-initialize) ;; Fix brew issues on osx
 
 ;; Tmp files settings
-(setq temporary-file-directory "~/.emacs.d/tmp")
+;; Save all tempfiles in $TMPDIR/emacs$UID/
+(defconst emacs-tmp-dir (format "%s%s%s/" temporary-file-directory "emacs" (user-uid)))
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+      `((".*" . ,emacs-tmp-dir)))
 (setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+      `((".*" ,emacs-tmp-dir t)))
+(setq auto-save-list-file-prefix
+      emacs-tmp-dir)
+(setq create-lockfiles nil) ;; assume that nobody will edit files in same time
 
 (setq ns-use-srgb-colorspace nil) ;; for nice powerline arrows
 (setq ring-bell-function 'ignore) ;; dont beep

@@ -4,6 +4,7 @@
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  ;;(setq tide-tsserver-executable "/usr/bin/tsserver") ;; use global tsserver
 
   (set-face-attribute 'flycheck-error nil :foreground "black" :background "red")
   (eldoc-mode +1)
@@ -23,6 +24,8 @@
 (setq tide-format-options '(
         :indentSize 2
         :tabSize 2
+        :convertTabsToSpaces t
+        :indentStyle 2 ;; smart indent style
         :insertSpaceAfterCommaDelimiter t
         :insertSpaceAfterSemicolonInForStatements t
         :insertSpaceBeforeAndAfterBinaryOperators t
