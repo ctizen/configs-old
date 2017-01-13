@@ -6,25 +6,27 @@
 (setq tabbar-mode t)
 (setq tabbar-mwheel-mode t)
 (setq tabbar-separator (quote (0.5)))
+(setq tabbar-background-color "black")
+(setq tabbar-use-images nil)
 
 ; define all tabs to be one of 3 possible groups: “Emacs Buffer”, “Dired”,
 ;“User Buffer”.
 ;; Tabbar settings
 (set-face-attribute 'tabbar-default nil
                     :family *selected-font-family*
-                    :background "gray20"
-                    :foreground "gray20"
-                    :box '(:line-width 1 :color "gray20" :style nil))
+                    :background "black"
+                    :foreground "black"
+                    :box '(:line-width 1 :color "black" :style nil))
 (set-face-attribute 'tabbar-unselected nil
+                    :family *selected-font-family*
+                    :background "black"
+                    :foreground "white"
+                    :box '(:line-width 5 :color "black" :style nil))
+(set-face-attribute 'tabbar-selected nil
                     :family *selected-font-family*
                     :background "gray30"
                     :foreground "white"
                     :box '(:line-width 5 :color "gray30" :style nil))
-(set-face-attribute 'tabbar-selected nil
-                    :family *selected-font-family*
-                    :background "gray50"
-                    :foreground "white"
-                    :box '(:line-width 5 :color "gray50" :style nil))
 (set-face-attribute 'tabbar-highlight nil
                     :family *selected-font-family*
                     :background "purple"
