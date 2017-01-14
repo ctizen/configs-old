@@ -21,7 +21,7 @@
 (load-library "my-misc-settings")
 (load-library "my-ecb")
 (load-library "my-git")
-
+(load-library "my-clean-modeline")
 
 ;; Customs
 (custom-set-variables
