@@ -45,11 +45,18 @@
  '(ecb-windows-width 0.2)
  '(package-selected-packages
    (quote
-    (pretty-symbols tide alect-themes afternoon-theme color-theme-sanityinc-solarized mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag))))
+    (pretty-symbols tide alect-themes afternoon-theme color-theme-sanityinc-solarized mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag)))
+ '(tabbar-background-color "black")
+ '(tabbar-mode t nil (tabbar))
+ '(tabbar-mwheel-mode t nil (tabbar))
+ '(tabbar-use-images nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ecb-default-highlight-face ((t (:background "dark magenta")))))
+ '(ecb-default-highlight-face ((t (:background "dark magenta"))))
+ '(tabbar-modified ((t (:inherit tabbar-unselected :foreground "aquamarine"))))
+ '(tabbar-selected-modified ((t (:inherit tabbar-selected :foreground "aquamarine"))))
+ '(tabbar-unselected ((t (:inherit alect-tab-unselected :background "black" :foreground "white" :box (:line-width 5 :color "black") :family "PragmataPro")))))
