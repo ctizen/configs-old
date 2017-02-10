@@ -16,6 +16,7 @@
 (load-library "my-web-mode")
 (load-library "my-tabbar")
 (load-library "my-mailer")
+(load-library "my-dired")
 (load-library "my-flycheck")
 (load-library "my-projectile")
 (load-library "my-keybindings")
