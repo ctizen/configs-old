@@ -3,6 +3,8 @@
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
+(server-start)
+
 (add-to-list 'load-path "~/.emacs.d/config/")
 ;; (load-library "my-recent") ;; Uncomment if recent files list is required
 (load-library "my-colorthemes")
@@ -45,7 +47,7 @@
  '(ecb-windows-width 0.2)
  '(package-selected-packages
    (quote
-    (pretty-symbols tide alect-themes afternoon-theme color-theme-sanityinc-solarized mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag)))
+    (yaml-mode dockerfile-mode pretty-symbols tide alect-themes afternoon-theme color-theme-sanityinc-solarized mew popwin web-mode tabbar rich-minority restclient markdown-preview-mode magit-popup js3-mode js2-mode js-doc iedit helm-projectile helm-ag git-gutter git-commit git-blame git flymake-php find-file-in-repository fic-mode exec-path-from-shell ecb darktooth-theme ctags-update color-theme-solarized color-theme-modern calfw auto-indent-mode ag)))
  '(tabbar-background-color "black")
  '(tabbar-mode t nil (tabbar))
  '(tabbar-mwheel-mode t nil (tabbar))
