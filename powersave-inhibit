@@ -1,0 +1,60 @@
+#!/bin/bash
+# check if program is used and if not, enable power management (Xfce)
+ 
+run=1
+inhibit=0
+ 
+function check_if_running()
+{
+/usr/bin/pgrep $1
+if [ $? -eq 0 ] # If program is running
+then
+    printf "check_if_running : $1 is running \n"
+    inhibit=1
+else
+    if [ $inhibit = 1 ] # if there's already an inhibitor, stop processing others
+    then
+        printf "check_if_running $1 : An inhibitor has already been set, skipping \n"
+    else
+        inhibit=0
+    fi
+fi
+}
+ 
+function inhibit()
+{
+while [ $run -eq 1 ]
+do
+ 
+check_if_running totem
+check_if_running smplayer
+ 
+if [ $inhibit -eq 1 ] # If at least one inhibitor is running
+then
+    current_mode=`xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/presentation-mode`
+    if [ "$current_mode" == "false" ]
+    then
+        printf "Toogling presentation mode ON\n"
+        xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/presentation-mode -T
+    else
+        printf "Already in presentation mode \n"
+    fi
+else # No inhibitor
+        current_mode=`xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/presentation-mode`
+        if [ "$current_mode" == "false" ]
+        then
+                printf "Presentation mode is off, OK, computer will user power saving.\n"
+        else
+                xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/presentation-mode -T
+        notify-send "Entering powersaving mode"
+                printf "Toogling presentation mode OFF\n"
+        fi
+fi
+ 
+inhibit=0 # Reset inhibitor state
+sleep 15
+done
+}
+ 
+inhibit
+
