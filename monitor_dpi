@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# This script is called as root and without X knowledge
+export DISPLAY=:0
+export XAUTHORITY=/run/user/`id -u ctizen`/gdm/Xauthority
+
+xrandr
+sleep 1
+
+# fix touchscreen
+xinput --map-to-output $(xinput list --id-only "Raydium Corporation Raydium Touch System") eDP-1
+
+if [ -z "`xrandr | grep HDMI-1 | grep disconnected`" ]; then
+	xrandr \
+		--output eDP-1 --auto --pos 240x1350 \
+		--output HDMI-1 --auto --scale-from 2400x1350 --pos 0x0
+fi
+
+sleep 1
+
+xinput --map-to-output $(xinput list --id-only "Raydium Corporation Raydium Touch System") eDP-1
+
