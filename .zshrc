@@ -107,3 +107,5 @@ npm set progress=false
 
 unset GREP_OPTIONS
 
+source "$HOME/.termcolors.sh"
+
