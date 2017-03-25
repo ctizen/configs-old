@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# To make it work, add these with visudo
+# %wheel  ALL=(ALL)       ALL
+# %wheel  ALL=(root)      NOPASSWD: /usr/bin/lights
+#
+# Then run in as sudo lights inc/dec right from control
+#
+
+max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
+
+case "$1" in
+	inc)
+		if (($brightness < $max_brightness)); then
+  			let brightness=$brightness*2
+			if (($brightness > 1000)); then
+				let brightness=$max_brightness
+			fi
+  			echo $brightness > /sys/class/backlight/intel_backlight/brightness
+		fi
+	;;
+	dec)
+		if (($brightness > 1)); then
+			let brightness=$brightness/2
+			if (($brightness < 1)); then
+				let brightness=1
+			fi
+			echo $brightness > /sys/class/backlight/intel_backlight/brightness
+		fi
+	;;
+	*)
+		echo "Select inc or dec"
+	;;
+esac
+
