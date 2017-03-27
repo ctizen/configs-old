@@ -1,8 +1,58 @@
-out_to_x no
-out_to_console yes
-update_interval 1.0
+# ~/.conkyrc
+#
+double_buffer yes
+background yes
+
+use_xft yes
+xftfont PragmataPro:size=10
+xftalpha 0.8
+
+update_interval 5.0
+ 
 total_run_times 0
-use_spacer none
+
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_colour black
+own_window_hints undecorated,below,skip_taskbar,sticky,skip_pager
+own_window_class conky
+
+minimum_size 80 5
+draw_shades yes
+draw_outline yes
+draw_borders no
+stippled_borders 0
+border_width 20
+default_color yellow 
+default_shade_color black
+default_outline_color black
+alignment top_left
+gap_x 20
+gap_y 20
+no_buffers yes
+uppercase no
+
 TEXT
-${time %R:%S %a,%d-%#b-%y} |Temp:${acpitemp}C |Batt:${battery_short} |${addr enp4s0} |RAM:$memperc% |CPU:${cpu}% | ${downspeedf enp4s0}
+
+${color slate grey}${stippled_hr 2 1}
+${color}host  :${color white} ${nodename} 
+${color}os    :${color white} ${sysname} ${kernel}
+${color}freq  :${color white} ${freq}Mhz ${color white}
+$hr
+${color}uptime:${color white} $uptime ${color white}
+${color}acc   :${color white} ${battery BAT0}
+$stippled_hr
+${color}cpu   :${color white} $cpu% $cpubar
+${color}ram   :${color white} $memperc% $membar
+$stippled_hr
+${color}home  : ${color white}${fs_free /} ${fs_bar /}
+$stippled_hr
+${color}today : ${color white}${time %a,} ${time %B %e %G}
+${color}time  : ${color white}${time %H:%M:%S} ${color white}
+$hr
+${color}down:${color white} ${downspeed wlp1s0}/s ${color}  up:${color white} ${upspeed wlp1s0}/s
+${color #888888}${downspeedgraph wlp1s0 20,70 ff0000 0000ff}   ${color #888888}${upspeedgraph wlp1s0 20,70 0000ff ff0000}
+$hr
+${color white}${exec fold -w 40 -s ~/_notes}
 
