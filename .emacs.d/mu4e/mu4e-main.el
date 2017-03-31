@@ -52,7 +52,7 @@
     ;; for terminal users
     (define-key map  (kbd "C-c C-u") 'mu4e-update-mail-and-index)
 
-    (define-key map "S" 'mu4e-interrupt-update-mail)
+    (define-key map "S" 'mu4e-kill-update-mail)
     (define-key map  (kbd "C-S-u") 'mu4e-update-mail-and-index)
     (define-key map ";" 'mu4e-context-switch)
 
@@ -75,7 +75,8 @@
     overwrite-mode 'overwrite-mode-binary)
 
   ;; show context in mode-string
-  (set (make-local-variable 'global-mode-string) '(:eval (mu4e-context-label))) 
+  (make-local-variable 'global-mode-string)
+  (add-to-list 'global-mode-string '(:eval (mu4e-context-label)))
   (set (make-local-variable 'revert-buffer-function) #'mu4e~main-view-real))
 
 
@@ -137,15 +138,15 @@ clicked."
        ;; TODO: it's a bit uncool to hard-code the "b" shortcut...
        (mapconcat
         (lambda (bm)
-          (let* ((query (nth 0 bm)) (title (nth 1 bm)) (key (nth 2 bm)))
-            (mu4e~main-action-str
-             (concat "\t* [b" (make-string 1 key) "] " title)
-             (concat "b" (make-string 1 key)))))
-        mu4e-bookmarks "\n")
+	  (mu4e~main-action-str
+	    (concat "\t* [b" (make-string 1 (mu4e-bookmark-key bm)) "] "
+	      (mu4e-bookmark-name bm))
+	    (concat "b" (make-string 1 (mu4e-bookmark-key bm)))))
+	 (mu4e-bookmarks) "\n")
        "\n\n"
        (propertize "  Misc\n\n" 'face 'mu4e-title-face)
 
-	(mu4e~main-action-str "\t* [;]Switch focus\n" 'mu4e-context-switch)
+	(mu4e~main-action-str "\t* [;]Switch context\n" 'mu4e-context-switch)
 	
 	(mu4e~main-action-str "\t* [U]pdate email & database\n"
 	  'mu4e-update-mail-and-index)
@@ -195,7 +196,7 @@ clicked."
   (mu4e~main-view-real nil nil)
   (switch-to-buffer mu4e~main-buffer-name)
   (goto-char (point-min))
-  (setq global-mode-string '(:eval (mu4e-context-label))))
+  (add-to-list 'global-mode-string '(:eval (mu4e-context-label))))
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Interactive functions

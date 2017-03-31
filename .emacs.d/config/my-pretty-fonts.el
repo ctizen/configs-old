@@ -185,7 +185,7 @@
   (prettify-symbols-mode -1)
   (prettify-symbols-mode +1))
 
-(add-hook 'prog-mode-hook
-          #'add-pragmatapro-prettify-symbols-alist)
+;;(add-hook 'prog-mode-hook
+;;          #'add-pragmatapro-prettify-symbols-alist)
 
-(global-prettify-symbols-mode +1)
+;;(global-prettify-symbols-mode +1)
