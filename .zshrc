@@ -92,11 +92,13 @@ alias mc="mc -S modarin256"
 alias mcedit="mcedit -S modarin256"
 
 alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor' | grep -v '/cookie' | grep -v '/fonts' | grep -v '/apple' | grep -v '/static'"
+alias furiten="ssh heilage@furiten.ru -p2022"
+alias homeserver="ssh heilage@home.ctizen.net -p2022"
 
 #eval "$(thefuck --alias)"
 
 
-export TERM=xterm-256color
+export TERM=screen-256color
 # TMUX
 if which tmux >/dev/null 2>&1; then
 #if not inside a tmux session, and if no session is started, start a new session
@@ -106,6 +108,4 @@ fi
 npm set progress=false
 
 unset GREP_OPTIONS
-
-source "$HOME/.termcolors.sh"
 
