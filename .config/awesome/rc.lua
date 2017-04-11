@@ -124,7 +124,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+local mykbdl = require("keyboardlayout")
+mykeyboardlayout = mykbdl()
 
 -- {{{ Wibox
 -- Create a textclock widget
@@ -149,7 +150,7 @@ vicious.register(memwidget, vicious.widgets.mem, " | 📊 $2/$3 | ", 3)
 
 netwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.net)
-vicious.register(netwidget, vicious.widgets.net, "| ▲ ${wlp1s0 up_kb}k ▼ ${wlp1s0 down_kb}k | ", 3)
+vicious.register(netwidget, vicious.widgets.net, "| <span color='#00cc00'>▲ ${wlp1s0 up_kb}k</span> <span color='#ee6666'>▼ ${wlp1s0 down_kb}k</span> | ", 3)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -237,7 +238,6 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
             mytaglist[s],
             mypromptbox[s],
         },

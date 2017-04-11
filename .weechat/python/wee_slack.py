@@ -1,1 +1,0 @@
-autoload/wee_slack.py
