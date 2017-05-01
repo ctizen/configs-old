@@ -1,6 +1,7 @@
 (require 'web-mode)
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
 (setf (cdr (rassoc 'html-mode auto-mode-alist)) 'web-mode)
 (setf (cdr (rassoc 'css-mode auto-mode-alist)) 'web-mode)
 
