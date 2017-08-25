@@ -152,6 +152,8 @@ netwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.net)
 vicious.register(netwidget, vicious.widgets.net, "| <span color='#00cc00'>▲ ${wlp1s0 up_kb}k</span> <span color='#ee6666'>▼ ${wlp1s0 down_kb}k</span> | ", 3)
 
+local cyclefocus = require('cyclefocus');
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -212,7 +214,7 @@ awful.screen.connect_for_each_screen(function(s)
     end
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[3])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[2])
 
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -277,13 +279,13 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
-    awful.key({ modkey,           }, "j",
+    awful.key({ "Mod1",           }, "Tab",
         function ()
             awful.client.focus.byidx( 1)
         end,
         {description = "focus next by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "k",
+    awful.key({ "Mod1", "Shift"   }, "Tab",
         function ()
             awful.client.focus.byidx(-1)
         end,
@@ -297,21 +299,23 @@ globalkeys = awful.util.table.join(
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
+    awful.key({ modkey, "Shift" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
+    awful.key({ modkey, "Shift" }, "k", function () awful.screen.focus_relative(-1) end,
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
     awful.key({ modkey,           }, "Tab",
         function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
+	    cyclefocus.cycle(1, {modifier="Super_L"})
         end,
-        {description = "go back", group = "client"}),
-
+        {description = "cycle windows forward", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "Tab",
+        function ()
+	    cyclefocus.cycle(-1, {modifier="Super_L"})
+        end,
+        {description = "cycle windows back", group = "client"}),
+   
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
