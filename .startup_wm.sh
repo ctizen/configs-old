@@ -19,7 +19,7 @@
 #xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1x1 --mode 1280x720 --pos 1600x0 --rate 50 --output VGA1 --off
 #xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1x1 --mode 1920x1080 --pos 1600x0 --rate 50 --output VGA1 --off
 
-hsetroot -solid "#43271E"
+###hsetroot -solid "#43271E"
 feh --bg-scale ~/wp/wp.jpg
 
 # export QT_QPA_PLATFORMTHEME="qt5ct"
@@ -35,9 +35,10 @@ xdg-mime default emacsdired.desktop inode/directory
 # /usr/local/bin/set_ru_map
 
 xfsettingsd &
+xfce4-power-manager &
 blueman-applet &
 nm-applet &
-compton &
+#compton &
 libinput-gestures-setup start
 
 # remap right alt to normal alt

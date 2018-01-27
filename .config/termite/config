@@ -3,7 +3,7 @@
 #audible_bell = false
 #clickable_url = true
 #dynamic_title = true
-font = PragmataPro 11
+font = Pragmata Pro 11
 #fullscreen = true
 #geometry = 640x480
 #icon_name = terminal
@@ -32,47 +32,6 @@ scrollback_lines = 10000
 # set size hints for the window
 #size_hints = false
 
-[colors]
-
-# special
-foreground      = #eceff1
-foreground_bold = #eceff1
-cursor          = #eceff1
-background      = #263238
-
-# black
-color0  = #263238
-color8  = #37474f
-
-# red
-color1  = #ff9800
-color9  = #ffa74d
-
-# green
-color2  = #8bc34a
-color10 = #9ccc65
-
-# yellow
-color3  = #ffc107
-color11 = #ffa000
-
-# blue
-color4  = #03a9f4
-color12 = #81d4fa
-
-# magenta
-color5  = #e91e63
-color13 = #ad1457
-
-# cyan
-color6  = #009688
-color14 = #26a69a
-
-# white
-color7  = #cfd8dc
-color15 = #eceff1
-
-
 [hints]
 #font = Monospace 12
 #foreground = #dcdccc
@@ -86,3 +45,51 @@ color15 = #eceff1
 
 # vim: ft=dosini cms=#%s
 
+[colors]
+# Base16 Spacemacs
+# Author: Nasser Alshammari (https://github.com/nashamri/spacemacs-theme)
+
+foreground      = #a3a3a3
+foreground_bold = #e8e8e8
+cursor          = #e8e8e8
+background      = #1f2022
+
+# 16 color space
+
+# Black, Gray, Silver, White
+color0  = #1f2022
+color8  = #585858
+color7  = #a3a3a3
+color15 = #f8f8f8
+
+# Red
+color1  = #f2241f
+color9  = #f2241f
+
+# Green
+color2  = #67b11d
+color10 = #67b11d
+
+# Yellow
+color3  = #b1951d
+color11 = #b1951d
+
+# Blue
+color4  = #4f97d7
+color12 = #4f97d7
+
+# Purple
+color5  = #a31db1
+color13 = #a31db1
+
+# Teal
+color6  = #2d9574
+color14 = #2d9574
+
+# Extra colors
+color16 = #ffa500
+color17 = #b03060
+color18 = #282828
+color19 = #444155
+color20 = #b8b8b8
+color21 = #e8e8e8

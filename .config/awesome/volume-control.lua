@@ -99,7 +99,7 @@ function vcontrol:update(status)
     else
         volume = volume .. "M"
     end
-    self.widget:set_text(" | 🔉" .. volume .. " | ")
+    self.widget:set_text(" |  " .. volume .. " | ")
 end
 
 function vcontrol:mixercommand(...)
