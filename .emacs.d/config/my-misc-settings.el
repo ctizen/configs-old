@@ -83,3 +83,9 @@
 
 ;; No more typing the whole yes or no. Just y or n will do.
 (fset 'yes-or-no-p 'y-or-n-p)
+
+(setq less-css-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode))
+(setq plantuml-jar-path "/usr/local/share/plantuml/plantuml.jar")
+
+;;

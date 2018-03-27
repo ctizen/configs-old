@@ -75,8 +75,11 @@ That is, a string used to represent it on the tab bar."
   There are two groups: Emacs buffers (those whose name starts with '*', plus
   dired buffers), and the rest.  This works at least with Emacs v24.2 using
   tabbar.el v1.7."
-  (list (cond ((string-equal "*" (substring (buffer-name) 0 1)) "emacs")
+  (list (cond ((string-equal "*PLANTUML Preview*" (buffer-name)) "user")
+              ((string-equal "*" (substring (buffer-name) 0 1)) "emacs")
               ((eq major-mode 'dired-mode) "emacs")
+              ((string-equal "dart-analysis-server" (buffer-name)) "emacs")
               (t "user"))))
 (setq tabbar-buffer-groups-function 'my-tabbar-buffer-groups)
 
+;;
