@@ -258,13 +258,6 @@
 
 (c-add-style "dart" dart-c-style)
 
-(defvar dart-mode-map (c-make-inherited-keymap)
-  "Keymap used in ‘dart-mode’ buffers.")
-
-(define-key dart-mode-map (kbd "C-M-q") 'dart-format-statement)
-(define-key dart-mode-map (kbd "M-.") 'dart-jump-to-defn)
-
-
 ;;; CC indentation support
 
 (defvar c-syntactic-context nil
@@ -506,6 +499,84 @@ Each list item should be a regexp matching a single identifier."
   (setq dart-mode-syntax-table
         (funcall (c-lang-const c-make-mode-syntax-table dart))))
 
+;;; Misc functions
+
+(defun dart--get (alist &rest keys)
+  "Recursively calls `cdr' and `assoc' on ALIST with KEYS.
+Returns the value rather than the full alist cell."
+  (--reduce-from (cdr (assoc it acc)) alist keys))
+
+(defun dart--flash-highlight (offset length)
+  "Briefly highlights the text defined by OFFSET and LENGTH.
+OFFSET and LENGTH are expected to come from the analysis server,
+rather than Elisp."
+  (-let [overlay (make-overlay (+ 1 offset) (+ 1 offset length))]
+    (overlay-put overlay 'face 'highlight)
+    (run-at-time "1 sec" nil (lambda () (delete-overlay overlay)))))
+
+(defun dart--property-string (text prop value)
+  "Returns a copy of TEXT with PROP set to VALUE.
+Converts TEXT to a string if it's not already."
+  (let ((copy (substring (format "%s" text) 0)))
+    (put-text-property 0 (length copy) prop value copy)
+    copy))
+
+(defun dart--forward-identifier ()
+  "Moves the point forward through a Dart identifier."
+  (when (looking-at dart--identifier-re)
+    (goto-char (match-end 0))))
+
+(defun dart--face-string (text face)
+  "Returns a copy of TEXT with its font face set to FACE.
+Converts TEXT to a string if it's not already."
+  (dart--property-string text 'face face))
+
+(defconst dart--identifier-re
+  "[a-zA-Z_$][a-zA-Z0-9_$]*"
+  "A regular expression that matches keywords.")
+
+(defmacro dart--fontify-excursion (face &rest body)
+  "Applies FACE to the region moved over by BODY."
+  (declare (indent 1))
+  (-let [start (make-symbol "start")]
+    `(-let [,start (point)]
+       ,@body
+       (put-text-property ,start (point) 'face ,face))))
+
+(defmacro dart--json-let (json fields &rest body)
+  "Assigns variables named FIELDS to the corresponding fields in JSON.
+FIELDS may be either identifiers or (ELISP-IDENTIFIER JSON-IDENTIFIER) pairs."
+  (declare (indent 2))
+  (let ((json-value (make-symbol "json")))
+    `(let ((,json-value ,json))
+       (let ,(--map (if (symbolp it)
+                        `(,it (dart--get ,json-value ',it))
+                      (-let [(variable key) it]
+                        `(,variable (dart--get ,json-value ',key))))
+                    fields)
+         ,@body))))
+(defvar dart--analysis-server-subscriptions nil
+  "An alist of event names to lists of callbacks to be called for those events.
+These callbacks take the event object and an opaque subcription
+object which can be passed to `dart--analysis-server-unsubscribe'.")
+
+(defun dart--analysis-server-subscribe (event callback)
+  "Registers CALLBACK to be called for each EVENT of the given type.
+CALLBACK should take two parameters: the event object and an
+opaque subscription object that can be passed to
+`dart--analysis-server-unsubscribe'. Returns the same opaque
+subscription object."
+  (-if-let (cell (assoc event dart--analysis-server-subscriptions))
+      (nconc cell (list callback))
+    (push (cons event (list callback)) dart--analysis-server-subscriptions))
+  (cons event callback))
+
+(defun dart--analysis-server-unsubscribe (subscription)
+  "Unregisters the analysis server SUBSCRIPTION.
+SUBSCRIPTION is an opaque object provided by
+`dart--analysis-server-subscribe'."
+  (-let [(event . callback) subscription]
+    (delq callback (assoc event dart--analysis-server-subscriptions))))
 
 ;;; Dart analysis server
 
@@ -833,14 +904,25 @@ Argument MSG is the response sent by the analysis server."
 
 Argument MSG is the parsed response from the analysis server.
 Argument ID is the id of the event or response sent by the analysis server."
+  ;; This is a notification, so we should invoke callbacks in
+  ;; dart--analysis-server-subscriptions.
+  ;; TODO: Debug this, where should it be???
+  (-when-let* ((event (dart--get msg 'event))
+               (params (dart--get msg 'params))
+               (callbacks (dart--get dart--analysis-server-subscriptions event)))
+    (dolist (callback callbacks)
+      (-let [subscription (cons event callback)]
+        (funcall callback params subscription))))
   (-if-let (resp-closure (assoc id dart--analysis-server-callbacks))
       (progn
 	(setq dart--analysis-server-callbacks
 	      (assq-delete-all id dart--analysis-server-callbacks))
-	(funcall (cdr resp-closure) msg))
-    (-if-let (err (assoc 'error msg))
-	(dart--analysis-server-on-error-callback msg)
-      (dart-info (format "No callback was associated with id %s" id)))))
+	(funcall (cdr resp-closure) msg)
+        (-if-let (err (assoc 'error msg))
+            (dart--analysis-server-on-error-callback msg)
+          (dart-info (format "No callback was associated with id %s" id))
+          )
+        )))
 
 (defun dart--analysis-server-handle-msg (msg)
   "Handle the parsed MSG from the analysis server."
@@ -854,6 +936,7 @@ Argument ID is the id of the event or response sent by the analysis server."
 	    (if (and (string= event "completion.results")
 		     dart-completion-callback)
 		(funcall dart-completion-callback msg)))))
+    
     (-when-let* ((id-assoc (assoc 'id msg))
 		 (raw-id (cdr id-assoc))
 		 (id (string-to-number raw-id)))
@@ -1419,7 +1502,315 @@ this method. See helm-dart.el."
 		    (fixlist (cdr (assoc 'fixes (aref fixes 0)))))
 	 (funcall comp-cb fixlist (apply-partially 'dart--apply-edit buffer)))))))
 
+;;;; Hover
+
+(defun dart-show-hover (&optional show-in-buffer)
+  "Displays hover information for the current point.
+With a prefix argument, opens a new buffer rather than using the
+minibuffer."
+  (interactive "P")
+  (-when-let (filename (buffer-file-name))
+    (let ((show-in-buffer show-in-buffer)
+          (buffer (current-buffer))
+          (pos (point)))
+      (dart--analysis-server-send
+       "analysis.getHover"
+       `(("file" . ,filename) ("offset" . ,pos))
+       (lambda (response)
+         (let* ((result (assoc 'result (cdr response)))
+                (hovers (assoc 'hovers result))
+                (hover (car (append (cdr hovers) nil))))
+           (dart--json-let hover
+               (offset
+                length
+                dartdoc
+                (element-description elementDescription)
+                (element-kind elementKind)
+                (is-deprecated isDeprecated)
+                parameter)
+             (setq is-deprecated (not (eq is-deprecated :json-false)))
+
+             ;; Briefly highlight the region that's being shown.
+             (with-current-buffer buffer
+               (dart--flash-highlight offset length))
+
+             (with-temp-buffer
+               (when is-deprecated
+                 (insert (dart--face-string "DEPRECATED" 'font-lock-warning-face) ?\n))
+
+               (when element-description
+                 (insert (dart--highlight-description element-description)
+                         (dart--face-string (concat " (" element-kind ")") 'italic))
+                 (when (or dartdoc parameter) (insert ?\n)))
+               (when parameter
+                 (insert
+                  (dart--highlight-description parameter)
+                  (dart--face-string " (parameter type)" 'italic))
+                 (when dartdoc) (insert ?\n))
+               (when dartdoc
+                 (when (or element-description parameter) (insert ?\n))
+                 (insert (dart--highlight-dartdoc dartdoc (not show-in-buffer))))
+
+               (let ((text (buffer-string)))
+                 (if show-in-buffer
+                     (with-current-buffer-window
+                      "*Dart Analysis*" nil nil
+                      (insert text)
+                      (dart-popup-mode)
+
+                      (setq dart--do-it-again-callback
+                            (lambda ()
+                              (save-excursion
+                                (with-current-buffer buffer
+                                  (goto-char pos)
+                                  (dart-show-hover t))))))
+                   (message "%s" text))))))
+         )))))
+
+(defconst dart--highlight-keyword-re
+  (regexp-opt
+   '("get" "set" "as" "abstract" "class" "extends" "implements" "enum" "typedef"
+     "const" "covariant" "deferred" "factory" "final" "import" "library" "new"
+     "operator" "part" "static" "async" "sync" "var")
+   'words)
+  "A regular expression that matches keywords.")
+
+(defun dart--highlight-description (description)
+  "Returns a highlighted copy of DESCRIPTION."
+  (with-temp-buffer
+    (insert description)
+    (goto-char (point-min))
+
+    (while (not (eq (point) (point-max)))
+      (cond
+       ;; A keyword.
+       ((looking-at dart--highlight-keyword-re)
+        (dart--fontify-excursion 'font-lock-keyword-face
+          (goto-char (match-end 0))))
+
+       ;; An identifier could be a function name or a type name.
+       ((looking-at dart--identifier-re)
+        (goto-char (match-end 0))
+        (put-text-property
+         (match-beginning 0) (point) 'face
+         (if (dart--at-end-of-function-name-p) 'font-lock-function-name-face
+           'font-lock-type-face))
+
+        (cl-case (char-after)
+          ;; Foo.bar()
+          (?.
+           (forward-char)
+           (dart--fontify-excursion 'font-lock-function-name-face
+             (dart--forward-identifier)))
+
+          ;; Foo bar
+          (?\s
+           (forward-char)
+           (dart--fontify-excursion 'font-lock-variable-name-face
+             (dart--forward-identifier)))))
+
+       ;; Anything else is punctuation that we ignore.
+       (t (forward-char))))
+
+    (buffer-string)))
+
+(defun dart--at-end-of-function-name-p ()
+  "Returns whether the point is at the end of a function name."
+  (cl-case (char-after)
+    (?\( t)
+    (?<
+     (and (looking-at (concat "\\(" dart--identifier-re "\\|[<>]\\)*"))
+          (eq (char-after (match-end 0)) ?\()))))
+
+(defun dart--highlight-dartdoc (dartdoc truncate)
+  "Returns a higlighted copy of DARTDOC."
+  (with-temp-buffer
+    (insert dartdoc)
+
+    ;; Cut off long dartdocs so that the full signature is always visible.
+    (when truncate
+      (forward-line 11)
+      (delete-region (- (point) 1) (point-max)))
+
+    (goto-char (point-min))
+
+    (while (re-search-forward "\\[.*?\\]" nil t)
+      (put-text-property (match-beginning 0) (match-end 0)
+                         'face 'font-lock-reference-face))
+
+    (buffer-string)))
+
+;;;; Search
+
+(defun dart-find-refs (pos &optional include-potential)
+  (interactive "dP")
+  (-when-let (filename (buffer-file-name))
+    (dart--analysis-server-send
+     "search.findElementReferences"
+     `(("file" . ,filename)
+       ("offset" . ,pos)
+       ("includePotential" . ,(or include-potential json-false)))
+     (let ((buffer (current-buffer))
+           (include-potential include-potential))
+       (lambda (response)
+         (-when-let (result (dart--get response 'result))
+           (let ((name (dart--get result 'element 'name))
+                 (location (dart--get result 'element 'location)))
+             (dart--display-search-results
+              (dart--get result 'id)
+              (lambda ()
+                (setq dart--do-it-again-callback
+                      (lambda ()
+                        (with-current-buffer buffer
+                          (dart-find-refs pos include-potential))))
+
+                (insert "References to ")
+                (insert-button
+                 name
+                 'action (lambda (_) (dart--goto-location location)))
+                (insert ":\n\n"))))))))))
+
+(defun dart-find-member-decls (name)
+  "Find member declarations named NAME."
+  (interactive "sMember name: ")
+  (dart--find-by-name
+   "search.findMemberDeclarations" "name" name "Members named "))
+
+(defun dart-find-member-refs (name)
+  "Find member references named NAME."
+  (interactive "sMember name: ")
+  (dart--find-by-name
+   "search.findMemberReferences" "name" name "References to "))
+
+(defun dart-find-top-level-decls (name)
+  "Find top-level declarations named NAME."
+  (interactive "sDeclaration name: ")
+  (dart--find-by-name
+   "search.findTopLevelDeclarations" "pattern" name "Declarations matching "))
+
+(defun dart--find-by-name (method argument name header)
+  "A helper function for running an analysis server search for NAME.
+Calls the given analysis server METHOD passing NAME to the given
+ARGUMENT. Displays a header beginning with HEADER in the results."
+  (dart--analysis-server-send
+   method
+   (list (cons argument name))
+   (lambda (response)
+     (-when-let (id (dart--get response 'result 'id))
+       (dart--display-search-results
+        id
+        (lambda ()
+          (setq dart--do-it-again-callback
+                (lambda ()
+                  (dart--find-by-name method argument name header)))
+          (insert header name ":\n\n")))))))
+
+(defun dart--display-search-results (search-id callback)
+  "Displays search results with the given SEARCH-ID.
+CALLBACK is called with no arguments in the search result buffer
+to add a header and otherwise prepare it for displaying results."
+  (let (buffer
+        beginning-of-results
+        (total-results 0))
+    (with-current-buffer-window
+     "*Dart Search*" nil nil
+     (dart-popup-mode)
+     (setq buffer (current-buffer))
+     (funcall callback)
+     (setq beginning-of-results (point))
+
+     (dart--analysis-server-subscribe
+      "search.results"
+      (lambda (event subscription)
+        (with-current-buffer buffer
+          (dart--json-let event (id results (is-last isLast))
+            (when (equal id search-id)
+              (-let [buffer-read-only nil]
+                (save-excursion
+                  (goto-char (point-max))
+                  (dolist (result results)
+                    (let ((location (dart--get result 'location))
+                          (path (dart--get result 'path))
+                          (start (point)))
+                      (dart--fontify-excursion '(compilation-info underline)
+                        (when (cl-some
+                               (lambda (element)
+                                 (equal (dart--get element 'kind) "CONSTRUCTOR"))
+                               path)
+                          (insert "new "))
+
+                        (insert
+                         (->> path
+                              (--remove (member (dart--get it 'kind)
+                                                '("COMPILATION_UNIT" "FILE" "LIBRARY" "PARAMETER")))
+                              (--map (dart--get it 'name))
+                              (-remove 'string-empty-p)
+                              nreverse
+                              (s-join ".")))
+
+                        (make-text-button
+                         start (point)
+                         'action (lambda (_) (dart--goto-location location))))
+
+                      (dart--json-let location (file (line startLine) (column startColumn))
+                        (insert " " file ":"
+                                (dart--face-string line 'compilation-line-number) ":"
+                                (dart--face-string column 'compilation-column-number) ?\n)))))
+
+                (setq total-results (+ total-results (length results)))
+
+                (when (eq is-last t)
+                  (dart--analysis-server-unsubscribe subscription)
+                  (save-excursion
+                    (goto-char (point-max))
+                    (insert "\nFound " (dart--face-string total-results 'bold) " results."))))))))))
+
+    (select-window (get-buffer-window buffer))
+    (goto-char beginning-of-results)))
+
+(defun dart--goto-location (location)
+  "Sends the user to the analysis server LOCATION."
+  (dart--json-let location (file offset length)
+    (find-file file)
+    (goto-char (+ 1 offset))
+    (dart--flash-highlight offset length)))
+
+;;; Popup Mode
+
+(define-derived-mode dart-popup-mode fundamental-mode "DartPopup"
+  "Major mode for popups."
+  :mode 'dart-popup
+  (use-local-map dart-popup-mode-map))
+
+(put 'dart-popup-mode 'mode-class 'special)
+
+(defvar dart-popup-mode-map (make-sparse-keymap)
+  "Keymap used in Dart popup buffers.")
+(set-keymap-parent dart-popup-mode-map help-mode-map)
+
+(define-key dart-popup-mode-map (kbd "g") 'dart-do-it-again)
+
+;; Unbind help-specific keys.
+(define-key dart-popup-mode-map (kbd "RET") nil)
+(define-key dart-popup-mode-map (kbd "l") nil)
+(define-key dart-popup-mode-map (kbd "r") nil)
+(define-key dart-popup-mode-map (kbd "<XF86Back>") nil)
+(define-key dart-popup-mode-map (kbd "<XF86Forward>") nil)
+(define-key dart-popup-mode-map (kbd "<mouse-2>") nil)
+(define-key dart-popup-mode-map (kbd "C-c C-b") nil)
+(define-key dart-popup-mode-map (kbd "C-c C-c") nil)
+(define-key dart-popup-mode-map (kbd "C-c C-f") nil)
+
+(defun dart-do-it-again ()
+  "Re-runs the logic that generated the current buffer."
+  (interactive)
+  (when dart--do-it-again-callback
+    (funcall dart--do-it-again-callback)))
+
 ;;; Initialization
+
+(defvar dart-mode-map (c-make-inherited-keymap)
+  "Keymap used in ‘dart-mode’ buffers.")
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.dart\\'" . dart-mode))
@@ -1438,16 +1829,16 @@ Key bindings:
   (set-syntax-table dart-mode-syntax-table)
   (setq major-mode 'dart-mode
         mode-name "Dart")
-  (use-local-map dart-mode-map)
+;;  (use-local-map dart-mode-map)
   (c-init-language-vars dart-mode)
   (c-common-init 'dart-mode)
   (c-set-style "dart")
-  (when dart-enable-analysis-server
-    (if (or (null dart-executable-path)
-            (null dart-analysis-server-snapshot-path))
-        (dart-log
-         "Cannot find `dart' executable or Dart analysis server snapshot.")
-      (dart--start-analysis-server-for-current-buffer)))
+;;  (when dart-enable-analysis-server
+;;    (if (or (null dart-executable-path)
+;;            (null dart-analysis-server-snapshot-path))
+;;        (dart-log
+;;         "Cannot find `dart' executable or Dart analysis server snapshot.")
+;;      (dart--start-analysis-server-for-current-buffer)))
   (run-hooks 'c-mode-common-hook)
   (run-hooks 'dart-mode-hook)
   (c-update-modeline))

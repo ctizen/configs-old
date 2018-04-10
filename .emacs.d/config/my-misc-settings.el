@@ -39,6 +39,7 @@
 (global-linum-mode 1)
 (git-gutter:linum-setup)
 (electric-indent-mode nil)
+(global-hl-line-mode 1)
 
 (setq tramp-default-method "ssh")
 (setq company-tooltip-align-annotations t) ;; aligns annotation to the right hand side
