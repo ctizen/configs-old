@@ -34,8 +34,9 @@ xdg-mime default emacsdired.desktop inode/directory
 xfsettingsd &
 xfce4-power-manager &
 blueman-applet &
+mail-notification &
 nm-applet &
-#compton &
+compton &
 libinput-gestures-setup start
 
 # backgrounds

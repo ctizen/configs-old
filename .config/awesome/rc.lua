@@ -44,6 +44,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "termite"
+--terminal = "sakura"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -146,11 +147,11 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
 
 memwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.mem)
-vicious.register(memwidget, vicious.widgets.mem, " | 📊 $2/$3 | ", 3)
+vicious.register(memwidget, vicious.widgets.mem, " |   $2/$3 | ", 3)
 
 netwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.net)
-vicious.register(netwidget, vicious.widgets.net, "| <span color='#00cc00'>▲ ${wlp1s0 up_kb}k</span> <span color='#ee6666'>▼ ${wlp1s0 down_kb}k</span> | ", 3)
+vicious.register(netwidget, vicious.widgets.net, "| <span color='#00cc00'>▲ ${wlan0 up_kb}k</span> <span color='#ee6666'>▼ ${wlan0 down_kb}k</span> | ", 3)
 
 local cyclefocus = require('cyclefocus');
 

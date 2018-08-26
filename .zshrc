@@ -62,7 +62,10 @@ export LC_TELEPHONE="ru_RU.UTF-8"
 export LC_MEASUREMENT="ru_RU.UTF-8"
 export LC_IDENTIFICATION="ru_RU.UTF-8"
 
-alias fr="git forest --all --style=10 --topo-order --pretty=format:' %s %C(blue)%an %C(red)%h%C(reset)' | less -R"
+export PUB_HOSTED_URL=http://pub-dev.wrke.in
+export DART_SDK_PATH=/usr
+
+alias fr="git forest --all --style=10 --topo-order --color=always --pretty=format:' %s %C(blue)%an %C(red)%h%C(reset)' | less -R"
 alias s="git s"
 alias reupload="git reupload"
 alias f="git f"
@@ -83,17 +86,10 @@ alias crm="git checkout remotes/origin/master"
 alias stash="git stash"
 alias co="git checkout"
 alias gpro="git pull --rebase origin"
-alias prodnodes="tmux-cssh -u ansible online4{1,2,3}.{m,d,n}1.nato"
-alias prodnodes-m="tmux-cssh -u ansible online4{1,2,3}.m1.nato"
-alias prodnodes-n="tmux-cssh -u ansible online4{1,2,3}.d1.nato"
-alias prodnodes-d="tmux-cssh -u ansible online4{1,2,3}.n1.nato"
-alias prodnodesall="tmux-cssh -u ansible online4{1,2,3}.{m,d,n}1.nato online4{1,2}.s1.nato"
 alias mc="mc -S modarin256"
 alias mcedit="mcedit -S modarin256"
 
 alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor' | grep -v '/cookie' | grep -v '/fonts' | grep -v '/apple' | grep -v '/static'"
-alias furiten="ssh heilage@furiten.ru -p2022"
-alias homeserver="ssh heilage@home.ctizen.net -p2022"
 
 #eval "$(thefuck --alias)"
 
@@ -109,3 +105,8 @@ npm set progress=false
 
 unset GREP_OPTIONS
 
+#source $HOME/.cargo/env
+
+
+# added by travis gem
+[ -f /home/ctizen/.travis/travis.sh ] && source /home/ctizen/.travis/travis.sh
