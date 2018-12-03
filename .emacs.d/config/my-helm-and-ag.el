@@ -1,8 +1,10 @@
 ;; Helm & ag
 ;; If async is installed
-(add-to-list 'load-path "~/.emacs.d/vendor/helm")
+;;(add-to-list 'load-path "~/.emacs.d/vendor/helm")
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-async")
 (require 'helm-config)
+(require 'helm-projectile)
+(setq helm-projectile-fuzzy-match t)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-c C-a") 'helm-projectile-ag)
 (global-set-key (kbd "C-c a") (lambda () (interactive) (helm-projectile-find-file-dwim)))

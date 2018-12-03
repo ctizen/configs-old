@@ -1,12 +1,10 @@
 ;;; rich-minority-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "rich-minority" "rich-minority.el" (0 0 0 0))
+;;;### (autoloads nil "rich-minority" "rich-minority.el" (23557 23858
+;;;;;;  734520 547000))
 ;;; Generated autoloads from rich-minority.el
 
 (autoload 'rm--mode-list-as-string-list "rich-minority" "\
@@ -16,8 +14,7 @@ Return `minor-mode-list' as a simple list of strings.
 
 (defvar rich-minority-mode nil "\
 Non-nil if Rich minority mode is enabled.
-See the `rich-minority-mode' command
-for a description of this minor mode.
+See the command `rich-minority-mode' for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `rich-minority-mode'.")
@@ -33,14 +30,11 @@ the mode if ARG is omitted or nil, and toggle it if ARG is `toggle'.
 
 \(fn &optional ARG)" t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "rich-minority" '("rm-")))
-
 ;;;***
 
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; rich-minority-autoloads.el ends here

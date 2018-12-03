@@ -28,7 +28,9 @@
   (setq lsp-ui-sideline-show-hover t)
   (setq lsp-ui-sideline-show-symbol nil)
   (setq lsp-ui-doc-header t)
-  (setq lsp-ui-doc-position (quote at-point)))
+  (setq lsp-ui-doc-max-height 10)
+  (setq lsp-ui-doc-use-childframe t)
+  (setq lsp-ui-doc-position (quote bottom)))
 (add-hook 'lsp-mode-hook #'lsp-set-vars)
 
 (require 'company-lsp)

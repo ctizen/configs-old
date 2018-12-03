@@ -11,7 +11,7 @@
     (flycheck-mode +1)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
 
-    ;;(setq tide-tsserver-executable "/usr/bin/tsserver") ;; use global tsserver
+    (setq tide-tsserver-executable "/usr/bin/tsserver") ;; use global tsserver
 
     (set-face-attribute 'flycheck-error nil :foreground "black" :background "red")
     (global-prettify-symbols-mode +1)
@@ -29,7 +29,8 @@
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
 
-(add-hook 'web-mode-hook #'setup-tide-mode) ;; Won't do: will use tide for css, js, etc
+(add-hook 'typescript-mode-hook #'setup-tide-mode) ;; Won't do: will use tide for css, js, etc
+;;(add-hook 'web-mode-hook #'setup-tide-mode) ;; Won't do: will use tide for css, js, etc
 ;;(add-hook 'find-file-hook 'setup-tide-mode)
 
 ;; format options

@@ -3,8 +3,8 @@
 (defvar *selected-font-family* "PragmataPro")
 (set-frame-font *selected-font*)
 (set-face-attribute 'default t :font *selected-font* )
-(set-frame-font *selected-font* nil t)
-(add-to-list 'default-frame-alist '(font . *selected-font*))
+;;(set-frame-font *selected-font* nil t)
+;;(add-to-list 'default-frame-alist '(font . *selected-font*))
 
 ;; PRETTIFY SYMBOLS (with Pragmata Pro)
 (defun setup-pragmata-ligatures ()

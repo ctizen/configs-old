@@ -1,12 +1,9 @@
 ;;; tabbar-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "tabbar" "tabbar.el" (0 0 0 0))
+;;;### (autoloads nil "tabbar" "tabbar.el" (23557 23857 530507 118000))
 ;;; Generated autoloads from tabbar.el
 
 (autoload 'tabbar-backward "tabbar" "\
@@ -132,8 +129,7 @@ hidden, it is shown again.  Signal an error if Tabbar mode is off.
 
 (defvar tabbar-mode nil "\
 Non-nil if Tabbar mode is enabled.
-See the `tabbar-mode' command
-for a description of this minor mode.
+See the command `tabbar-mode' for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `tabbar-mode'.")
@@ -151,8 +147,7 @@ Returns non-nil if the new state is enabled.
 
 (defvar tabbar-mwheel-mode nil "\
 Non-nil if Tabbar-Mwheel mode is enabled.
-See the `tabbar-mwheel-mode' command
-for a description of this minor mode.
+See the command `tabbar-mwheel-mode' for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `tabbar-mwheel-mode'.")
@@ -168,11 +163,9 @@ Returns non-nil if the new state is enabled.
 
 \(fn &optional ARG)" t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "tabbar" '("tabbar-")))
-
 ;;;***
 
-;;;### (autoloads nil nil ("tabbar-pkg.el") (0 0 0 0))
+;;;### (autoloads nil nil ("tabbar-pkg.el") (23557 23857 573739 466000))
 
 ;;;***
 
@@ -180,6 +173,5 @@ Returns non-nil if the new state is enabled.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; tabbar-autoloads.el ends here

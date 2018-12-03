@@ -1,12 +1,10 @@
 ;;; web-server-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "web-server" "web-server.el" (0 0 0 0))
+;;;### (autoloads nil "web-server" "web-server.el" (23557 23839 962311
+;;;;;;  179000))
 ;;; Generated autoloads from web-server.el
 
 (autoload 'ws-start "web-server" "\
@@ -50,19 +48,10 @@ function.
 
 \(fn HANDLERS PORT &optional LOG-BUFFER &rest NETWORK-ARGS)" nil nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "web-server" '("ws-")))
-
 ;;;***
 
-;;;### (autoloads nil "web-server-status-codes" "web-server-status-codes.el"
-;;;;;;  (0 0 0 0))
-;;; Generated autoloads from web-server-status-codes.el
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "web-server-status-codes" '("ws-status-codes")))
-
-;;;***
-
-;;;### (autoloads nil nil ("web-server-pkg.el") (0 0 0 0))
+;;;### (autoloads nil nil ("web-server-pkg.el" "web-server-status-codes.el")
+;;;;;;  (23557 23840 226 262000))
 
 ;;;***
 
@@ -70,6 +59,5 @@ function.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; web-server-autoloads.el ends here

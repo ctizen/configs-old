@@ -1,12 +1,10 @@
 ;;; xcscope-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads nil "xcscope" "xcscope.el" (0 0 0 0))
+;;;### (autoloads nil "xcscope" "xcscope.el" (23557 23837 326281
+;;;;;;  781000))
 ;;; Generated autoloads from xcscope.el
 
 (autoload 'cscope-minor-mode "xcscope" "\
@@ -24,14 +22,11 @@ C++ sources
 
 \(fn)" t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "xcscope" '("cscope-")))
-
 ;;;***
 
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; xcscope-autoloads.el ends here
