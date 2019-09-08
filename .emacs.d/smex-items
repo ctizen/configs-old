@@ -1,0 +1,57 @@
+
+;; ----- smex-history -----
+(
+ hl-line-mode
+ smeargle-commits
+ magit-blame
+ smeargle
+ list-packages
+ treemacs
+ package-list-packages
+)
+
+;; ----- smex-data -----
+(
+ (package-list-packages . 7)
+ (php-mode . 5)
+ (lsp-mode . 12)
+ (lsp-restart-workspace . 5)
+ (lsp-find-implementation . 2)
+ (flycheck-mode . 1)
+ (lsp . 2)
+ (lsp-disconnect . 1)
+ (lsp-find-references . 1)
+ (package-install . 1)
+ (tide-references . 1)
+ (tide-mode . 2)
+ (typescript-mode . 1)
+ (js2-mode . 1)
+ (javascript-mode . 1)
+ (neotree . 2)
+ (neotree-change-root . 1)
+ (neotree-enter . 2)
+ (neotree-toggle . 2)
+ (neotree-refresh . 1)
+ (treemacs . 2)
+ (treemacs-refresh . 1)
+ (treemacs-projectile . 1)
+ (swiper . 1)
+ (list-packages . 4)
+ (ag . 1)
+ (ag-project . 3)
+ (web-mode . 2)
+ (mustache-mode . 1)
+ (handlebars-mode . 2)
+ (customize-face . 1)
+ (customize . 1)
+ (magit-blame . 9)
+ (magit . 1)
+ (magit-log . 1)
+ (magit-mode . 1)
+ (diff-hl-mode . 1)
+ (magit-blame-mode . 1)
+ (magit-blame:-M . 1)
+ (smeargle . 2)
+ (smeargle-commits . 1)
+ (hl-line-mode . 1)
+)
