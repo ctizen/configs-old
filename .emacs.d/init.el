@@ -1,6 +1,10 @@
 ;;; package --- Main init file
 ;;; Commentary:
-;;; This is my init file
+;;; Before usage, check: 
+;;; 1) the_silver_searcher aka ag is installed in PATH
+;;; 2) npm i -g intelephense
+;;; 3) For mac: https://objective-see.com/products/lulu.html
+;;;    For linux: firejail to isolate intelephense
 
 ;;; Code:
 
@@ -64,3 +68,5 @@
 (global-diff-hl-mode)
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 (global-hl-line-mode)
+
+(global-set-key (kbd "C-c f") 'counsel-ag)

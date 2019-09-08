@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
+ counsel-ag
+ ag-project
+ treemacs
  hl-line-mode
  smeargle-commits
  magit-blame
  smeargle
- list-packages
- treemacs
- package-list-packages
 )
 
 ;; ----- smex-data -----
@@ -32,13 +32,13 @@
  (neotree-enter . 2)
  (neotree-toggle . 2)
  (neotree-refresh . 1)
- (treemacs . 2)
+ (treemacs . 3)
  (treemacs-refresh . 1)
  (treemacs-projectile . 1)
  (swiper . 1)
  (list-packages . 4)
  (ag . 1)
- (ag-project . 3)
+ (ag-project . 4)
  (web-mode . 2)
  (mustache-mode . 1)
  (handlebars-mode . 2)
@@ -54,4 +54,5 @@
  (smeargle . 2)
  (smeargle-commits . 1)
  (hl-line-mode . 1)
+ (counsel-ag . 1)
 )
