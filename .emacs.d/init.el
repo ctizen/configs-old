@@ -1,6 +1,6 @@
 ;;; package --- Main init file
 ;;; Commentary:
-;;; Before usage, check: 
+;;; Before usage, check:
 ;;; 1) the_silver_searcher aka ag is installed in PATH
 ;;; 2) phpls in PATH contains proper call of php-language-server
 
@@ -68,3 +68,4 @@
 (global-hl-line-mode)
 
 (global-set-key (kbd "C-c f") 'counsel-ag)
+(global-set-key (kbd "C-x f") 'counsel-projectile-find-file)
