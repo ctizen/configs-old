@@ -2,9 +2,7 @@
 ;;; Commentary:
 ;;; Before usage, check: 
 ;;; 1) the_silver_searcher aka ag is installed in PATH
-;;; 2) npm i -g intelephense
-;;; 3) For mac: https://objective-see.com/products/lulu.html
-;;;    For linux: firejail to isolate intelephense
+;;; 2) phpls in PATH contains proper call of php-language-server
 
 ;;; Code:
 

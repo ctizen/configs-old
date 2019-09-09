@@ -8,6 +8,8 @@
 
 ;;(add-to-list ‘auto-mode-alist ‘(“\\.php$” . php-mode))
 
+(setq lsp-clients-php-server-command "phpls")
+
 (use-package phpunit
  :ensure t)
 
