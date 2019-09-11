@@ -69,3 +69,6 @@
 
 (global-set-key (kbd "C-c f") 'counsel-ag)
 (global-set-key (kbd "C-x f") 'counsel-projectile-find-file)
+(global-set-key (kbd "<home>") 'beginning-of-line)
+(global-set-key (kbd "<end>") 'end-of-line)
+
