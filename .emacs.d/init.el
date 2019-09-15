@@ -18,6 +18,8 @@
         '(".idea" "node_modules" ".git" "vendor" "build"))
 (setq lsp-file-watch-threshold nil)
 
+(setq inhibit-startup-message t)
+(setq inhibit-startup-screen t)
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (require 'base)
@@ -71,4 +73,5 @@
 (global-set-key (kbd "C-x f") 'counsel-projectile-find-file)
 (global-set-key (kbd "<home>") 'beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
+(global-set-key (kbd "C-c r") 'counsel-recentf)
 

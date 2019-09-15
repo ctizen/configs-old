@@ -8,9 +8,9 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook))
+;;(use-package dashboard
+;;  :config
+;;  (dashboard-setup-startup-hook))
 
 (use-package ediff
   :config
@@ -45,7 +45,7 @@
   ("C-x v" . counsel-projectile)
   ("C-x c p" . counsel-projectile-ag)
   :config
-  (counsel-projectile-on))
+  (counsel-projectile-mode))
 
 (use-package ivy
   :bind
@@ -68,9 +68,9 @@
 
 (use-package magit
   :config
-  
+
   (setq magit-completing-read-function 'ivy-completing-read)
-  
+
   :bind
   ;; Magic
   ("C-x g s" . magit-status)
@@ -125,9 +125,9 @@
   :config
   (setq projectile-known-projects-file
         (expand-file-name "projectile-bookmarks.eld" temp-dir))
-  
+
   (setq projectile-completion-system 'ivy)
-  
+
   (projectile-global-mode))
 
 (use-package recentf
