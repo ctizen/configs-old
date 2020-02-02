@@ -45,7 +45,7 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin:$HOME/.config/composer/vendor/bin
 export _JAVA_OPTIONS="-Dswing.aatext=true -Dawt.useSystemAAFontSettings=on"
 
 export LANG=ru_RU.UTF-8
@@ -63,7 +63,7 @@ export LC_MEASUREMENT="ru_RU.UTF-8"
 export LC_IDENTIFICATION="ru_RU.UTF-8"
 
 export PUB_HOSTED_URL=http://pub-dev.wrke.in
-export DART_SDK_PATH=/usr
+export DART_SDK_PATH=/usr/local
 
 alias fr="git forest --all --style=10 --topo-order --color=always --pretty=format:' %s %C(blue)%an %C(red)%h%C(reset)' | less -R"
 alias s="git s"

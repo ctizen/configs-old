@@ -22,8 +22,9 @@
      workdir = blue bold
      dirty = red
 [user]
-     email = o.klimenko@2gis.ru
+     email = me@ctizen.net
      name = Oleg Klimenko
+	signingkey = DC5DD8D8A36A44B386C3917C4DB9D9BAA1760599
 [alias]
      f = tag -d testing && fetch
      tomaster = fetch && rebase -f remotes/origin/master

@@ -1,0 +1,1 @@
+("~/projects/pantheon/" "~/projects/pantheon/Frey/vendor/fguillot/json-rpc/")
