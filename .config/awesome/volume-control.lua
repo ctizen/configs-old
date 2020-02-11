@@ -1,3 +1,4 @@
+local unpack = unpack or table.unpack
 local awful = require("awful")
 local wibox = require("wibox")
 
@@ -44,10 +45,8 @@ end
 function vcontrol.new(args)
     local sw = setmetatable({}, vcontrol.wmt)
 
-    sw.cmd = "amixer"
-    sw.device = args.device or nil
-    sw.cardid  = args.cardid or nil
-    sw.channel = args.channel or "Master"
+    sw.cmd = "pactl"
+    sw.channel = args.channel or "1"
     sw.step = args.step or '5%'
     sw.lclick = args.lclick or "toggle"
     sw.mclick = args.mclick or "pavucontrol"
@@ -88,48 +87,44 @@ function vcontrol:action(action)
 end
 
 function vcontrol:update(status)
-    local volume = string.match(status, "(%d?%d?%d)%%")
-    if volume == nil then
-        return
-    end
-    volume = string.format("% 3d", volume)
-    status = string.match(status, "%[(o[^%]]*)%]")
-    if string.find(status, "on", 1, true) then
-        volume = volume .. "%"
-    else
-        volume = volume .. "M"
-    end
-    self.widget:set_text(" |   " .. volume .. " | ")
+    local volume = string.format("% 3d", status)
+    self.widget:set_text(" | 🔉" .. volume .. "% | ")
 end
 
 function vcontrol:mixercommand(...)
     local args = awful.util.table.join(
       {self.cmd},
-      self.device and {"-D", self.device} or {},
-      self.cardid and {"-c", self.cardid} or {},
       {...})
     local command = make_argv(unpack(args))
     return readcommand(command)
 end
 
+function vcontrol:volumeget()
+    return readcommand("getvolume")
+end
+
 function vcontrol:get()
-    self:update(self:mixercommand("get", self.channel))
+    self:update(self.volumeget())
 end
 
 function vcontrol:up()
-    self:update(self:mixercommand("set", self.channel, self.step .. "+"))
+    self:mixercommand("set-sink-volume", self.channel, "+" .. self.step)
+    self:update(self.volumeget())
 end
 
 function vcontrol:down()
-    self:update(self:mixercommand("set", self.channel, self.step .. "-"))
+    self:mixercommand("set-sink-volume", self.channel, "-" .. self.step)
+    self:update(self.volumeget())
 end
 
 function vcontrol:toggle()
-    self:update(self:mixercommand("set", self.channel, "toggle"))
+    self:mixercommand("set-sink-volume", self.channel, "0")
+    self:update(self.volumeget())
 end
 
 function vcontrol:mute()
-    self:update(self:mixercommand("set", "Master", "mute"))
+    self:mixercommand("set-sink-volume", self.channel, "0")
+    self:update(self.volumeget())
 end
 
 function vcontrol.mt:__call(...)
