@@ -136,7 +136,8 @@ local battery_widget = require("battery-widget")
 battery = battery_widget({adapter = "BAT0"})
 
 local volume_control = require("volume-control")
-volumecfg = volume_control({})
+volumecfg = volume_control({ channel = 0})
+volumecfg2 = volume_control({channel = 1})
 
 cpuwidget = awful.widget.graph()
 cpuwidget:set_width(50)
@@ -147,7 +148,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
 
 memwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.mem)
-vicious.register(memwidget, vicious.widgets.mem, " |   $2/$3 | ", 3)
+vicious.register(memwidget, vicious.widgets.mem, " |  $2/$3 | ", 3)
 
 netwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.net)
@@ -250,6 +251,7 @@ awful.screen.connect_for_each_screen(function(s)
 	    netwidget,
             mykeyboardlayout,
 	    volumecfg.widget,
+	    volumecfg2.widget,
 	    battery,
 	    memwidget,
             wibox.widget.systray(),

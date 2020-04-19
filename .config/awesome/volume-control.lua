@@ -46,7 +46,7 @@ function vcontrol.new(args)
     local sw = setmetatable({}, vcontrol.wmt)
 
     sw.cmd = "pactl"
-    sw.channel = args.channel or "1"
+    sw.channel = args.channel or "0"
     sw.step = args.step or '5%'
     sw.lclick = args.lclick or "toggle"
     sw.mclick = args.mclick or "pavucontrol"
@@ -88,7 +88,7 @@ end
 
 function vcontrol:update(status)
     local volume = string.format("% 3d", status)
-    self.widget:set_text(" | 🔉" .. volume .. "% | ")
+    self.widget:set_text(" |  " .. volume .. "% | ")
 end
 
 function vcontrol:mixercommand(...)
@@ -100,31 +100,32 @@ function vcontrol:mixercommand(...)
 end
 
 function vcontrol:volumeget()
-    return readcommand("getvolume")
+    local cStr = string.format("%d", self.channel)
+    return readcommand("SINK=" .. cStr .. " getvolume")
 end
 
 function vcontrol:get()
-    self:update(self.volumeget())
+    self:update(self:volumeget())
 end
 
 function vcontrol:up()
     self:mixercommand("set-sink-volume", self.channel, "+" .. self.step)
-    self:update(self.volumeget())
+    self:update(self:volumeget())
 end
 
 function vcontrol:down()
     self:mixercommand("set-sink-volume", self.channel, "-" .. self.step)
-    self:update(self.volumeget())
+    self:update(self:volumeget())
 end
 
 function vcontrol:toggle()
     self:mixercommand("set-sink-volume", self.channel, "0")
-    self:update(self.volumeget())
+    self:update(self:volumeget())
 end
 
 function vcontrol:mute()
     self:mixercommand("set-sink-volume", self.channel, "0")
-    self:update(self.volumeget())
+    self:update(self:volumeget())
 end
 
 function vcontrol.mt:__call(...)

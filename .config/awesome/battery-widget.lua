@@ -50,8 +50,8 @@ function battery_widget.new(args)
     local sw = setmetatable({}, battery_widget.wmt)
 
     sw.adapter = args.adapter or "BAT0"
-    sw.ac_prefix = args.ac_prefix or " "
-    sw.battery_prefix = args.battery_prefix or "  "
+    sw.ac_prefix = args.ac_prefix or " "
+    sw.battery_prefix = args.battery_prefix or "  "
     sw.limits = args.limits or {
         {25, "#aa0000"},
         {50, "#997733"},
@@ -83,11 +83,11 @@ function battery_widget:get_state()
     local dir = pre .. self.adapter
     present   = readfile(dir.."/present")
     state     = trim(readfile(dir.."/status"):lower())
-    rate      = readfile(dir.."/current_now")
-    charge    = readfile(dir.."/charge_now")
-    capacity  = readfile(dir.."/charge_full")
-    design    = readfile(dir.."/charge_full_design")
-    ac_state  = readfile(pre.."/AC/online")
+    rate      = readfile(dir.."/power_now")
+    charge    = readfile(dir.."/energy_now")
+    capacity  = readfile(dir.."/energy_full")
+    design    = readfile(dir.."/energy_full_design")
+    ac_state  = readfile(pre.."/ADP1/online")
 
     if state == "unknown" then
         state = "charged"
