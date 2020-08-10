@@ -43,7 +43,7 @@ end
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "termite"
+terminal = "tym"
 --terminal = "sakura"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
@@ -135,9 +135,18 @@ mytextclock = wibox.widget.textclock()
 local battery_widget = require("battery-widget")
 battery = battery_widget({adapter = "BAT0"})
 
+-- Dynamic volumes
 local volume_control = require("volume-control")
-volumecfg = volume_control({ channel = 0})
-volumecfg2 = volume_control({channel = 1})
+myvolumes = {}
+myvolumeswidgets = {}
+cardscmd = io.popen("pactl list cards short | awk '{print $1}'")
+while true do
+	local n1 = cardscmd:read("*number")
+	if not n1 then break end
+  local wid = volume_control({ channel = n1 })
+	table.insert(myvolumes, wid)
+  table.insert(myvolumeswidgets, wid.widget)
+end
 
 cpuwidget = awful.widget.graph()
 cpuwidget:set_width(50)
@@ -148,11 +157,11 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
 
 memwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.mem)
-vicious.register(memwidget, vicious.widgets.mem, " |  $2/$3 | ", 3)
+vicious.register(memwidget, vicious.widgets.mem, " |   $2/$3 | ", 3)
 
 netwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.net)
-vicious.register(netwidget, vicious.widgets.net, "| <span color='#00cc00'>▲ ${wlan0 up_kb}k</span> <span color='#ee6666'>▼ ${wlan0 down_kb}k</span> | ", 3)
+vicious.register(netwidget, vicious.widgets.net, "| <span color='#00cc00'>▲ ${wlp2s0 up_kb}k</span> <span color='#ee6666'>▼ ${wlp2s0 down_kb}k</span> | ", 3)
 
 local cyclefocus = require('cyclefocus');
 
@@ -237,6 +246,30 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     mywibox[s] = awful.wibar({ position = "bottom", screen = s })
 
+    -- Create table of widgets to the right: it's dynamic due to severals sound volume controls
+    local rightWidgets = {
+          layout = wibox.layout.fixed.horizontal,
+          netwidget,
+          mykeyboardlayout
+    }
+
+    for index, value in ipairs(myvolumeswidgets) do
+			table.insert(rightWidgets, value)
+		end
+
+    local rightWidgets2 = {
+          battery,
+          memwidget,
+          wibox.widget.systray(),
+          mytextclock,
+          cpuwidget,
+          mylayoutbox[s],
+    }
+    
+    for index, value in ipairs(rightWidgets2) do
+			table.insert(rightWidgets, value)
+		end
+
     -- Add widgets to the wibox
     mywibox[s]:setup {
         layout = wibox.layout.align.horizontal,
@@ -246,19 +279,7 @@ awful.screen.connect_for_each_screen(function(s)
             mypromptbox[s],
         },
         mytasklist[s], -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-	    netwidget,
-            mykeyboardlayout,
-	    volumecfg.widget,
-	    volumecfg2.widget,
-	    battery,
-	    memwidget,
-            wibox.widget.systray(),
-            mytextclock,
-	    cpuwidget,
-            mylayoutbox[s],
-        },
+        rightWidgets
     }
 end)
 -- }}}
