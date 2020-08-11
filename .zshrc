@@ -5,7 +5,9 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="avit"
+ZSH_THEME="muse"
+
+
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -47,6 +49,7 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin:$HOME/.config/composer/vendor/bin
 export _JAVA_OPTIONS="-Dswing.aatext=true -Dawt.useSystemAAFontSettings=on"
+export EDITOR="vim"
 
 export LANG=ru_RU.UTF-8
 export LC_CTYPE=ru_RU.UTF-8
@@ -107,6 +110,16 @@ unset GREP_OPTIONS
 
 #source $HOME/.cargo/env
 
+prompt_context(){}
 
-# added by travis gem
-[ -f /home/ctizen/.travis/travis.sh ] && source /home/ctizen/.travis/travis.sh
+# For use with oh-my-zsh muse theme only
+ZSH_THEME_GIT_PROMPT_PREFIX=" ${FG[012]}("
+ZSH_THEME_GIT_PROMPT_SUFFIX="${FG[012]})%{$reset_color%} "
+ZSH_THEME_GIT_PROMPT_DIRTY=" ${FG[133]}✘ "
+ZSH_THEME_GIT_PROMPT_CLEAN=" ${FG[118]}✔ "
+ZSH_THEME_GIT_PROMPT_ADDED="${FG[082]}✚ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_MODIFIED="${FG[166]}✹ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DELETED="${FG[160]}✖ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_RENAMED="${FG[220]}➜ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNMERGED="${FG[082]}═ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="${FG[190]}✭ %{$reset_color%}"
