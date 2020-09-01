@@ -3,7 +3,7 @@ configuration {
   theme: "./theme.rasi";
   font: "Iosevka Nerd Font 12";
   display-drun: "run";
-  terminal: "tym";
+  terminal: "alacritty";
   run-shell-command: "{terminal} -e {cmd}";
 }
 

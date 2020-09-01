@@ -22,7 +22,7 @@ META="Mod4+"
 ALTMETA="Mod1+"
 
 -- Terminal emulator.
-XTERM="tym"
+XTERM="alacritty"
 
 -- Some basic settings.
 ioncore.set{
@@ -144,16 +144,18 @@ end
 
 defbindings("WScreen", {
 --    kpress(ALTMETA.."F12", "mod_menu.menu(_, _sub, 'mainmenu', {big=true})"),
-    kpress("Mod1+space", "kbdcfg.switch()"),
-    kpress(META.."Return", "ioncore.exec('tym')"),
-    kpress(META..ALTMETA.."Tab", "ioncore.exec('rofi -show window')"),
-    kpress(META.."R", "ioncore.exec('rofi -show combi')"),
+  kpress("Mod1+space", "kbdcfg.switch()"),
+  kpress(META.."Return", "ioncore.exec('alacritty')"),
+  kpress(META..ALTMETA.."Tab", "ioncore.exec('rofi -show window')"),
+  kpress(META.."R", "ioncore.exec('rofi -show combi')"),
+  kpress(META..ALTMETA.."R", "ioncore.exec('xrandr --output DP-1 --mode 3440x1440 --pos 0x0 --output eDP-1 --pos 760x1440 --scale 1x1')"),
 })
 
 defbindings("WFrame", {
-  kpress(META.."Return", "ioncore.exec('tym')"),
+  kpress(META.."Return", "ioncore.exec('alacritty')"),
   kpress(META..ALTMETA.."Tab", "ioncore.exec('rofi -show window')"),
   kpress(META.."R", "ioncore.exec('rofi -show combi')"),
+  kpress(META..ALTMETA.."R", "ioncore.exec('xrandr --output DP-1 --mode 3440x1440 --pos 0x0 --output eDP-1 --pos 760x1440 --scale 1x1')"),
 })
 --
 --defbindings("WMPlex.toplevel", {
