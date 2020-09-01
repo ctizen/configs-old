@@ -146,11 +146,14 @@ defbindings("WScreen", {
 --    kpress(ALTMETA.."F12", "mod_menu.menu(_, _sub, 'mainmenu', {big=true})"),
     kpress("Mod1+space", "kbdcfg.switch()"),
     kpress(META.."Return", "ioncore.exec('tym')"),
+    kpress(META..ALTMETA.."Tab", "ioncore.exec('rofi -show window')"),
+    kpress(META.."R", "ioncore.exec('rofi -show combi')"),
 })
 
 defbindings("WFrame", {
-  kpress(META.."R", "mod_query.query_exec(_)"),
   kpress(META.."Return", "ioncore.exec('tym')"),
+  kpress(META..ALTMETA.."Tab", "ioncore.exec('rofi -show window')"),
+  kpress(META.."R", "ioncore.exec('rofi -show combi')"),
 })
 --
 --defbindings("WMPlex.toplevel", {

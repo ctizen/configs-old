@@ -1,0 +1,9 @@
+configuration {
+  modi: "window,run,ssh,drun";
+  theme: "./theme.rasi";
+  font: "Iosevka Nerd Font 12";
+  display-drun: "run";
+  terminal: "tym";
+  run-shell-command: "{terminal} -e {cmd}";
+}
+
