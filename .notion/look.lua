@@ -32,9 +32,10 @@ de.defstyle("*", {
 })
 
 de.defstyle("tab", {
-    border_style = "ridge",
+    border_style = "elevated",
+    shadow_pixels = 2,
+    padding_pixels = 1,
     de.substyle("active-selected", {
-        font = "xft:Iosevka:style=Heavy:pixelsize=14",
         shadow_colour = active_shadow_color,
         highlight_colour = active_border_color,
         background_colour = active_bg_color,
@@ -75,7 +76,6 @@ de.defstyle("input", {
 })
 
 dopath("lookcommon_clean")
-dopath("lookcommon_clean_frame")
 
 de.defstyle("tab-menuentry", {
     padding_pixels = 7,
@@ -99,7 +99,8 @@ de.defstyle("frame", {
     padding_colour    = "#505050",
     background_colour = "#000000",
     foreground_colour = "#ffffff",
-    padding_pixels = 2,
+    bar = "shaped",
+    padding_pixels = 0,
     highlight_pixels = 1,
     shadow_pixels = 1,
 })
@@ -107,8 +108,8 @@ de.defstyle("frame", {
 de.defstyle("frame-ionframe", {
     based_on = "frame",
     border_style = "inlaid",
-    padding_pixels = 1,
-    spacing = 1,
+    padding_pixels = 0,
+    spacing = 0,
 })
 
 de.defstyle("frame-floatframe", {

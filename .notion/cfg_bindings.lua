@@ -253,11 +253,11 @@ defbindings("WFrame", {
 
     bdoc("Switch to next object within the frame.", "->tab"),
     -- See docs on how to disable capslock caps behaviour
-    kpress(META.."Caps_Lock", "WFrame.switch_next(_)"),
+    --kpress(META.."Caps_Lock", "WFrame.switch_next(_)"),
     mclick(META.."Button4", "WFrame.switch_next(_)"),
 
     bdoc("Switch to previous object within the frame.", "<-tab"),
-    kpress(ALTMETA.."Caps_Lock", "WFrame.switch_prev(_)"),
+    --kpress(ALTMETA.."Caps_Lock", "WFrame.switch_prev(_)"),
     mclick(META.."Button5", "WFrame.switch_prev(_)"),
 })
 
@@ -431,5 +431,7 @@ defbindings("WFrame", {
   kpress(META..ALTMETA.."Tab", "ioncore.exec('rofi -show window')"),
   kpress(META.."R", "ioncore.exec('rofi -show combi')"),
   kpress(META..ALTMETA.."R", "ioncore.exec('xrandr --output DP-1 --mode 3440x1440 --pos 0x0 --output eDP-1 --pos 760x1440 --scale 1x1')"),
+  kpress(META.."Right", "WFrame.switch_next(_)"),
+  kpress(META.."Left", "WFrame.switch_prev(_)"),
 })
 

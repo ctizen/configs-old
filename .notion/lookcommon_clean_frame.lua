@@ -10,10 +10,10 @@ de.defstyle("frame", {
 })
 
 de.defstyle("frame-tiled", {
-    shadow_pixels = 0,
-    highlight_pixels = 0,
+    shadow_pixels = 1,
+    highlight_pixels = 1,
     padding_pixels = 1,
-    spacing = 1,
+    spacing = 0,
 })
 
 de.defstyle("frame-tiled-alt", {
