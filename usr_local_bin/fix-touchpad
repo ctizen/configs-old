@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rmmod elan_i2c
+sleep 1
+modprobe elan_i2c
+echo -n "reconnect" >  /sys/bus/serio/devices/serio1/drvctl
+
