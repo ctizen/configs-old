@@ -13,7 +13,7 @@
 #exec xrandr --output VGA1 --pos 0x0 --output HDMI1 --pos 1600x0 --output eDP1 --pos 3520x536
 
 # for laptop on left side
-exec xrandr --output eDP1 --pos 0x900 --output HDMI1 --pos 1600x0 --mode 1920x1200 --scale 1x1 --output VGA1 --pos 3520x0 --mode 1600x1200 --scale 1x1
+# exec xrandr --output eDP1 --pos 0x900 --output HDMI1 --pos 1600x0 --mode 1920x1200 --scale 1x1 --output VGA1 --pos 3520x0 --mode 1600x1200 --scale 1x1
 #exec xrandr --output eDP1 --pos 0x900 --output HDMI1 --pos 1600x0 --output VGA1 --pos 3520x0
 
 # for projector
@@ -28,15 +28,53 @@ exec xdg-mime default google-chrome.desktop x-scheme-handler/https
 
 exec /usr/local/bin/set_ru_map
 
+set $ws1 "1 brws"
+set $ws2 "2 code"
+set $ws3 "3 msgr"
+set $ws4 "4 mult"
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+
+assign [class="Firefox"] $ws1
+assign [class="Google-chrome"] $ws1
+assign [class="Google-chrome-beta"] $ws1
+assign [class="jetbrains-phpstorm"] $ws2
+assign [class="TelegramDesktop"] $ws3
+assign [class="VK"] $ws3
+assign [class="thunderbird"] $ws3
+assign [class="Spotify"] $ws4
+
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Terminus 8
+font pango:Iosevka 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
+
+# KDE specifics
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+for_window [title="Desktop — Plasma"] kill; floating enable; border none
+for_window [class="yakuake"] floating enable
+for_window [class="systemsettings"] floating enable
+for_window [class="plasmashell"] floating enable;
+for_window [class="Plasma"] floating enable; border none
+for_window [title="plasma-desktop"] floating enable; border none
+for_window [title="win7"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Kmix"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+for_window [class="Plasmoidviewer"] floating enable; border none
+for_window [class="(?i)*nextcloud*"] floating disable
+for_window [class="plasmashell" window_type="notification"] border none, move right 700px, move down 450px
+no_focus [class="plasmashell" window_type="notification"]
 
 for_window [class="^.*"] border pixel 1
 new_window 1pixel
@@ -52,19 +90,19 @@ new_window 1pixel
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec sakura
+bindsym $mod+Return exec konsole
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+r exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-14-*"
+# bindsym $mod+r exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-14-*"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+l exec i3lock -d -c 000000
+# bindsym $mod+l exec i3lock -d -c 000000
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -93,6 +131,7 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
+workspace_layout tabbed
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -111,28 +150,29 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+
+bindsym $mod+m move workspace to output up
+bindsym $mod+Shift+m move workspace to output down
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -167,13 +207,22 @@ mode "resize" {
 
 bindsym $mod+Alt+r mode "resize"
 
+bar {
+    status_command i3status
+    mode hide
+#    height 30
+    colors {
+      background #242424
+    }
+}
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
+#bar {
 #        separator_symbol ".|."
 #        position top
 #        status_command py3status -c ~/.i3/i3status.conf
 #        font pango:Terminus 11
 #        tray_output HDMI1
-        i3bar_command ~/.i3/lemonbar/i3_lemonbar.sh
-}
+#        i3bar_command ~/.i3/lemonbar/i3_lemonbar.sh
+#}
