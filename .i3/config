@@ -26,13 +26,14 @@ exec feh --bg-scale ~/wp/wp.jpg
 exec xdg-mime default google-chrome.desktop x-scheme-handler/http
 exec xdg-mime default google-chrome.desktop x-scheme-handler/https
 
+exec ~/.startup_wm.sh
 exec /usr/local/bin/set_ru_map
 
 set $ws1 "1 brws"
 set $ws2 "2 code"
-set $ws3 "3 msgr"
-set $ws4 "4 mult"
-set $ws5 5
+set $ws3 "3 term"
+set $ws4 "4 msgr"
+set $ws5 "5 mult"
 set $ws6 6
 set $ws7 7
 set $ws8 8
@@ -41,11 +42,12 @@ set $ws9 9
 assign [class="Firefox"] $ws1
 assign [class="Google-chrome"] $ws1
 assign [class="Google-chrome-beta"] $ws1
+assign [class="Alacritty"] $ws3
 assign [class="jetbrains-phpstorm"] $ws2
-assign [class="TelegramDesktop"] $ws3
-assign [class="VK"] $ws3
-assign [class="thunderbird"] $ws3
-assign [class="Spotify"] $ws4
+assign [class="TelegramDesktop"] $ws4
+assign [class="VK"] $ws4
+assign [class="thunderbird"] $ws4
+assign [class="Spotify"] $ws5
 
 set $mod Mod4
 
@@ -61,21 +63,6 @@ font pango:Iosevka 10
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
-for_window [title="Desktop — Plasma"] kill; floating enable; border none
-for_window [class="yakuake"] floating enable
-for_window [class="systemsettings"] floating enable
-for_window [class="plasmashell"] floating enable;
-for_window [class="Plasma"] floating enable; border none
-for_window [title="plasma-desktop"] floating enable; border none
-for_window [title="win7"] floating enable; border none
-for_window [class="krunner"] floating enable; border none
-for_window [class="Kmix"] floating enable; border none
-for_window [class="Klipper"] floating enable; border none
-for_window [class="Plasmoidviewer"] floating enable; border none
-for_window [class="(?i)*nextcloud*"] floating disable
-for_window [class="plasmashell" window_type="notification"] border none, move right 700px, move down 450px
-no_focus [class="plasmashell" window_type="notification"]
-
 for_window [class="^.*"] border pixel 1
 new_window 1pixel
 
@@ -90,13 +77,13 @@ new_window 1pixel
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec alacritty
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym Ctrl+Alt+q kill
 
 # start dmenu (a program launcher)
-# bindsym $mod+r exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-14-*"
+bindsym $mod+r exec dmenu_run -fn "-xos4-terminus-medium-r-*-*-14-*"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -179,7 +166,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -207,14 +194,16 @@ mode "resize" {
 
 bindsym $mod+Alt+r mode "resize"
 
-bar {
-    status_command i3status
-    mode hide
+#bar {
+#    tray_output none
+#    status_command i3status
+#    position top
+#    mode hide
 #    height 30
-    colors {
-      background #242424
-    }
-}
+#    colors {
+#      background #242424
+#    }
+#}
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

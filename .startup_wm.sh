@@ -4,7 +4,7 @@
 #xrandr --output VGA1 --pos 0x0 --output HDMI1 --pos 1600x0 --output eDP1 --pos 3520x536
 
 # for laptop on bottom
-xrandr --output HDMI1 --pos 0x0 --output eDP1 --pos 0x1080
+#xrandr --output HDMI1 --pos 0x0 --output eDP1 --pos 0x1080
 
 # for laptop on left side, monitor not rotated
 #xrandr --output eDP1 --pos 0x900 --output HDMI1 --pos 1600x0 --mode 1920x1200 --scale 1x1 --output VGA1 --pos 3520x0 --mode 1600x1200 --scale 1x1
@@ -36,11 +36,14 @@ xdg-mime default emacsdired.desktop inode/directory
 
 xfsettingsd &
 xfce4-power-manager &
+# xfce4-panel &
+polybar example &
 blueman-applet &
-mail-notification &
+# mail-notification &
 nm-applet &
 compton &
-libinput-gestures-setup start
+# libinput-gestures-setup start
+libinput-gestures &
 
 # backgrounds
 ###hsetroot -solid "#43271E"
