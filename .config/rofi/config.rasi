@@ -1,5 +1,5 @@
 configuration {
-  modi: "window,run,ssh,drun";
+  modi: "window,run,ssh,drun,combi";
   theme: "./theme.rasi";
   font: "Iosevka Nerd Font 12";
   display-drun: "run";
