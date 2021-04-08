@@ -1,0 +1,24 @@
+Given php (source with no namespace):
+  <?php
+  
+  class Foobar
+  {
+      public function foobar(Phpactor $phactor)
+      {
+      }
+  }
+Do (put the cursor over an existing class name and add use):
+  /Phpactor\<Enter>
+  :call phpactor#UseAdd()\<Enter>
+
+Expect php (the use statement to be inserted):
+  <?php
+
+  use Phpactor\Phpactor;
+  
+  class Foobar
+  {
+      public function foobar(Phpactor $phactor)
+      {
+      }
+  }

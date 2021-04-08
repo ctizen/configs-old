@@ -1,0 +1,34 @@
+Given php (single):
+  <?php new Fo
+
+Execute:
+    execute "normal! $"
+    AssertEqual 11, phpactor#Complete(1,0)
+
+Given php (multiple):
+  <?php class Foobar extends B
+
+Execute:
+    execute "normal! A "
+    AssertEqual 28, phpactor#Complete(1,0)
+
+Given php (name in parameter list):
+  <?php 
+  
+  class Foobar
+  {
+    public function bar(Baz$foo, Foo)
+  }
+
+Execute:
+    execute "normal! /Baz\<Enter>fz"
+    AssertEqual 22, phpactor#Complete(1,0)
+
+Given php (name method call):
+  <?php 
+  $suggestions->add(Suggestion::cre('k', 'implements ', ''));
+  $suggestions->add(Suggestion::cre('k', 'implements ', ''));
+
+Execute:
+    execute "normal! /cre\<Enter>ll"
+    AssertEqual 30, phpactor#Complete(1,0)

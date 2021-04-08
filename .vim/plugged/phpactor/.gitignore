@@ -1,0 +1,24 @@
+/vendor
+/extensions
+/tests/Assets/Workspace
+/tests/Assets/Cache
+/cache
+/extensions
+/phpbench.json
+
+# File frequently used for testing
+/lib/Test.php
+/.phpactor.yml
+/.phpactor/*
+
+# docs
+/doc/_build
+
+# php-cs-fixer
+/.php_cs.cache
+./.php_cs
+/build
+__pycache__
+/doc/_ext/__pycache__
+.phpunit.result.cache
+.php_cs.cache
