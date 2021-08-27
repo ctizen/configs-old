@@ -44,8 +44,9 @@ polybar example &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 xfce4-power-manager &
 blueman-applet &
-nm-applet &
-compton &
+#nm-applet &
+connman-gtk &
+picom &
 libinput-gestures-setup restart
 
 # backgrounds
