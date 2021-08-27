@@ -1,6 +1,10 @@
 set nocompatible
 set backspace=indent,eol,start
 
+if !has('gui_running')
+    set t_Co=256
+endif
+
 set number
 set incsearch
 set autoindent
@@ -32,15 +36,10 @@ call plug#begin('~/.vim/plugged')
 " -------- status line ---------
 Plug 'itchyny/lightline.vim'
 set noshowmode
-
+set laststatus=2
 " ---------- git support -------- 
 Plug 'tpope/vim-fugitive'
 Plug 'tomtom/quickfixsigns_vim'
-
-" -------- tags etc ---------
-set statusline+=%{gutentags#statusline()}
-let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
-Plug 'ludovicchabant/vim-gutentags'
 
 " -------- Buffers and tabs
 Plug 'zefei/vim-wintabs'
@@ -76,7 +75,6 @@ Plug 'jacoborus/tender.vim'
 if (has("termguicolors"))
  set termguicolors
 endif
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 colorscheme tender
 let g:lightline = { 'colorscheme': 'tender' }
 

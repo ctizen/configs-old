@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="muse"
+ZSH_THEME="essembeh"
 
 
 
@@ -96,8 +96,9 @@ alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor
 
 #eval "$(thefuck --alias)"
 
+alias connect_workx="xpra --ssh=\"ssh -p2022 -C -c chacha20-poly1305@openssh.com\" attach ssh:oklimenko@192.168.88.205:12 --speaker=off"
 
-export TERM=screen-256color
+export TERM=xterm-256color
 # TMUX
 if which tmux >/dev/null 2>&1; then
 #if not inside a tmux session, and if no session is started, start a new session
@@ -123,3 +124,6 @@ ZSH_THEME_GIT_PROMPT_DELETED="${FG[160]}✖ %{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_RENAMED="${FG[220]}➜ %{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNMERGED="${FG[082]}═ %{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="${FG[190]}✭ %{$reset_color%}"
+
+
+#source "/home/oleg/projects/wasm/emsdk/emsdk_env.sh"

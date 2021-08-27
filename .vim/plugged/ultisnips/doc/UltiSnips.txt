@@ -399,7 +399,7 @@ The first function is UltiSnips#AddSnippetWithPriority(trigger, value, descripti
 options, filetyp, priority). It adds a new snippet to the current list of
 snippets. See |UltiSnips-authoring-snippets| for details most of the function
 arguments. The priority is a number that defines which snippet should be
-preferred over others. See the priority keyword in |UltiSnips-add-snippets|.
+preferred over others. See the priority keyword in |UltiSnips-basic-syntax|.
 
 
  3.4.2 UltiSnips#Anon                                        *UltiSnips#Anon*
@@ -1751,7 +1751,7 @@ endsnippet
 
 When "p" character will occur in the beginning of the line, it will be
 automatically expanded into "package main". Same with "m" character. There is
-no need to press trigger key after "m""
+no need to press the trigger key after "m"
 
 ==============================================================================
 5. UltiSnips and Other Plugins                      *UltiSnips-other-plugins*
@@ -1778,7 +1778,8 @@ offers a really nice completion dialogue for snippets.
 neocomplete - UltiSnips ships with a source for neocomplete and therefore
 offers out of the box completion dialogue support for it too.
 
-deoplete - The successor of neocomplete is also supported.
+deoplete - The successor of neocomplete is also supported. The completion 
+source is called 'ultisnips'.
 
 unite - UltiSnips has a source for unite. As an example of how you can use
 it add the following function and mappings to your vimrc: >

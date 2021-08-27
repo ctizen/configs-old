@@ -1,7 +1,7 @@
 Advanced fzf examples
 ======================
 
-*(Last update: 2021/04/06)*
+*(Last update: 2021/05/22)*
 
 <!-- vim-markdown-toc GFM -->
 
@@ -16,6 +16,7 @@ Advanced fzf examples
 * [Ripgrep integration](#ripgrep-integration)
   * [Using fzf as the secondary filter](#using-fzf-as-the-secondary-filter)
   * [Using fzf as interative Ripgrep launcher](#using-fzf-as-interative-ripgrep-launcher)
+  * [Switching to fzf-only search mode](#switching-to-fzf-only-search-mode)
 * [Log tailing](#log-tailing)
 * [Key bindings for git objects](#key-bindings-for-git-objects)
   * [Files listed in `git status`](#files-listed-in-git-status)
@@ -89,7 +90,7 @@ fzf --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1
 
 But you definitely don't want to repeat `--height=40% --layout=reverse
 --info=inline --border --margin=1 --padding=1` every time you use fzf. You
-could write a wrapper script or shell alise, but there is an easier option.
+could write a wrapper script or shell alias, but there is an easier option.
 Define `$FZF_DEFAULT_OPTS` like so:
 
 ```sh
@@ -111,6 +112,7 @@ fzf-tmux --layout=reverse
 
 The limitation of `fzf-tmux` is that it only works when you're on tmux unlike
 `--height` option. But the advantage of it is that it's more flexible.
+(See `man fzf-tmux` for available options.)
 
 ```sh
 # On the right (50%)
@@ -131,10 +133,9 @@ fzf-tmux -u30%
 
 #### Popup window support
 
-But here's the really cool part; tmux 3.2 (stable version is not yet released
-as of now) supports popup windows. So if you have tmux built from the latest
-source, you can open fzf in a popup window, which is quite useful when you're
-working on split panes.
+But here's the really cool part; tmux 3.2 added support for popup windows. So
+you can open fzf in a popup window, which is quite useful if you frequently
+use split panes.
 
 ```sh
 # Open tmux in a tmux popup window (default size: 50% of the screen)
@@ -145,6 +146,12 @@ fzf-tmux -p 80%,60%
 ```
 
 ![image](https://user-images.githubusercontent.com/700826/113380106-4a9bfd80-93b6-11eb-8cee-aeb1c4ce1a1f.png)
+
+> You might also want to check out my tmux plugins which support this popup
+> window layout.
+>
+> - https://github.com/junegunn/tmux-fzf-url
+> - https://github.com/junegunn/tmux-fzf-maccy
 
 Dynamic reloading of the list
 -----------------------------
@@ -183,7 +190,7 @@ list without restarting fzf.
 
 ### Toggling between data sources
 
-You're not limiited to just one reload binding. Set up multiple bindings so
+You're not limited to just one reload binding. Set up multiple bindings so
 you can switch between data sources.
 
 ```sh
@@ -242,9 +249,15 @@ IFS=: read -ra selected < <(
 And run it with an initial query string.
 
 ```sh
+# Make the script executable
 chmod +x rfv
+
+# Run it with the initial query "algo"
 ./rfv algo
 ```
+
+> Ripgrep will perform the initial search and list all the lines that contain
+`algo`. Then we further narrow down the list on fzf.
 
 ![image](https://user-images.githubusercontent.com/700826/113683873-a42a6200-96ff-11eb-9666-26ce4091b0e4.png)
 
@@ -266,7 +279,7 @@ I know it's a lot to digest, let's try to break down the code.
 - We customize how fzf colors various text elements using `--color` option.
   `-1` tells fzf to keep the original color from the input. See `man fzf` for
   available color options.
-- The value of `--preview-window` options consists of 5 components delimited
+- The value of `--preview-window` option consists of 5 components delimited
   by `,`
     1. `up` — Position of the preview window
     1. `60%` — Size of the preview window
@@ -322,7 +335,6 @@ IFS=: read -ra selected < <(
   fzf --ansi \
       --disabled --query "$INITIAL_QUERY" \
       --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-      --color "hl:-1:underline,hl+:-1:underline:reverse" \
       --delimiter : \
       --preview 'bat --color=always {1} --highlight-line {2}' \
       --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
@@ -337,11 +349,61 @@ IFS=: read -ra selected < <(
   fzf can kill the initial Ripgrep process it starts with the initial query.
   Otherwise, the initial Ripgrep process will keep consuming system resources
   even after `reload` is triggered.
-- Filtering is no longer a responsibitiliy of fzf; hence `--disabled`
+- Filtering is no longer a responsibility of fzf; hence `--disabled`
 - `{q}` in the reload command evaluates to the query string on fzf prompt.
 - `sleep 0.1` in the reload command is for "debouncing". This small delay will
   reduce the number of intermediate Ripgrep processes while we're typing in
   a query.
+
+### Switching to fzf-only search mode
+
+*(Requires fzf 0.27.1 or above)*
+
+In the previous example, we lost fuzzy matching capability as we completely
+delegated search functionality to Ripgrep. But we can dynamically switch to
+fzf-only search mode by *"unbinding"* `reload` action from `change` event.
+
+```sh
+#!/usr/bin/env bash
+
+# Two-phase filtering with Ripgrep and fzf
+#
+# 1. Search for text in files using Ripgrep
+# 2. Interactively restart Ripgrep with reload action
+#    * Press alt-enter to switch to fzf-only filtering
+# 3. Open the file in Vim
+RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+INITIAL_QUERY="${*:-}"
+IFS=: read -ra selected < <(
+  FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+  fzf --ansi \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --disabled --query "$INITIAL_QUERY" \
+      --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+      --bind "alt-enter:unbind(change,alt-enter)+change-prompt(2. fzf> )+enable-search+clear-query" \
+      --prompt '1. ripgrep> ' \
+      --delimiter : \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+)
+[ -n "${selected[0]}" ] && vim "${selected[0]}" "+${selected[1]}"
+```
+
+* Phase 1. Filtering with Ripgrep
+![image](https://user-images.githubusercontent.com/700826/119213880-735e8a80-bafd-11eb-8493-123e4be24fbc.png)
+* Phase 2. Filtering with fzf
+![image](https://user-images.githubusercontent.com/700826/119213887-7e191f80-bafd-11eb-98c9-71a1af9d7aab.png)
+
+- We added `--prompt` option to show that fzf is initially running in "Ripgrep
+  launcher mode".
+- We added `alt-enter` binding that
+    1. unbinds `change` event, so Ripgrep is no longer restarted on key press
+    2. changes the prompt to `2. fzf>`
+    3. enables search functionality of fzf
+    4. clears the current query string that was used to start Ripgrep process
+    5. and unbinds `alt-enter` itself as this is a one-off event
+- We reverted `--color` option for customizing how the matching chunks are
+  displayed in the second phase
 
 Log tailing
 -----------
