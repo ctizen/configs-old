@@ -92,6 +92,11 @@ alias gpro="git pull --rebase origin"
 alias mc="mc -S modarin256"
 alias mcedit="mcedit -S modarin256"
 
+# see .local/share/applications
+alias phpstorm="gtk-launch jetbrains-phpstorm"
+alias clion="gtk-launch jetbrains-clion"
+alias webstorm="gtk-launch jetbrains-webstorm"
+
 alias filter_shit="grep -v '/assets/' | grep -v 'favicon.ico' | grep -v '/vendor' | grep -v '/cookie' | grep -v '/fonts' | grep -v '/apple' | grep -v '/static'"
 
 #eval "$(thefuck --alias)"
