@@ -6,10 +6,6 @@ curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 apt install -y git tmux mc zsh kitty xclip nodejs php-cli rofi flameshot compton vim playerctl telegram-desktop spotify-client xfonts-terminus xbacklight xpra feh
 
-git clone https://github.com/noctuid/zscroll
-cd zscroll
-python3 setup.py install
-cd ..
 
 apt install -y cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python3-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev clang python3-sphinx libtool
 
@@ -24,3 +20,7 @@ apt install -y g++ libgtk-3-dev gtk-doc-tools gnutls-bin valac intltool libpcre2
 git clone https://github.com/jwiegley/git-scripts.git
 cp -R git-scripts/* /usr/local/bin/
 
+git clone https://github.com/noctuid/zscroll
+cd zscroll
+python3 setup.py install
+cd ..

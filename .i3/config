@@ -19,16 +19,10 @@
 # for projector
 # exec xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1280x720 --pos 1600x0 --rate 50 --output VGA1 --off
 
-exec compton
-exec hsetroot -solid "#43271E"
-exec feh --bg-scale ~/wp/wp.jpg
-
 exec xdg-mime default google-chrome.desktop x-scheme-handler/http
 exec xdg-mime default google-chrome.desktop x-scheme-handler/https
 
 exec ~/.startup_wm.sh
-exec /usr/local/bin/set_ru_map
-
 exec_always --no-startup-id $HOME/.config/polybar/start.sh
 
 set $ws1 "1 brws"

@@ -43,10 +43,12 @@ polybar example &
 #xfce4-panel &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 xfce4-power-manager &
-blueman-applet &
-#nm-applet &
-connman-gtk &
-picom &
+blueberry-tray &
+#blueman-applet &
+nm-applet &
+#connman-gtk &
+#picom &
+compton &
 libinput-gestures-setup restart
 
 # backgrounds
