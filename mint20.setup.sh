@@ -4,8 +4,7 @@ apt remove vim-tiny
 
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 bash nodesource_setup.sh
-apt install -y git tmux mc zsh kitty xclip nodejs php-cli rofi flameshot compton vim playerctl telegram-desktop spotify-client xfonts-terminus xbacklight xpra feh
-
+apt install -y git tmux mc zsh kitty xclip nodejs php-cli rofi flameshot compton vim playerctl telegram-desktop spotify-client xfonts-terminus xbacklight feh
 
 apt install -y cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python3-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev clang python3-sphinx libtool
 
@@ -29,3 +28,9 @@ rm /etc/apt/preferences.d/nosnap.pref
 apt install snapd
 snap install phpstorm --classic
 
+wget -q https://xpra.org/gpg.asc -O- | sudo apt-key add -
+cd /etc/apt/sources.list.d
+wget https://xpra.org/repos/focal/xpra.list
+cd ~
+apt update
+apt install xpra
