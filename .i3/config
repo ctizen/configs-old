@@ -19,7 +19,7 @@
 # for projector
 # exec xrandr --output eDP1 --pos 0x0 --output HDMI1 --scale 1280x720 --pos 1600x0 --rate 50 --output VGA1 --off
 
-exec picom
+exec compton
 exec hsetroot -solid "#43271E"
 exec feh --bg-scale ~/wp/wp.jpg
 
@@ -45,6 +45,7 @@ assign [class="Firefox"] $ws1
 assign [class="Google-chrome"] $ws1
 assign [class="Google-chrome-beta"] $ws1
 assign [class="Alacritty"] $ws3
+assign [class="kitty"] $ws3
 assign [class="termite"] $ws3
 assign [class="jetbrains-phpstorm"] $ws2
 assign [class="TelegramDesktop"] $ws4
@@ -80,7 +81,7 @@ new_window 1pixel
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym Ctrl+Alt+q kill
