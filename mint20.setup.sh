@@ -4,7 +4,7 @@ apt remove vim-tiny
 
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 bash nodesource_setup.sh
-apt install -y git tmux mc zsh kitty xclip nodejs php-cli rofi flameshot compton vim playerctl telegram-desktop spotify-client xfonts-terminus xbacklight xpra
+apt install -y git tmux mc zsh kitty xclip nodejs php-cli rofi flameshot compton vim playerctl telegram-desktop spotify-client xfonts-terminus xbacklight xpra feh
 
 git clone https://github.com/noctuid/zscroll
 cd zscroll
