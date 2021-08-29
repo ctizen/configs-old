@@ -24,3 +24,8 @@ git clone https://github.com/noctuid/zscroll
 cd zscroll
 python3 setup.py install
 cd ..
+
+rm /etc/apt/preferences.d/nosnap.pref
+apt install snapd
+snap install phpstorm --classic
+
